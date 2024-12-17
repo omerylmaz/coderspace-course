@@ -47,6 +47,19 @@ public class RoleController(IRoleService roleService) : Controller
     }
 
     [Authorize(Roles = "admin")]
+    public async Task<IActionResult> Details(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await roleService.GetRoleByIdAsync(id, cancellationToken);
+        if (result.IsSuccess)
+        {
+            return View(result.Value);
+        }
+
+        TempData["Error"] = result.ProblemDetails?.Detail ?? "An error occurred";
+        return View();
+    }
+
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Edit(Guid id, CancellationToken cancellationToken)
     {
         var result = await roleService.GetRoleByIdAsync(id, cancellationToken);
