@@ -137,9 +137,16 @@ Book Create
 
 User CRUD
 ![image](https://github.com/user-attachments/assets/d82d77ef-e8c4-423d-859b-f720ff7455f4)
+![image](https://github.com/user-attachments/assets/ab846ac9-6feb-427b-931e-a8157650901f)
+![image](https://github.com/user-attachments/assets/fe99ef9e-9e12-42e0-bbd5-276a647f9bc1)
+
 
 Role CRUD
 ![image](https://github.com/user-attachments/assets/20ccc4ce-e158-495f-9e77-ff749a6ba30a)
+![image](https://github.com/user-attachments/assets/6baa8056-876c-456f-a91c-08920b79ab7e)
+![image](https://github.com/user-attachments/assets/a17ff021-314a-40d5-a3dd-85e3705f42ab)
+![image](https://github.com/user-attachments/assets/f9602bbc-a8b9-415b-b436-13a835210050)
+
 
 ### **Pagination**
 ![image](https://github.com/user-attachments/assets/ed866b58-4b07-4c92-a0cb-52be33bc730f)
