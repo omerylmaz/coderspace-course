@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "SignIn";
+
+}
+@model Library.Application.DTOs.User.SignInDto;
+
+@section Scripts
+    {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>User Login </h2>
+
+        <div asp-validation-summary=ModelOnly class="alert alert-danger" role="alert">
+        </div>
+        <form asp-controller="User" asp-action="SignIn" asp-route-returnUrl="@Context.Request.Query["returnURl"]" method="post">
+            <div class="mb-3">
+                <label for="Email" class="form-label" asp-for="Email"></label>
+                <input  class="form-control" asp-for="Email">
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+            <div class="mb-3">
+                <label for="Password" class="form-label" asp-for="Password"></label>
+                <input value="Password12*" type="password" class="form-control" asp-for="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Üye Giriş</button>
+            <div>
+            </div>
+        </form>
+    </div>
+</div>

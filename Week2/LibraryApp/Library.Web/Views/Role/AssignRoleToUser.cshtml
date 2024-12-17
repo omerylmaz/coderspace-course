@@ -1,0 +1,28 @@
+﻿@model List<Library.Application.DTOs.Role.AssignRoleToUserDto>
+@{
+    ViewData["Title"] = "Assign Roles to User";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h2>Assign Roles to User</h2>
+        <form asp-action="AssignRoleToUser" asp-route-userId="@ViewBag.UserId" method="post">
+            <input type="hidden" name="userId" value="@ViewBag.UserId" />
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" asp-for="@Model[i].Exist">
+                    <label class="form-check-label" asp-for="@Model[i].Exist">@Model[i].Name</label>
+                    <input type="hidden" asp-for="@Model[i].Name" />
+                    <input type="hidden" asp-for="@Model[i].Id" />
+                </div>
+            }
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Update Roles</button>
+            </div>
+        </form>
+        <div class="mt-3">
+            <a asp-action="Index" class="btn btn-secondary">Back to User List</a>
+        </div>
+    </div>
+</div>

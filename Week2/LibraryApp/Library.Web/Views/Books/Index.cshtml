@@ -1,0 +1,65 @@
+﻿@using Library.Application.DTOs.Book
+@using Library.Domain.Pagination
+@model GetPagedBooksResponseDto
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h1>Books</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Books.Items.First().Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Books.Items.First().Author)</th>
+            <th>@Html.DisplayNameFor(model => model.Books.Items.First().PublicationYear)</th>
+            <th>@Html.DisplayNameFor(model => model.Books.Items.First().ISBN)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books.Items)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Author</td>
+                <td>@item.PublicationYear</td>
+                <td>@item.ISBN</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination">
+    @if (Model.Books.PageNumber > 1)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.Books.PageNumber - 1)" asp-route-pageSize="@(Model.Books.PageSize)">Previous</a>
+    }
+
+    @for (int i = 1; i <= (int)Math.Ceiling((double)Model.Books.TotalCount / Model.Books.PageSize); i++)
+    {
+        if (i == Model.Books.PageNumber)
+        {
+            <span class="current-page">@i</span>
+        }
+        else
+        {
+            <a asp-action="Index" asp-route-pageNumber="@i" asp-route-pageSize="@(Model.Books.PageSize)">@i</a>
+        }
+    }
+
+    @if (Model.Books.PageNumber < (int)Math.Ceiling((double)Model.Books.TotalCount / Model.Books.PageSize))
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.Books.PageNumber + 1)" asp-route-pageSize="@(Model.Books.PageSize)">Next</a>
+    }
+</div>
