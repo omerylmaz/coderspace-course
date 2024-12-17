@@ -42,6 +42,7 @@ public class UserController(IUserService userService, IMapper mapper) : Controll
 
     }
 
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         var result = await userService.GetAllUsersAsync(cancellationToken);
