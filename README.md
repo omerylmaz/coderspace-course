@@ -129,3 +129,18 @@ Yeni kullanıcılar sistemde **Sign Up** sayfası üzerinden kayıt olabilirler.
 - Yetkisi olmayan kullanıcılar, yetkilendirilmiş sayfalara erişemez ve "Access Denied" sayfasına yönlendirilir.
 ![image](https://github.com/user-attachments/assets/e22e31c7-a518-485f-84fa-403ecf7d4c54)
 
+
+### **Admin Yetkileri**
+
+Book Create
+![image](https://github.com/user-attachments/assets/512224b6-9d49-492f-8f66-b23521f66155)
+
+User CRUD
+![image](https://github.com/user-attachments/assets/d82d77ef-e8c4-423d-859b-f720ff7455f4)
+
+Role CRUD
+![image](https://github.com/user-attachments/assets/20ccc4ce-e158-495f-9e77-ff749a6ba30a)
+
+### **Pagination**
+![image](https://github.com/user-attachments/assets/ed866b58-4b07-4c92-a0cb-52be33bc730f)
+
