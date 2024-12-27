@@ -10,6 +10,7 @@ public record Result
     {
         IsSuccess = true;
         ProblemDetails = default;
+        StatusCode = 200;  //TODO burayı daha sonra ayarla
     }
 
     protected Result(ProblemDetails problemDetails)

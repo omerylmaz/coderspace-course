@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
 using System.Text.Json;
-using System.Threading;
-using static System.Net.WebRequestMethods;
 
-namespace Final.API.ExceptionHandlers;
+namespace CourseApp.API.ExceptionHandlers;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {

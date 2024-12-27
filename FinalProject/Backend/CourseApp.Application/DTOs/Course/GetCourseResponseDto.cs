@@ -5,5 +5,6 @@ public record GetCourseResponseDto
     Guid Id,
     string Name,
     decimal Price,
-    string CategoryName
+    string CategoryName,
+    string ImageUrl
 );

@@ -58,15 +58,15 @@ public class CoursesEndpoints : CarterModule
         .AllowAnonymous();
 
         app.MapGet("", async (
-            [FromQuery] int pageNumber,
-            [FromQuery] int pageSize,
+            [FromQuery] int? pageNumber,
+            [FromQuery] int? pageSize,
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken) =>
         {
-            pageNumber = pageNumber > 0 ? pageNumber : 1;
-            pageSize = pageSize > 0 ? pageSize : 10;
+            pageNumber = pageNumber.HasValue ? pageNumber : 1;
+            pageSize = pageSize.HasValue ? pageSize : 10;
 
-            Result<GetPaginatedCoursesResponse> serviceResponse = await mediator.Send(new GetPaginatedCoursesQuery(pageNumber, pageSize), cancellationToken);
+            Result<GetPaginatedCoursesResponse> serviceResponse = await mediator.Send(new GetPaginatedCoursesQuery(pageNumber.Value, pageSize.Value), cancellationToken);
 
             if (!serviceResponse.IsSuccess)
                 return Results.Problem(serviceResponse.ProblemDetails);
