@@ -1,57 +1,73 @@
-import React from 'react'
-import { useAuth } from '../context/AuthContext'
-import { useCart } from '../context/CartContext';
-import { useForm } from 'react-hook-form';
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import alertify from 'alertifyjs';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
-  const {login} = useAuth();
-  const {AddPendingItem} = useCart();
-
-  const {register, handleSubmit, formState: {errors, isSubmitted}} = useForm();
-
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    if(data.username === "admin" && data.password === "1234"){
-      login(data.username, data.password);
-      alertify.success("Giriş başarılı!");
+  const validationSchema = Yup.object({
+    email: Yup.string().email('Invalid email format').required('Email is required'),
+    password: Yup.string().required('Password is required'),
+  });
 
-      AddPendingItem();
-      navigate("/cart");
-    }else{
-      alertify.error("Kullanıcı adı veya parola hatalı!");
+  const initialValues = {
+    email: '',
+    password: '',
+  };
+
+  const onSubmit = async (values, { setSubmitting }) => {
+    try {
+      await login(values);
+      alertify.success('Login successful!');
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      alertify.error(error.message || 'Login failed!');
+    } finally {
+      setSubmitting(false);
     }
-  }
-  
-  return(
-    <div className='container d-flex justify-content-center align-items-center' style={{height: "100vh"}}>
-      <div className='card shadow p-4' style={{width: "400px"}}>
-            <h2 className='text-center mt-4'>Login</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className='mb-3'>
-                <label className='form-label'>Username</label>
-                <input
-                {...register("username", {required: true})}
-                className='form-control'
-                placeholder='username giriniz'
-                ></input>
-                {errors.username && <small className='text-danger'>Username is required</small>}
+  };
+
+  return (
+    <div className="container d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+      <div className="card shadow p-4" style={{ width: '400px' }}>
+        <h2 className="text-center mt-4">Login</h2>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+          {({ isSubmitting }) => (
+            <Form>
+              <div className="mb-3">
+                <label className="form-label">Email</label>
+                <Field
+                  name="email"
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter email"
+                />
+                <ErrorMessage name="email" component="small" className="text-danger" />
               </div>
-              <div className='mb-3'>
-                <label className='form-label'>Password</label>
-                <input
-                {...register("password", {required: true})}
-                className='form-control'
-                placeholder='password giriniz'
-                ></input>
-                {errors.password && <small className='text-danger'>Password is required</small>}
+
+              <div className="mb-3">
+                <label className="form-label">Password</label>
+                <Field
+                  name="password"
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter password"
+                />
+                <ErrorMessage name="password" component="small" className="text-danger" />
               </div>
-              <button type='submit' className='btn btn-success w-100'>Login</button>
-            </form>
+
+              <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
+                {isSubmitting ? 'Logging in...' : 'Login'}
+              </button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
 }
-

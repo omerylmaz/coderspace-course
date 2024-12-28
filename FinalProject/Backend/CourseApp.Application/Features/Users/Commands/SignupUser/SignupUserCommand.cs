@@ -13,7 +13,7 @@ public record SignupUserCommand : IRequest<Result<SignupUserResponse>>
     public string Password { get; init; }
     public string ConfirmPassword { get; init; }
     public string PhoneNumber { get; init; }
-    public UserRoles Role { get; init; }
+    //public UserRoles Role { get; init; }
 };
 
 public record SignupUserResponse

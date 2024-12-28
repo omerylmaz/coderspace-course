@@ -13,12 +13,8 @@ internal class GetPaginatedCoursesByFilteringQueryHandler(IMapper mapper, ICours
 {
     public async Task<Result<GetPaginatedCoursesByFilteringResponse>> Handle(GetPaginatedCoursesByFilteringQuery request, CancellationToken cancellationToken)
     {
-        Expression<Func<Course, bool>> predicate = course =>
-            (string.IsNullOrEmpty(request.Name) || course.Name.Contains(request.Name)) &&
-            (string.IsNullOrEmpty(request.Title) || course.Title.Contains(request.Title)) &&
-            (string.IsNullOrEmpty(request.Description) || course.Description.Contains(request.Description));
-
-        var pagedResult = await courseRepository.GetPagedWhereAsync(predicate, request.PageNumber, request.PageSize, cancellationToken);
+        var pagedResult = await courseRepository.GetPagedCoursesByFilteringAsync(request.Name, request.Title, request.CategoryName, 
+            request.Description, request.PageNumber, request.PageSize, cancellationToken);
 
         var courseResponses = mapper.Map<PagedResult<GetCourseResponseDto>>(pagedResult);
 

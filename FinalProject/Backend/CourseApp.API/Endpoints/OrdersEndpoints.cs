@@ -1,4 +1,5 @@
 ﻿using Carter;
+using CourseApp.API.Helpers;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
 using CourseApp.Application.Features.Orders.Commands.DeleteOrderById;
 using CourseApp.Application.Features.Orders.Commands.UpdateOrder;
@@ -10,7 +11,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Final.API.Endpoints;
 
@@ -30,11 +30,7 @@ public class OrdersEndpoints : CarterModule
             ClaimsPrincipal user,
             CancellationToken cancellationToken) =>
         {
-            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
-                return Results.Unauthorized();
-
-            var userId = Guid.Parse(userIdClaim.Value);
+            var userId = ClaimHelper.GetUserId(user);
 
             var request = command with { UserId = userId };
 
@@ -70,11 +66,7 @@ public class OrdersEndpoints : CarterModule
         {
             pageNumber = pageNumber > 0 ? pageNumber : 1;
             pageSize = pageSize > 0 ? pageSize : 10;
-            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
-                return Results.Unauthorized();
-
-            var userId = Guid.Parse(userIdClaim.Value);
+            var userId = ClaimHelper.GetUserId(user);
             Result<GetPaginatedOrdersResponse> serviceResponse = await mediator.Send(new GetPaginatedOrdersQuery(userId, pageNumber, pageSize), cancellationToken);
 
             if (!serviceResponse.IsSuccess)

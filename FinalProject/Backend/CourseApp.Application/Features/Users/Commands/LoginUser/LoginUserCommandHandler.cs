@@ -8,42 +8,29 @@ using CourseApp.Application.ResultDto;
 
 namespace Final.Application.Features.Users.Commands.LoginUser
 {
-    public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
+    public class LoginUserCommandHandler(
+        UserManager<AppUser> userManager,
+        ITokenService tokenService,
+        IGenericRepository<UserRefreshToken> refreshTokenRepository,
+        IUnitOfWork unitOfWork
+            ) : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ITokenService _tokenService;
-        private readonly IGenericRepository<UserRefreshToken> _refreshTokenRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public LoginUserCommandHandler(
-            UserManager<AppUser> userManager, 
-            ITokenService tokenService, 
-            IGenericRepository<UserRefreshToken> refreshTokenRepository,
-            IUnitOfWork unitOfWork
-            )
-        {
-            _userManager = userManager;
-            _tokenService = tokenService;
-            _refreshTokenRepository = refreshTokenRepository;
-            _unitOfWork = unitOfWork;
-        }
-
         public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByEmailAsync(request.Email);
+            var user = await userManager.FindByEmailAsync(request.Email);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
+            if (user == null || !await userManager.CheckPasswordAsync(user, request.Password))
             {
-                return Result<LoginUserResponse>.Conflict("Invalid email or password.");
+                return Result<LoginUserResponse>.Conflict("Email or password wrong");
             }
 
-            var token = _tokenService.CreateToken(user);
+            var token = tokenService.CreateToken(user);
 
-            var userRefreshToken = await _refreshTokenRepository.GetWhereAsync(x => x.UserId == user.Id, cancellationToken);
+            var userRefreshToken = await refreshTokenRepository.GetWhereAsync(x => x.UserId == user.Id, cancellationToken);
 
             if (userRefreshToken == null)
             {
-                await _refreshTokenRepository.AddAsync(new UserRefreshToken { UserId = user.Id, Code = token.RefreshToken, Expiration = token.RefreshTokenExpiration }, cancellationToken);
+                await refreshTokenRepository.AddAsync(new UserRefreshToken { UserId = user.Id, Code = token.RefreshToken, Expiration = token.RefreshTokenExpiration }, cancellationToken);
             }
             else
             {
@@ -51,7 +38,7 @@ namespace Final.Application.Features.Users.Commands.LoginUser
                 userRefreshToken.Expiration = token.RefreshTokenExpiration;
             }
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<LoginUserResponse>.Success(new LoginUserResponse { Token = token });
         }

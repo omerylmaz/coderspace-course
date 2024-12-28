@@ -1,11 +1,17 @@
 ﻿using Carter;
+using CourseApp.API.Helpers;
 using CourseApp.Application.Features.Courses.Queries.GetPaidCoursesByUserId;
 using CourseApp.Application.Features.Users.Commands.CreateTokenByRefreshToken;
+using CourseApp.Application.Features.Users.Commands.UpdateUser;
+using CourseApp.Application.Features.Users.Queries.GetUserDetail;
 using CourseApp.Application.ResultDto;
+using CourseApp.Domain.Enums;
 using Final.Application.Features.Users.Commands.LoginUser;
 using Final.Application.Features.Users.Commands.SignupUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Final.API.Endpoints;
 
@@ -59,5 +65,38 @@ public class UsersEndpoints : CarterModule
 
             return Results.Ok(serviceResponse);
         });
+
+        app.MapGet("detail", async
+            (
+            [FromServices] IMediator mediator,
+            ClaimsPrincipal user,
+            CancellationToken cancellationToken) =>
+        {
+            var userId = ClaimHelper.GetUserId(user);
+            Result<GetUserDetailResponse> serviceResponse = await mediator.Send(new GetUserDetailQuery(userId), cancellationToken);
+
+            if (!serviceResponse.IsSuccess)
+                return Results.Problem(serviceResponse.ProblemDetails);
+
+            return Results.Ok(serviceResponse);
+        })
+        .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.User}, {UserRoles.Teacher}" });
+
+        app.MapPut("", async
+        (
+            [FromBody] UpdateUserCommand command,
+            [FromServices] IMediator mediator,
+            ClaimsPrincipal user,
+            CancellationToken cancellationToken) =>
+        {
+            var userId = ClaimHelper.GetUserId(user);
+            Result serviceResponse = await mediator.Send(command with { Id = userId }, cancellationToken);
+
+            if (!serviceResponse.IsSuccess)
+                return Results.Problem(serviceResponse.ProblemDetails);
+
+            return Results.NoContent();
+        })
+        .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.User}, {UserRoles.Teacher}" });
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Carter;
+using CourseApp.API.Helpers;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByCategory;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByFiltering;
 using CourseApp.Application.Features.Courses.Queries.GetPaidCoursesByUserId;
@@ -129,6 +130,7 @@ public class CoursesEndpoints : CarterModule
             [FromQuery] string? name,
             [FromQuery] string? title,
             [FromQuery] string? description,
+            [FromQuery] string? categoryName,
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
             [FromServices] IMediator mediator,
@@ -139,6 +141,7 @@ public class CoursesEndpoints : CarterModule
                 Name = name,
                 Title = title,
                 Description = description,
+                CategoryName = categoryName,
                 PageNumber = pageNumber > 1 ? pageNumber : 1,
                 PageSize = pageSize > 0 ? pageSize : 10,
             };
@@ -153,7 +156,7 @@ public class CoursesEndpoints : CarterModule
         .AllowAnonymous();
 
 
-        app.MapGet("/user/paid-courses", async (
+        app.MapGet("/user/paid", async (
             [FromQuery] int pageNumber,
             [FromQuery] int pageSize,
             [FromServices] IMediator mediator,
@@ -163,11 +166,7 @@ public class CoursesEndpoints : CarterModule
             pageNumber = pageNumber > 0 ? pageNumber : 1;
             pageSize = pageSize > 0 ? pageSize : 10;
 
-            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
-                return Results.Unauthorized();
-
-            var userId = Guid.Parse(userIdClaim.Value);
+            var userId = ClaimHelper.GetUserId(user);
 
             var query = new GetPaidCoursesByUserIdQuery(userId, pageNumber, pageSize);
 

@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using CourseApp.Application.DTOs.Category;
 using CourseApp.Application.DTOs.Course;
+using CourseApp.Application.Features.Orders.Commands.CreateOrder;
+using CourseApp.Application.Features.Users.Commands.UpdateUser;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
 using Final.Application.Features.Courses.Commands.CreateCourse;
@@ -14,25 +17,7 @@ internal class MapperProfile : Profile
 {
     public MapperProfile()
     {
-        //CreateMap<PagedResult<Book>, PagedResult<GetBookResponse>>();
-
-        //CreateMap<Book, GetBookResponse>();
-
-        //CreateMap<CreateBookRequestDto, Book>();
-
-        //CreateMap<Book, GetBookByIdResponseDto>();
-
         CreateMap<SignupUserCommand, AppUser>();
-
-        //CreateMap<AppUser, GetUserListResponseDto>();
-
-        //CreateMap<AppUser, GetUserDetailResponseDto>();
-
-        //CreateMap<EditUserDto, AppUser>();
-
-        //CreateMap<AppRole, GetRoleListDto>();
-
-        //CreateMap<AppRole, GetRoleDetailDto>();
 
         CreateMap<CreateCourseCommand, Course>();
 
@@ -46,19 +31,15 @@ internal class MapperProfile : Profile
         CreateMap<PagedResult<Course>, PagedResult<GetCourseResponseDto>>()
             .ForMember(d => d.Items, o => o.MapFrom(s => s.Items));
 
-        //CreateMap<Course, GetCourseResponseDto>();
+        CreateMap<Category, GetCategoryResponseDto>();
 
-        //CreateMap<PagedResult<Course>, PagedResult<GetCourseResponseDto>>()
-        //    .ForMember(d => d.Items, o => o.MapFrom(s => s.Items));
+        CreateMap<CreateOrderCommand, Order>();
 
-        //CreateMap<Course, GetCourseResponseDto>();
-
-        //CreateMap<PagedResult<Course>, PagedResult<GetCourseResponseDto>>()
-        //    .ForMember(d => d.Items, o => o.MapFrom(s => s.Items));
+        CreateMap<Order, GetOrderByIdResponse>()
+            .ForMember(d => d.OrderDate, o => o.MapFrom(s => s.CreatedDate));
 
         CreateMap<Order, GetOrderResponse>();
 
-        //CreateMap<PagedResult<Order>, PagedResult<GetOrderResponse>>()
-        //    .ForMember(d => d.Items, o => o.MapFrom(s => s.Items));
+        CreateMap<UpdateUserCommand, AppUser>();
     }
 }

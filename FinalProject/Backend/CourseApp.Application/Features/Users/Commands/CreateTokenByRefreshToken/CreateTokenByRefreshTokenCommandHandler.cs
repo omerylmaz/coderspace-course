@@ -1,4 +1,5 @@
-﻿using CourseApp.Application.ResultDto;
+﻿using CourseApp.Application.DTOs.Auth;
+using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
 using Final.Application.Abstractions.Repositories;
 using Final.Application.Abstractions.Services;
@@ -20,12 +21,15 @@ internal class CreateTokenByRefreshTokenCommandHandler
         if (existRefreshToken == null)
             return Result<CreateTokenByRefreshTokenResponse>.NotFound("Refresh token not found");
 
+        if (existRefreshToken.Expiration < DateTime.Now)
+            return Result<CreateTokenByRefreshTokenResponse>.NotFound("Refresh token expired, please login again");
+
         var user = await userManager.FindByIdAsync(existRefreshToken.UserId.ToString());
 
         if (user == null)
             return Result<CreateTokenByRefreshTokenResponse>.NotFound("User Id not found");
 
-        var tokenDto = tokenService.CreateToken(user);
+        TokenDto tokenDto = tokenService.CreateToken(user);
 
         existRefreshToken.Code = tokenDto.RefreshToken;
         existRefreshToken.Expiration = tokenDto.RefreshTokenExpiration;

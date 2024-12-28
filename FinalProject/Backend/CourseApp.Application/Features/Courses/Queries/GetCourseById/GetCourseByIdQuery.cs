@@ -12,6 +12,7 @@ public record GetCourseByIdResponse
     string Title,
     string Description,
     decimal Price,
-    string CategoryName
+    string CategoryName,
+    string ImageUrl
     // int orderCount
 );

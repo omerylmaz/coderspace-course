@@ -10,11 +10,13 @@ namespace CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByFi
 
 public record GetPaginatedCoursesByFilteringQuery : IRequest<Result<GetPaginatedCoursesByFilteringResponse>>
 {
-    public string Name { get; init; }
+    public string? Name { get; init; }
 
-    public string Title { get; init; }
+    public string? Title { get; init; }
 
-    public string Description { get; init; }
+    public string? CategoryName { get; init; }
+
+    public string? Description { get; init; }
 
     public int PageNumber { get; init; }
 
@@ -23,12 +25,3 @@ public record GetPaginatedCoursesByFilteringQuery : IRequest<Result<GetPaginated
 
 
 public record GetPaginatedCoursesByFilteringResponse(PagedResult<GetCourseResponseDto> Courses);
-
-
-//public record GetCourseByFilteringResponse
-//(
-//    Guid Id,
-//    string Name,
-//    decimal Price,
-//    string CategoryName
-//);

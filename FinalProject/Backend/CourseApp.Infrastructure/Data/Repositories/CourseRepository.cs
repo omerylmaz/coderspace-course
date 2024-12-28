@@ -3,7 +3,6 @@ using CourseApp.Domain.Pagination;
 using CourseApp.Infrastructure.Data;
 using Final.Application.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Final.Infrastructure.Repositories;
 
@@ -57,6 +56,42 @@ internal class CourseRepository : GenericRepository<Course>, ICourseRepository
         var totalCount = await query.CountAsync(cancellationToken);
         var items = await query
             .ToListAsync(cancellationToken);
+        return new PagedResult<Course>(items, pageNumber, pageSize, totalCount);
+    }
+
+    public async Task<PagedResult<Course>> GetPagedCoursesByFilteringAsync(
+        string? name,
+        string? title,
+        string? categoryName,
+        string? description,
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken)
+    {
+        var query = _dbSet
+            .AsNoTracking()
+            .Include(x => x.Category)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(name))
+            query = query.Where(course => course.Name.Contains(name));
+
+        if (!string.IsNullOrWhiteSpace(title))
+            query = query.Where(course => course.Title.Contains(title));
+
+        if (!string.IsNullOrWhiteSpace(categoryName))
+            query = query.Where(course => course.Category.Name == categoryName);
+
+        if (!string.IsNullOrWhiteSpace(description))
+            query = query.Where(course => course.Description.Contains(description));
+
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
         return new PagedResult<Course>(items, pageNumber, pageSize, totalCount);
     }
 }

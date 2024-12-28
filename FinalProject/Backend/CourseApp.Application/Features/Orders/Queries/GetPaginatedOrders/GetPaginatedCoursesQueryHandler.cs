@@ -7,7 +7,8 @@ using MediatR;
 
 namespace Final.Application.Features.Courses.Queries.GetPaginatedCourses;
 
-internal class GetPaginatedOrdersQueryHandler(IGenericRepository<Order> orderRepository, IMapper mapper) : IRequestHandler<GetPaginatedOrdersQuery, Result<GetPaginatedOrdersResponse>>
+internal class GetPaginatedOrdersQueryHandler(IGenericRepository<Order> orderRepository, IMapper mapper) 
+    : IRequestHandler<GetPaginatedOrdersQuery, Result<GetPaginatedOrdersResponse>>
 {
     public async Task<Result<GetPaginatedOrdersResponse>> Handle(GetPaginatedOrdersQuery request, CancellationToken cancellationToken)
     {

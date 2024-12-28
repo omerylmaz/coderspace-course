@@ -6,5 +6,6 @@ public record GetCourseResponseDto
     string Name,
     decimal Price,
     string CategoryName,
+    string Title,
     string ImageUrl
 );

@@ -1,32 +1,44 @@
 import { useEffect, useState } from "react";
 import ProductCart from "../components/ProductCart";
 import courseService from "../services/courseService";
+import categoryService from "../services/categoryService";
+import Spinner from '../components/LoadingSpinner';
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Pagination state
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(6);
   const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    fetchProducts(pageNumber, pageSize, searchTerm, category);
+    fetchCategories();
+    fetchCourses(pageNumber, pageSize, searchTerm, category);
   }, [pageNumber, pageSize, searchTerm, category]);
 
-  const fetchProducts = (page, size, term, cat) => {
-    courseService.getPaginatedCourses(page, size, term, cat).then((res) => {
-      const fetchedProducts = res.courses.items;
-      setProducts(fetchedProducts);
-      setTotalCount(res.courses.totalCount);
+  const fetchCourses = (page, size, term, cat) => {
+    setIsLoading(true);
+    if (cat === "All") {
+      cat = "";
+    }
 
-      const uniqueCategories = [
-        ...new Set(fetchedProducts.map((product) => product.categoryName)),
-      ];
-      setCategories(uniqueCategories);
+    courseService.getPaginatedCoursesByFiltering(page, size, term, cat).then((res) => {
+      setCourses(res.courses.items);
+      setTotalCount(res.courses.totalCount);
+    }).catch((err) => {
+      console.error("Error fetching courses:", err);
+    }).finally(() => {
+      setIsLoading(false);
+    });
+  };
+
+  const fetchCategories = () => {
+    categoryService.getAllCategories().then((res) => {
+      setCategories(res.categories);
     });
   };
 
@@ -65,41 +77,49 @@ export default function Home() {
             onChange={handleCategoryChange}
           >
             <option value="All">All Categories</option>
-            {categories.map((cat, index) => (
-              <option key={index} value={cat}>
-                {cat}
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.name}>
+                {cat.name}
               </option>
             ))}
           </select>
         </div>
       </div>
 
-      <div className="row">
-        {products.map((product) => (
-          <ProductCart key={product.id} product={product}></ProductCart>
-        ))}
-      </div>
-
-      {totalPages > 1 && (
-        <nav>
-          <ul className="pagination justify-content-center mt-4">
-            {pageNumbers.map((number) => (
-              <li
-                key={number}
-                className={`page-item ${
-                  pageNumber === number ? "active" : ""
-                }`}
-              >
-                <button
-                  onClick={() => setPageNumber(number)}
-                  className="page-link"
-                >
-                  {number}
-                </button>
-              </li>
+      {isLoading ? (
+        <div className="d-flex justify-content-center my-4">
+          <Spinner />
+        </div>
+      ) : (
+        <>
+          <div className="row">
+            {courses.map((course) => (
+              <ProductCart key={course.id} course={course}></ProductCart>
             ))}
-          </ul>
-        </nav>
+          </div>
+
+          {totalPages > 1 && (
+            <nav>
+              <ul className="pagination justify-content-center mt-4">
+                {pageNumbers.map((number) => (
+                  <li
+                    key={number}
+                    className={`page-item ${
+                      pageNumber === number ? "active" : ""
+                    }`}
+                  >
+                    <button
+                      onClick={() => setPageNumber(number)}
+                      className="page-link"
+                    >
+                      {number}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </>
       )}
     </div>
   );

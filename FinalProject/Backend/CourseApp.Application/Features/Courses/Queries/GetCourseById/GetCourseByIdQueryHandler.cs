@@ -10,7 +10,7 @@ namespace Final.Application.Features.Courses.Queries.GetCourseById
     {
         public async Task<Result<GetCourseByIdResponse>> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken)
         {
-            Course courseDomain = await courseRepository.GetByIdAsync(request.Id, cancellationToken);
+            Course courseDomain = await courseRepository.GetByIdWithCategoryNameAsync(request.Id, cancellationToken);
             if (courseDomain == null)
                 return Result<GetCourseByIdResponse>.NotFound($"Course with {request.Id} not found");
 

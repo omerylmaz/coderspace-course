@@ -1,24 +1,43 @@
-import { createContext, useState,useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
+import authService from "../services/authService";
+import { setupInterceptors } from "../interceptors/axiosInterceptor";
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
+  const [authData, setAuthData] = useState({
+    accessToken: null,
+    refreshToken: null,
+  });
 
-    const [user, setUser] = useState(null);
+  const login = async (userData) => {
+    const result = await authService.login(userData);
+    const { accessToken, refreshToken } = result.token;
 
-    const login = (username, password) => {
-        if(username === "admin" && password === "1234"){
-            setUser({name: "Admin User"});
-        }
-    };
+    setAuthData({
+      accessToken,
+      refreshToken,
+    });
+  };
 
-    const logout = () => setUser(null);
+  const logout = () => {
+    setAuthData({
+      accessToken: null,
+      refreshToken: null,
+    });
+  };
 
-    return(
-        <AuthContext.Provider value={{user, login, logout}}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+  const isAuthenticated = !!authData.accessToken;
+
+  useEffect(() => {
+    setupInterceptors({ authData, login, logout });
+  }, [authData]);
+
+  return (
+    <AuthContext.Provider value={{ authData, login, logout, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

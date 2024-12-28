@@ -1,4 +1,5 @@
 using Carter;
+using CourseApp.API.ExceptionHandlers;
 using CourseApp.Application.Options;
 using CourseApp.Infrastructure;
 using Final.Application;
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration);
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 builder.Services.Configure<TokenOption>(builder.Configuration.GetSection("TokenOption"));
 
@@ -59,6 +62,7 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {

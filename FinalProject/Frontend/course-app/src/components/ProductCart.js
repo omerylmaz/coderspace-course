@@ -2,29 +2,37 @@ import React from 'react'
 import {useCart} from '../context/CartContext'
 import { Link } from 'react-router-dom';
 
-export default function ProductCart({product}) {
+export default function ProductCart({course}) {
 
   const {addToCart} = useCart();
+
+  const truncateTitle = (title) => {
+    if (title.length > 50) {
+      return `${title.slice(0, 50)}...`;
+    }
+    return title;
+  };
 
   return(
     <div className='col-md-4 mb-4'>
       <div className='card h-100 shadow-sm'>
-        <Link to={`/product/${product.id}`} style={{textDecoration: "none"}}>
+        <Link to={`/product/${course.id}`} style={{textDecoration: "none"}}>
           <img
-          src={product.imageUrl}
-          alt={product.name}
+          src={course.imageUrl}
+          alt={course.name}
           className='card-img-top'
           style={{objectFit: "contain", height: "200px"}}
           ></img>
           <div className='card-body'>
-            <p className='card-title'>{product.name}</p>
-            <p className='card-text'>{product.price}₺</p>
+            <p className='card-title'>{course.name}</p>
+            <p className="card-text">{truncateTitle(course.title)}</p> {/* 50 karakterlik kısaltma */}
+            <p className='card-text'>{course.price}₺</p>
           </div>
         </Link>
         <button
         className='btn btn-warning w-100 h-100'
-        onClick={()=>addToCart(product)}
-        >Add to Cart</button>
+        onClick={()=>addToCart(course)}
+        >Go to details</button>
       </div>
     </div>
   );

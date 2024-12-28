@@ -6,30 +6,15 @@ using MediatR;
 
 namespace CourseApp.Application.Features.Orders.Commands.CreateOrder;
 
-internal class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Result<CreateOrderResponse>>
+internal class CreateOrderCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IGenericRepository<Order> orderRepository) 
+    : IRequestHandler<CreateOrderCommand, Result<CreateOrderResponse>>
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IGenericRepository<Order> _orderRepository;
-
-    public CreateOrderCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IGenericRepository<Order> orderRepository)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _orderRepository = orderRepository;
-    }
-
     public async Task<Result<CreateOrderResponse>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        var order = new Order
-        {
-            UserId = request.UserId,
-            CourseId = request.CourseId,
-            OrderDate = DateTime.UtcNow
-        };
+        var order = mapper.Map<Order>(request);
 
-        await _orderRepository.AddAsync(order, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await orderRepository.AddAsync(order, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         var response = new CreateOrderResponse(order.Id);
         return Result<CreateOrderResponse>.Success(response);
