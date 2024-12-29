@@ -54,12 +54,14 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAllOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
+            builder.AllowAnyMethod()
+                   .AllowCredentials()
+                   .AllowAnyHeader()
+                   .SetIsOriginAllowed(x => true);
         });
 });
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAntiforgery();
 
 var app = builder.Build();
 app.UseExceptionHandler();
@@ -78,8 +80,10 @@ app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 await app.UseInfrastructureServices();
 
+app.UseAntiforgery();
 app.MapCarter();
 
 app.Run();

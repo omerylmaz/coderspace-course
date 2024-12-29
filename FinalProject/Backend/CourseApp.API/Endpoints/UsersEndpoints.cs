@@ -1,6 +1,7 @@
 ﻿using Carter;
 using CourseApp.API.Helpers;
 using CourseApp.Application.Features.Courses.Queries.GetPaidCoursesByUserId;
+using CourseApp.Application.Features.Users.Commands.ChangePassword;
 using CourseApp.Application.Features.Users.Commands.CreateTokenByRefreshToken;
 using CourseApp.Application.Features.Users.Commands.UpdateUser;
 using CourseApp.Application.Features.Users.Queries.GetUserDetail;
@@ -91,6 +92,23 @@ public class UsersEndpoints : CarterModule
         {
             var userId = ClaimHelper.GetUserId(user);
             Result serviceResponse = await mediator.Send(command with { Id = userId }, cancellationToken);
+
+            if (!serviceResponse.IsSuccess)
+                return Results.Problem(serviceResponse.ProblemDetails);
+
+            return Results.NoContent();
+        })
+        .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.User}, {UserRoles.Teacher}" });
+
+        app.MapPatch("change-password", async
+        (
+            [FromBody] ChangePasswordCommand command,
+            [FromServices] IMediator mediator,
+            ClaimsPrincipal user,
+            CancellationToken cancellationToken) =>
+        {
+            var userId = ClaimHelper.GetUserId(user);
+            Result serviceResponse = await mediator.Send(command with { UserId = userId }, cancellationToken);
 
             if (!serviceResponse.IsSuccess)
                 return Results.Problem(serviceResponse.ProblemDetails);

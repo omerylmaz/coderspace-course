@@ -15,7 +15,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     const result = await authService.login(userData);
     const { accessToken, refreshToken } = result.token;
-
+    console.log(result);
+    
     setAuthData({
       accessToken,
       refreshToken,

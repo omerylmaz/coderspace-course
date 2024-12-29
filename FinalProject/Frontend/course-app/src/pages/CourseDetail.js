@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import courseService from '../services/courseService';
 import Spinner from '../components/LoadingSpinner';
@@ -9,10 +9,16 @@ export default function CourseDetail() {
   const [course, setCourse] = useState(null);
   const { addToCart } = useCart();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleBuyCourse = () => {
+    navigate("/payment", { state: { course } });
+  };
 
   useEffect(() => {
     setTimeout(() => {
       courseService.getCourseById(id).then((res) => {
+        console.log(res.data);
         setCourse(res.data);
         setIsLoading(false);
       });
@@ -38,14 +44,14 @@ export default function CourseDetail() {
               <h5 className="card-title">{course.title}</h5>
               <p className="card-text">{course.description}</p>
               <p className="card-text">
-                <strong>Category:</strong> {course.categoryName || 'N/A'}
+                <strong>Category:</strong> {course.categoryName}
               </p>
               <p className="card-text">
                 <small className="text-muted">{course.price}₺</small>
               </p>
               <button
                 className="btn btn-success btn-lg"
-                onClick={() => addToCart(course)}
+                onClick={handleBuyCourse}
               >
                 Buy Course
               </button>

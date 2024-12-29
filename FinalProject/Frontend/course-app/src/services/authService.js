@@ -16,6 +16,16 @@ class AuthService {
     console.log(response);
     return response.data.data;
   }
+
+  async updateUserDetails(userData) {
+    const response = await api.put('users', userData);
+    return response.data.data;
+  }
+
+  async changePassword(passwordData) {
+    const response = await api.patch('users/change-password', passwordData);
+    return response.data.data;
+  }
 }
 
 export default new AuthService();

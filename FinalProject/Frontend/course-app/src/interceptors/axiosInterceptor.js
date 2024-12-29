@@ -6,7 +6,6 @@ const API_URL = 'https://localhost:7118/api/';
 
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 10000,
 });
 
 const setupInterceptors = (authContext) => {
@@ -66,7 +65,7 @@ const setupInterceptors = (authContext) => {
         }
       }
       else{
-        return Promise.reject(new Error('Server is unavailable'));
+        // return Promise.reject(new Error('Server is unavailable'));
 
       }
 

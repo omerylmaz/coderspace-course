@@ -8,6 +8,7 @@ public record GetCourseByIdQuery(Guid Id) : IRequest<Result<GetCourseByIdRespons
 
 public record GetCourseByIdResponse
 (
+    Guid Id,
     string Name,
     string Title,
     string Description,

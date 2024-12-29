@@ -16,6 +16,8 @@ using CourseApp.Application.Options;
 using CourseApp.Domain.Entities;
 using CourseApp.Infrastructure.Data;
 using CourseApp.Infrastructure.Services.Auth;
+using CourseApp.Application.Abstractions.Services;
+using CourseApp.Infrastructure.Services.Payment;
 
 namespace CourseApp.Infrastructure;
 
@@ -30,6 +32,7 @@ public static class ServiceRegistration
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IPaymentService, IyzicoPaymentService>();
 
         services.AddAuthentication(options =>
         {
