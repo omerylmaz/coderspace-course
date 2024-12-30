@@ -44,13 +44,11 @@ export default function PaymentPage() {
     try {
       const response = await paymentService.payCourse(values);
   
-      // const htmlContent = response.htmlContent;
-  
       const popup = window.open("", "3D Secure Verification", "width=600,height=400");
       console.log(response);
       popup.document.write(response);
     } catch (err) {
-      setError(err.response?.data?.message || "Payment failed!");
+      setError(err.message);
     } finally {
       setLoading(false);
       setSubmitting(false);

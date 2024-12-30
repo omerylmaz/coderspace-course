@@ -67,10 +67,11 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
         _dbSet.Remove(entity);
     }
 
-    public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
     {
-        return await _dbSet.AnyAsync(i => i.Id == id, cancellationToken);
+        return await _dbSet.AnyAsync(predicate, cancellationToken);
     }
+
 
     public async Task<TEntity?> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
     {

@@ -15,6 +15,6 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     Task AddAsync(TEntity entity, CancellationToken cancellationToken);
     void Update(TEntity entity);
     void Delete(TEntity entity);
-    Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken);
+    Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
 
 }

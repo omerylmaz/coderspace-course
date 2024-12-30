@@ -19,13 +19,13 @@ export default function UserDetail() {
   const [editingPassword, setEditingPassword] = useState(false);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true);
-        const coursesResponse = await courseService.getPaidCourses(
-          pageNumber,
-          pageSize
-        );
+        const userResponse = await authService.getUserDetails();
+        setUserDetails(userResponse);
+  
+        const coursesResponse = await courseService.getPaidCourses(pageNumber, pageSize);
         setCourses(coursesResponse.courses.items);
         setTotalCount(coursesResponse.courses.totalCount);
       } catch (err) {
@@ -33,20 +33,9 @@ export default function UserDetail() {
       } finally {
         setIsLoading(false);
       }
-
-      const fetchUserDetails = async () => {
-        try {
-          const userResponse = await authService.getUserDetails();
-          setUserDetails(userResponse);
-        } catch (err) {
-          setError(err.message);
-        }
-      };
-  
-      fetchUserDetails();
     };
-
-    fetchCourses();
+  
+    fetchData();
   }, [pageNumber, pageSize]);
 
   const totalPages = Math.ceil(totalCount / pageSize);

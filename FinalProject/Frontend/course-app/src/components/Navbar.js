@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { isAuthenticated, logout } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { getUserRole } from "../utils/jwtDecoder";
 
 export default function Navbar() {
-  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  const userRole = getUserRole();
+
+  function handleLogout() {
+    logout();
+    navigate("/");
+    console.log("Logout");
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -24,13 +33,18 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/cart">Cart</Link>
             </li>
-            {isAuthenticated ? (
+            {isAuthenticated() ? (
               <>
+                {userRole === "Teacher" && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/teacher">Teacher Panel</Link>
+                  </li>
+                )}
                 <li className="nav-item">
                   <Link className="nav-link" to="/profile">My Profile</Link>
                 </li>
                 <li className="nav-item">
-                  <button className="btn btn-danger" onClick={logout}>Logout</button>
+                  <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
                 </li>
               </>
             ) : (

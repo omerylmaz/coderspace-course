@@ -26,6 +26,13 @@ class AuthService {
     const response = await api.patch('users/change-password', passwordData);
     return response.data.data;
   }
+
+  async refreshToken(refreshToken) {
+    debugger;
+    const response = await api.post('users/refresh-token', refreshToken);
+    debugger;
+    return response.data.data;
+  }
 }
 
 export default new AuthService();

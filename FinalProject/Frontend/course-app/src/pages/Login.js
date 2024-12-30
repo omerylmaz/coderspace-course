@@ -3,10 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import alertify from 'alertifyjs';
-import { useAuth } from '../context/AuthContext';
+import { login } from '../context/AuthContext';
 
 export default function Login() {
-  const { login } = useAuth();
+  // const { login } = useAuth();
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({

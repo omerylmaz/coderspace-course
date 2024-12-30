@@ -10,11 +10,12 @@ internal class UpdateOrderCommandHandler(IOrderRepository orderRepository, IMapp
 {
     public async Task<Result> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
-        var order = await orderRepository.GetByIdAsync(request.Id, cancellationToken);
+        Domain.Entities.Order? order = await orderRepository.GetByIdAsync(request.Id, cancellationToken);
         if (order == null)
             return Result.NotFound($"Order with id {request.Id} not found");
 
         order.CourseId = request.CourseId;
+        order.OrderStatus = request.OrderStatus;
         orderRepository.Update(order);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

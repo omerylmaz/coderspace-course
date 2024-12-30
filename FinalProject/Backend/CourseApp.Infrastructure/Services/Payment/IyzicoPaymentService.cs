@@ -23,7 +23,7 @@ internal class IyzicoPaymentService(IHttpContextAccessor httpContextAccessor) : 
 
         CreatePaymentRequest request = new CreatePaymentRequest();
         request.Locale = Locale.TR.ToString();
-        request.ConversationId = Guid.NewGuid().ToString();
+        request.ConversationId = paymentDto.PaymentId.ToString();
         request.Price = paymentDto.Price.ToString(CultureInfo.InvariantCulture);
         request.PaidPrice = paymentDto.Price.ToString(CultureInfo.InvariantCulture);
         request.Currency = Currency.TRY.ToString();

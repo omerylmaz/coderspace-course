@@ -2,12 +2,9 @@ import { api } from '../interceptors/axiosInterceptor';
 
 class PaymentService {
   async payCourse(paymentData) {
-    try {
       const response = await api.post('payments', paymentData);
+      console.log(response);
       return response.data;
-    } catch (error) {
-      throw error;
-    }
   }
 }
 

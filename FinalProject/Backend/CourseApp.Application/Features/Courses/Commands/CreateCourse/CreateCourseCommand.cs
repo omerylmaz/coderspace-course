@@ -10,6 +10,7 @@ public record CreateCourseCommand : IRequest<Result<CreateCourseResponse>>
     public string Description { get; init; }
     public decimal Price { get; init; }
     public Guid CategoryId { get; init; }
+    public string ImageUrl { get; set; }
 };
 
 public record CreateCourseResponse(Guid Id);

@@ -33,6 +33,7 @@ class CourseService {
   }
 
   createCourse(courseData) {
+    console.log(courseData);
     return api.post("courses/", courseData);
   }
 

@@ -3,5 +3,6 @@
 public enum OrderStasusses
 {
     Pending,
+    Failed,
     Completed
 }

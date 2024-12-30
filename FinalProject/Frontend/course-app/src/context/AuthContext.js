@@ -1,44 +1,22 @@
-import { createContext, useState, useContext, useEffect } from "react";
 import authService from "../services/authService";
-import { setupInterceptors } from "../interceptors/axiosInterceptor";
 
-const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
-
-export const AuthProvider = ({ children }) => {
-  const [authData, setAuthData] = useState({
-    accessToken: null,
-    refreshToken: null,
-  });
-
-  const login = async (userData) => {
+export const login = async (userData) => {
     const result = await authService.login(userData);
     const { accessToken, refreshToken } = result.token;
-    console.log(result);
-    
-    setAuthData({
-      accessToken,
-      refreshToken,
-    });
-  };
 
-  const logout = () => {
-    setAuthData({
-      accessToken: null,
-      refreshToken: null,
-    });
-  };
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
 
-  const isAuthenticated = !!authData.accessToken;
+    return true;
+};
 
-  useEffect(() => {
-    setupInterceptors({ authData, login, logout });
-  }, [authData]);
+export const logout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+};
 
-  return (
-    <AuthContext.Provider value={{ authData, login, logout, isAuthenticated }}>
-      {children}
-    </AuthContext.Provider>
-  );
+export const isAuthenticated = () => {
+  const token = localStorage.getItem("accessToken");
+  console.log(token);
+  return !!token;
 };

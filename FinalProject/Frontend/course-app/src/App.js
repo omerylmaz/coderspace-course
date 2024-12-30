@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -11,26 +10,73 @@ import CourseDetail from "./pages/CourseDetail";
 import UserDetail from "./pages/UserDetail";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PaymentPage from "./pages/Payment";
+import TeacherPanel from "./pages/TeacherPanel";
+import CreateCourse from "./pages/CreateCourse";
+import EditCourse from "./pages/EditCourse";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <CartProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/product/:id" element={<CourseDetail />} />
+    <BrowserRouter>
+      <CartProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/product/:id" element={<CourseDetail />} />
 
-            <Route path="/cart" element={ <ProtectedRoute> <Cart /></ProtectedRoute>}/>
-            <Route path="/profile" element={ <ProtectedRoute> <UserDetail /> </ProtectedRoute>}/>
-            <Route path="/payment" element={ <ProtectedRoute> <PaymentPage /> </ProtectedRoute>}/>
-          </Routes>
-          <Footer />
-        </CartProvider>
-      </BrowserRouter>
-    </AuthProvider>
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute requiredRoles={["User", "Teacher"]}>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute requiredRoles={["User", "Teacher"]}>
+                <UserDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <ProtectedRoute requiredRoles={["User", "Teacher"]}>
+                <PaymentPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/teacher"
+            element={
+              <ProtectedRoute requiredRoles={["Teacher"]}>
+                <TeacherPanel />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teacher/courses/create"
+            element={
+              <ProtectedRoute requiredRoles={["Teacher"]}>
+                <CreateCourse />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teacher/courses/edit/:id"
+            element={
+              <ProtectedRoute requiredRoles={["Teacher"]}>
+                <EditCourse />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+        <Footer />
+      </CartProvider>
+    </BrowserRouter>
   );
 }

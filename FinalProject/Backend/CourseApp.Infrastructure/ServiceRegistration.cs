@@ -31,6 +31,7 @@ public static class ServiceRegistration
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IPaymentRepository, PaymentRepository>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPaymentService, IyzicoPaymentService>();
 
@@ -53,6 +54,8 @@ public static class ServiceRegistration
                 ValidateAudience = true,
                 ValidAudience = tokenOptions.Audience[0],
                 ValidateIssuerSigningKey = true,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
                 IssuerSigningKey = new SymmetricSecurityKey(
             System.Text.Encoding.UTF8.GetBytes(
             tokenOptions.SecurityKey))

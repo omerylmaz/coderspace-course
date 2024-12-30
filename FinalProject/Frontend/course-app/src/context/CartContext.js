@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import {useAuth} from './AuthContext';
+import {useAuth} from './AuthContext';
 import alertify from 'alertifyjs';
 
 const CartContext = createContext();
@@ -15,12 +15,12 @@ export const CartProvider = ({children}) => {
 
     const [pendingItem, setPendingItem] = useState(null);
 
-    // const {user} = useAuth();
+    const {user} = useAuth();
 
     const navigate = useNavigate();
 
     const addToCart = (product) => {
-        if(!true){//user
+        if(!user){
             alertify.error("Giriş yapmadığınız için ürünü sepete ekleyemezsiniz!");
             setPendingItem(product);
             navigate("/login");

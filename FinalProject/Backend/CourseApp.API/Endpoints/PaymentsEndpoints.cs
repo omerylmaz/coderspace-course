@@ -1,12 +1,10 @@
 ﻿using Carter;
 using CourseApp.API.Helpers;
-using CourseApp.Application.DTOs.Payment;
-using CourseApp.Application.Features.Orders.Commands.CreateOrder;
+using CourseApp.Application.Features.Orders.Commands.CompleteOrder;
 using CourseApp.Application.Features.Payments.Commands.CreatePayment;
 using CourseApp.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -43,24 +41,24 @@ public class PaymentsEndpoints : CarterModule
 
 
         app.MapPost("PayCallBack", async (
-            HttpRequest request, CancellationToken cancellationToken) =>
+            HttpRequest request, IMediator mediator ,CancellationToken cancellationToken) =>
         {
             var form = await request.ReadFormAsync(cancellationToken);
 
-            var callbackData = new PaymentCallbackData(
+            var callbackData = new CompleteOrderCommand(
                 Status: form["Status"],
                 PaymentId: form["PaymentId"],
                 ConversationData: form["ConversationData"],
                 MDStatus: form["MDStatus"],
-                ConversationId: long.TryParse(form["ConversationId"], out var id) ? id : 0
+                ConversationId: form["ConversationId"]
             );
 
-            if (callbackData.Status != "success")
-            {
-                return Results.BadRequest("Payment Failed");
-            }
+            var response = await mediator.Send(callbackData, cancellationToken);
 
-            return Results.Ok("Payment happened successfully");
+            if (!response.IsSuccess)
+                return Results.Conflict(response.ProblemDetails.Detail);
+
+            return Results.Ok("Payment completed successfully");
         });
 
     }

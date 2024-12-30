@@ -25,14 +25,15 @@ export default function ProductCart({course}) {
           ></img>
           <div className='card-body'>
             <p className='card-title'>{course.name}</p>
-            <p className="card-text">{truncateTitle(course.title)}</p> {/* 50 karakterlik kısaltma */}
+            <p className="card-text">{truncateTitle(course.title)}</p>
             <p className='card-text'>{course.price}₺</p>
           </div>
         </Link>
-        <button
-        className='btn btn-warning w-100 h-100'
-        onClick={()=>addToCart(course)}
-        >Go to details</button>
+        <Link to={`/product/${course.id}`}>
+    <button className='btn btn-warning w-100 h-100'>
+      Go to details
+    </button>
+  </Link>
       </div>
     </div>
   );

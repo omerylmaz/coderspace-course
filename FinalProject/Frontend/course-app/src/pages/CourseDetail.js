@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import courseService from '../services/courseService';
 import Spinner from '../components/LoadingSpinner';
+import orderService from "../services/orderService";
 
 export default function CourseDetail() {
   const { id } = useParams();
@@ -11,7 +12,8 @@ export default function CourseDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleBuyCourse = () => {
+  const handleBuyCourse = async () => {
+    await orderService.createOrder(course.id);
     navigate("/payment", { state: { course } });
   };
 

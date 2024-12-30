@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 public record CreatePaymentDto(
+    Guid PaymentId,
     string CardHolderName,
     string CardNumber,
     string ExpireMonth,
