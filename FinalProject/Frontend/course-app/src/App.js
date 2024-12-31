@@ -14,11 +14,12 @@ import TeacherPanel from "./pages/TeacherPanel";
 import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
 import 'alertifyjs/build/css/alertify.css';
+import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
   return (
     <BrowserRouter>
-      {/* <CartProvider> */}
+      <AuthProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -77,7 +78,7 @@ export default function App() {
           />
         </Routes>
         <Footer />
-      {/* </CartProvider> */}
+      </AuthProvider>
     </BrowserRouter>
   );
 }

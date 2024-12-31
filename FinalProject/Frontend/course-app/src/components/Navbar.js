@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { isAuthenticated, logout } from "../context/AuthContext";
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { getUserRole } from "../utils/jwtDecoder";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const userRole = getUserRole();
+  const { user, logout, isAuthenticated } = useAuth();
 
   function handleLogout() {
     logout();
@@ -33,7 +34,7 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/cart">Cart</Link>
             </li>
-            {isAuthenticated() ? (
+            {isAuthenticated ? (
               <>
                 {userRole === "Teacher" && (
                   <li className="nav-item">

@@ -1,22 +1,71 @@
-import authService from "../services/authService";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+import authService from '../services/authService';
 
-export const login = async (userData) => {
-    const result = await authService.login(userData);
-    const { accessToken, refreshToken } = result.token;
+const AuthContext = createContext();
 
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    return true;
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      const decodedToken = decodeToken(token);
+      setUser(decodedToken);
+      setRole(getUserRole(decodedToken));
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const decodeToken = (token) => {
+    try {
+      return jwtDecode(token);
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+
+  const getUserRole = (decodedToken) => {
+    const roleKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+    return decodedToken?.[roleKey] || null;
+  };
+
+  const login = async (userData) => {
+    try {
+      const result = await authService.login(userData);
+      const { accessToken, refreshToken } = result.token;
+
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+
+      const decodedToken = decodeToken(accessToken);
+      setUser(decodedToken);
+      setRole(getUserRole(decodedToken));
+      setIsAuthenticated(true);
+
+      return true;
+    } catch (error) {
+      console.error('Login failed:', error);
+      return false;
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setUser(null);
+    setRole(null);
+    setIsAuthenticated(false);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, role, isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const logout = () => {
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("refreshToken");
-};
-
-export const isAuthenticated = () => {
-  const token = localStorage.getItem("accessToken");
-  console.log(token);
-  return !!token;
-};
+export const useAuth = () => useContext(AuthContext);

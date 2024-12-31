@@ -1,8 +1,11 @@
 import React from 'react';
 import { getUserRole } from '../utils/jwtDecoder';
+import { useAuth } from '../context/AuthContext';
+
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const userRoles = getUserRole();
+  const { isAuthenticated } = useAuth();
 
   if (userRoles.length === 0) {
     return <div className="container mt-4 text-center"><h3>Unauthorized: Please log in to access.</h3></div>;
