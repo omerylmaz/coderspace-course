@@ -6,6 +6,7 @@ import Spinner from "../components/LoadingSpinner";
 import authService from "../services/authService";
 import courseService from "../services/courseService";
 import alertify from "alertifyjs";
+import { useNavigate } from "react-router-dom";
 
 export default function UserDetail() {
   const [userDetails, setUserDetails] = useState(null);
@@ -18,13 +19,18 @@ export default function UserDetail() {
   const [editingUser, setEditingUser] = useState(false);
   const [editingPassword, setEditingPassword] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const userResponse = await authService.getUserDetails();
         setUserDetails(userResponse);
-        const coursesResponse = await courseService.getPaidCourses(pageNumber, pageSize);
+        const coursesResponse = await courseService.getPaidCourses(
+          pageNumber,
+          pageSize
+        );
         console.log(coursesResponse);
         setCourses(coursesResponse.courses.items);
         setTotalCount(coursesResponse.courses.totalCount);
@@ -43,7 +49,9 @@ export default function UserDetail() {
 
   const userValidationSchema = Yup.object({
     fullName: Yup.string().required("Full Name is required"),
-    email: Yup.string().email("Invalid email format").required("Email is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
     phoneNumber: Yup.string().required("Phone Number is required"),
   });
 
@@ -170,12 +178,20 @@ export default function UserDetail() {
           <p>
             <strong>Phone Number:</strong> {userDetails?.phoneNumber}
           </p>
-          <button
-            className="btn btn-primary"
-            onClick={() => setEditingUser(true)}
-          >
-            Edit Details
-          </button>
+          <div className="d-flex justify-content-center mt-4">
+    <button
+      className="btn btn-primary me-2"
+      onClick={() => setEditingUser(true)}
+    >
+      Edit Details
+    </button>
+    <button
+      className="btn btn-outline-secondary"
+      onClick={() => navigate("/orders")}
+    >
+      View Order History
+    </button>
+  </div>
         </div>
       )}
 

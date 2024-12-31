@@ -3,7 +3,7 @@ using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Pagination;
 using MediatR;
 
-namespace Final.Application.Features.Courses.Queries.GetPaginatedCourses;
+namespace CourseApp.Application.Features.Courses.Queries.GetPaginatedCourses;
 
 public record GetPaginatedCoursesQuery
     (

@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -13,6 +12,7 @@ import PaymentPage from "./pages/Payment";
 import TeacherPanel from "./pages/TeacherPanel";
 import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
+import OrderHistory from "./pages/OrderHistory";
 import 'alertifyjs/build/css/alertify.css';
 import { AuthProvider } from "./context/AuthContext";
 
@@ -40,6 +40,14 @@ export default function App() {
             element={
               <ProtectedRoute requiredRoles={["User", "Teacher"]}>
                 <UserDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute requiredRoles={["User", "Teacher"]}>
+                <OrderHistory />
               </ProtectedRoute>
             }
           />

@@ -3,13 +3,13 @@ using CourseApp.Application.DTOs.Category;
 using CourseApp.Application.DTOs.Course;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedTeacherCourses;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
+using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
 using CourseApp.Application.Features.Users.Commands.UpdateUser;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
 using Final.Application.Features.Courses.Commands.CreateCourse;
 using Final.Application.Features.Courses.Commands.UpdateCourse;
 using Final.Application.Features.Courses.Queries.GetCourseById;
-using Final.Application.Features.Courses.Queries.GetPaginatedCourses;
 using Final.Application.Features.Users.Commands.SignupUser;
 
 namespace Final.Application;
@@ -39,7 +39,17 @@ internal class MapperProfile : Profile
         CreateMap<Order, GetOrderByIdResponse>()
             .ForMember(d => d.OrderDate, o => o.MapFrom(s => s.CreatedDate));
 
-        CreateMap<Order, GetOrderResponse>();
+        //CreateMap<List<Order>, List<GetOrderResponse>>()
+        //    .ForMember(d => d);
+
+        CreateMap<Order, GetOrderResponse>()
+            .ForMember(d => d.CourseCategoryName, o => o.MapFrom(s => s.Course.Category.Name))
+            .ForMember(d => d.CourseName, o => o.MapFrom(s => s.Course.Name))
+            .ForMember(d => d.ImageUrl, o => o.MapFrom(s => s.Course.ImageUrl))
+            .ForMember(d => d.PaymentDate, o => o.MapFrom(s => s.Payment.PaymentDate))
+            .ForMember(d => d.Price, o => o.MapFrom(s => s.Course.Price))
+            .ForMember(d => d.UserId, o => o.MapFrom(s => s.UserId))
+            .ForMember(d => d.Id, o => o.MapFrom(s => s.Id));
 
         CreateMap<UpdateUserCommand, AppUser>();
     }

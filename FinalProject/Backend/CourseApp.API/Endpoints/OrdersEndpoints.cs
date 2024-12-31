@@ -3,10 +3,12 @@ using CourseApp.API.Helpers;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
 using CourseApp.Application.Features.Orders.Commands.DeleteOrderById;
 using CourseApp.Application.Features.Orders.Commands.UpdateOrder;
+using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
+
+//using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
 using Final.Application.Features.Courses.Queries.GetCourseById;
-using Final.Application.Features.Courses.Queries.GetPaginatedCourses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -58,16 +60,12 @@ public class OrdersEndpoints : CarterModule
         .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.Teacher}, {UserRoles.User}" });
 
         app.MapGet("", async (
-            [FromQuery] int pageNumber,
-            [FromQuery] int pageSize,
             [FromServices] IMediator mediator,
             ClaimsPrincipal user,
             CancellationToken cancellationToken) =>
         {
-            pageNumber = pageNumber > 0 ? pageNumber : 1;
-            pageSize = pageSize > 0 ? pageSize : 10;
             var userId = ClaimHelper.GetUserId(user);
-            Result<GetPaginatedOrdersResponse> serviceResponse = await mediator.Send(new GetPaginatedOrdersQuery(userId, pageNumber, pageSize), cancellationToken);
+            Result<GetAllOrdersByUserIdResponse> serviceResponse = await mediator.Send(new GetAllOrdersByUserIdQuery(userId), cancellationToken);
 
             if (!serviceResponse.IsSuccess)
                 return Results.Problem(serviceResponse.ProblemDetails);

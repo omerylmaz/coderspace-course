@@ -1,5 +1,6 @@
 ﻿using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Domain.Entities;
+using CourseApp.Domain.Enums;
 using Final.Application.Abstractions.Repositories;
 using Final.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,24 @@ internal class OrderRepository : GenericRepository<Order>, IOrderRepository
     {
         _dbSet = context.Set<Order>();
     }
+
+    public async Task<List<Order>> GetAllOrdersByUserId(Guid userId, CancellationToken cancellationToken)
+    {
+        return await _dbSet
+            .Include(x => x.Course)
+            .ThenInclude(x => x.Category)
+            .Include(x => x.Payment)
+            .Where(x => x.OrderStatus == OrderStasusses.Completed && x.UserId == userId)
+            .OrderBy(x => x.Payment.PaymentDate)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<Order?> GetOrderDetailWhereAsync(Expression<Func<Order, bool>> predicate, CancellationToken cancellationToken)
     {
         return await _dbSet
             .Include(x => x.User)
             .Include(x => x.Course)
+            .ThenInclude(x => x.Category)
             .Include(x => x.Payment)
             .Where(predicate)
             .FirstOrDefaultAsync(cancellationToken);

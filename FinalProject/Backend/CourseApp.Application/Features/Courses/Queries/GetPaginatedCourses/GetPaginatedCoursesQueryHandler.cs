@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CourseApp.Application.DTOs.Course;
+using CourseApp.Application.Features.Courses.Queries.GetPaginatedCourses;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;

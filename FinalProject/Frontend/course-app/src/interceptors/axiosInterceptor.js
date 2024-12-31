@@ -7,25 +7,24 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-let refreshTokenPromise = null;
-
-const getRefreshToken = () => {
-  if (!refreshTokenPromise) {
-    debugger;
+const getRefreshToken = async () => {
+  try {
     const refreshToken = localStorage.getItem('refreshToken');
-    refreshTokenPromise = authService.refreshToken({refreshToken}).then((response) => {
-        const { accessToken, refreshToken } = response.data.data; 
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-        refreshTokenPromise = null;
-        return accessToken;
-      })
-      .catch((error) => {
-        refreshTokenPromise = null;
-        throw error;
-      });
+    const response = await authService.refreshToken({ refreshToken });
+    console.log(response);
+    const { accessToken, refreshToken: newRefreshToken } = response.token;
+
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', newRefreshToken);
+
+    return accessToken;
+  } catch (error) {
+    console.error(error);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    window.location.href = '/login';
+    throw error;
   }
-  return refreshTokenPromise;
 };
 
 api.interceptors.request.use(
@@ -48,20 +47,18 @@ api.interceptors.response.use(
 
     if (error.response) {
       const { status, data } = error.response;
-      console.log(error.response);
+
       if (data && data.errors && data.errors.length > 0) {
-        const errorsArray = data.errors;
-        const combinedErrors = errorsArray.join('\n');
+        const combinedErrors = data.errors.join('\n');
         return Promise.reject(new Error(combinedErrors));
       }
 
       if (data && data.detail) {
-        console.log(data.detail);
         return Promise.reject(new Error(data.detail));
       }
 
       switch (status) {
-        case 401:// Token yenileme işlemi için bir case ekledim
+        case 401:
           if (!originalRequest._retry) {
             originalRequest._retry = true;
             try {
@@ -69,10 +66,7 @@ api.interceptors.response.use(
               originalRequest.headers['Authorization'] = `Bearer ${token}`;
               return api(originalRequest);
             } catch (refreshError) {
-              console.error('Refresh token failed:', refreshError);
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-              window.location.href = '/login';
+              return Promise.reject(refreshError);
             }
           }
           break;

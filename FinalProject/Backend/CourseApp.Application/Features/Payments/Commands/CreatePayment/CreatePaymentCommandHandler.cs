@@ -44,7 +44,7 @@ internal class CreatePaymentCommandHandler
         if (existsPayment is null)
         {
             var paymentId = Guid.NewGuid();  // Normalde entityler içeride savechanges denildiği zaman otomatik generate ediliyor fakat burada payment callback olduğu zaman takibi olsun diye dışarıdan guid generate ediyorum
-            await paymentRepository.AddAsync(new Payment() { Id = paymentId, OrderId = order.Id, Amount = course.Price, PaymentDate = DateTime.Now, ThreeDSStatus = false }, cancellationToken);
+            await paymentRepository.AddAsync(new Payment() { Id = paymentId, OrderId = order.Id, Price = course.Price, PaymentDate = DateTime.Now, ThreeDSStatus = false }, cancellationToken);
             htmlContent = await GetThreeDSFromExternalPayment(paymentId, request, user, course, cancellationToken);
         }
         else if (existsPayment.ThreeDSStatus == true)

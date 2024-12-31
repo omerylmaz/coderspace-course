@@ -35,29 +35,39 @@ internal class CourseRepository : GenericRepository<Course>, ICourseRepository
 
     public async Task<PagedResult<Course>> GetPagedByCategoryNamesAsync(List<string> categoryNames, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbSet
+        var totalCount = await _dbSet
             .AsNoTracking()
             .Include(x => x.Category)
             .Where(x => categoryNames.Contains(x.Category.Name))
+            .CountAsync(cancellationToken);
+
+        var items = await _dbSet
+            .AsNoTracking()
+            .Include(x => x.Category)
+            .Where(x => categoryNames.Contains(x.Category.Name))
+            .OrderBy(x => x.Id)
             .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize);
-        var totalCount = await query.CountAsync(cancellationToken);
-        var items = await query
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
+
         return new PagedResult<Course>(items, pageNumber, pageSize, totalCount);
     }
 
     public async Task<PagedResult<Course>> GetPaidCoursesByUserIdAsync(Guid userId, int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        var query = _dbSet
+        var totalCount = await _dbSet
+            .AsNoTracking()
+            .Where(x => x.Orders.Any(y => y.UserId == userId))
+            .CountAsync(cancellationToken);
+
+        var items = await _dbSet
             .AsNoTracking()
             .Include(x => x.Category)
             .Where(x => x.Orders.Any(y => y.UserId == userId))
             .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize);
-        var totalCount = await query.CountAsync(cancellationToken);
-        var items = await query
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
+
         return new PagedResult<Course>(items, pageNumber, pageSize, totalCount);
     }
 

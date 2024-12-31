@@ -28,9 +28,7 @@ class AuthService {
   }
 
   async refreshToken(refreshToken) {
-    debugger;
     const response = await api.post('users/refresh-token', refreshToken);
-    debugger;
     return response.data.data;
   }
 }

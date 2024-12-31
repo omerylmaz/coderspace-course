@@ -4,6 +4,7 @@ using CourseApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241231205026_price_changed")]
+    partial class price_changed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,43 +145,43 @@ namespace CourseApp.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("4290c1e9-2c24-45d1-8d7b-35482a001044"),
-                            CreatedDate = new DateTime(2025, 1, 1, 1, 59, 2, 227, DateTimeKind.Local).AddTicks(1512),
+                            CreatedDate = new DateTime(2024, 12, 31, 23, 50, 24, 566, DateTimeKind.Local).AddTicks(9971),
                             Name = "Yazılım"
                         },
                         new
                         {
                             Id = new Guid("a82c256f-6027-4c22-87ca-22fb85c2daf6"),
-                            CreatedDate = new DateTime(2025, 1, 1, 1, 59, 2, 227, DateTimeKind.Local).AddTicks(1530),
+                            CreatedDate = new DateTime(2024, 12, 31, 23, 50, 24, 566, DateTimeKind.Local).AddTicks(9982),
                             Name = "Dizayn"
                         },
                         new
                         {
                             Id = new Guid("a2308a61-470a-46e9-ba82-87c3090046fb"),
-                            CreatedDate = new DateTime(2025, 1, 1, 1, 59, 2, 227, DateTimeKind.Local).AddTicks(1532),
+                            CreatedDate = new DateTime(2024, 12, 31, 23, 50, 24, 566, DateTimeKind.Local).AddTicks(9984),
                             Name = "Marketing"
                         },
                         new
                         {
                             Id = new Guid("80853207-5355-434f-8cab-80e3269d54c4"),
-                            CreatedDate = new DateTime(2025, 1, 1, 1, 59, 2, 227, DateTimeKind.Local).AddTicks(1535),
+                            CreatedDate = new DateTime(2024, 12, 31, 23, 50, 24, 566, DateTimeKind.Local).AddTicks(9985),
                             Name = "Proje Yönetimi"
                         },
                         new
                         {
                             Id = new Guid("551963a2-879e-45a6-99a6-5eb512b775c0"),
-                            CreatedDate = new DateTime(2025, 1, 1, 1, 59, 2, 227, DateTimeKind.Local).AddTicks(1537),
+                            CreatedDate = new DateTime(2024, 12, 31, 23, 50, 24, 566, DateTimeKind.Local).AddTicks(9987),
                             Name = "Finans"
                         },
                         new
                         {
                             Id = new Guid("8b48bba4-8acd-4ff2-b669-f4095c885e90"),
-                            CreatedDate = new DateTime(2025, 1, 1, 1, 59, 2, 227, DateTimeKind.Local).AddTicks(1539),
+                            CreatedDate = new DateTime(2024, 12, 31, 23, 50, 24, 566, DateTimeKind.Local).AddTicks(9988),
                             Name = "Hayat Tarzı"
                         },
                         new
                         {
                             Id = new Guid("a93961af-166d-461c-a6db-263c4d48a55d"),
-                            CreatedDate = new DateTime(2025, 1, 1, 1, 59, 2, 227, DateTimeKind.Local).AddTicks(1541),
+                            CreatedDate = new DateTime(2024, 12, 31, 23, 50, 24, 566, DateTimeKind.Local).AddTicks(9989),
                             Name = "Fotoğrafçılık"
                         });
                 });
@@ -299,10 +302,6 @@ namespace CourseApp.Infrastructure.Migrations
 
                     b.Property<DateTime>("Expiration")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("OldCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id", "UserId");
 

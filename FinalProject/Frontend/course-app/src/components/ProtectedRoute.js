@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 
 
 const ProtectedRoute = ({ children, requiredRole }) => {
-  const userRoles = getUserRole();
+  const userRoles = getUserRole() || [];
   const { isAuthenticated } = useAuth();
 
   if (userRoles.length === 0) {
