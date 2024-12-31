@@ -4,10 +4,11 @@ using CourseApp.Domain.Entities;
 using CourseApp.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace Final.Application.Features.Users.Commands.SignupUser;
 
-internal class SignupUserCommandHandler(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager) 
+internal class SignupUserCommandHandler(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, ILogger<SignupUserCommandHandler> logger) 
     : IRequestHandler<SignupUserCommand, Result<SignupUserResponse>>
 {
     public async Task<Result<SignupUserResponse>> Handle(SignupUserCommand request, CancellationToken cancellationToken)
@@ -24,6 +25,7 @@ internal class SignupUserCommandHandler(IMapper mapper, UserManager<AppUser> use
         if (!result.Succeeded)
         {
             var errors = result.Errors.Select(x => x.Description).ToList();
+            logger.LogWarning("Registration failed with errors: {Errors}", string.Join(", ", errors));
             return Result<SignupUserResponse>.BadRequest(title: "Some errors happened", errors: errors);
         }
 

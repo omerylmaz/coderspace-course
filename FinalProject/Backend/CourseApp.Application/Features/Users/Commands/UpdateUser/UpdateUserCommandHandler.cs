@@ -4,17 +4,21 @@ using CourseApp.Domain.Entities;
 using Final.Application.Abstractions.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace CourseApp.Application.Features.Users.Commands.UpdateUser;
 
-internal class UpdateUserCommandHandler(UserManager<AppUser> userManager, IMapper mapper, IUnitOfWork unitOfWork) : IRequestHandler<UpdateUserCommand, Result>
+internal class UpdateUserCommandHandler(UserManager<AppUser> userManager, IMapper mapper, IUnitOfWork unitOfWork, ILogger<UpdateUserCommandHandler> logger) : IRequestHandler<UpdateUserCommand, Result>
 {
     public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var user = await userManager.FindByIdAsync(request.Id.ToString());
 
         if (user == null)
+        {
+            logger.LogWarning("User with Id {Id} not found", request.Id);
             return Result.NotFound($"{request.Id} id not found");
+        }
 
         if (!string.IsNullOrWhiteSpace(request.FullName))
         {
@@ -51,6 +55,7 @@ internal class UpdateUserCommandHandler(UserManager<AppUser> userManager, IMappe
         var result = await userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
+            logger.LogWarning("User with Id {Id} could not updated", request.Id);
             return Result.BadRequest("Some errors happened", errors: result.Errors.Select(e => e.Description).ToList());
         }
 

@@ -5,6 +5,7 @@ using Final.Application.Features.Users.Commands.LoginUser;
 using Final.Application.Abstractions.Repositories;
 using CourseApp.Domain.Entities;
 using CourseApp.Application.ResultDto;
+using Microsoft.Extensions.Logging;
 
 namespace Final.Application.Features.Users.Commands.LoginUser
 {
@@ -12,7 +13,8 @@ namespace Final.Application.Features.Users.Commands.LoginUser
         UserManager<AppUser> userManager,
         ITokenService tokenService,
         IGenericRepository<UserRefreshToken> refreshTokenRepository,
-        IUnitOfWork unitOfWork
+        IUnitOfWork unitOfWork,
+        ILogger logger
             ) : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
     {
         public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
@@ -21,6 +23,7 @@ namespace Final.Application.Features.Users.Commands.LoginUser
 
             if (user == null || !await userManager.CheckPasswordAsync(user, request.Password))
             {
+                logger.LogWarning("User entered email or password wrong");
                 return Result<LoginUserResponse>.Conflict("Email or password wrong");
             }
 

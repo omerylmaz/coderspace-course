@@ -6,17 +6,22 @@ using Final.Application.Abstractions.Services;
 using MediatR;
 using CourseApp.Domain.Entities;
 using CourseApp.Application.ResultDto;
+using Microsoft.Extensions.Logging;
 
 namespace Final.Application.Features.Courses.Commands.UpdateCourse;
 
-internal class UpdateOrderCommandHandler(ICourseRepository courseRepository, IMapper mapper, IUnitOfWork unitOfWork/*, ICacheService cacheService*/) : IRequestHandler<UpdateCourseCommand, Result>
+internal class UpdateOrderCommandHandler(ICourseRepository courseRepository, IMapper mapper, IUnitOfWork unitOfWork/*, ICacheService cacheService*/, ILogger<UpdateOrderCommandHandler> logger) : IRequestHandler<UpdateCourseCommand, Result>
 {
     public async Task<Result> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
     {
         Course courseDomain = await courseRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (courseDomain == null)
+        {
+            logger.LogWarning("Course with Id {Id} not found", request.Id);
             return Result.NotFound($"{request.Id} id not found");
+        }
+
 
         mapper.Map(request, courseDomain);
         courseRepository.Update(courseDomain);

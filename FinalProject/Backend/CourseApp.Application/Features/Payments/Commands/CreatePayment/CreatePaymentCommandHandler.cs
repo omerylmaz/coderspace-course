@@ -5,6 +5,7 @@ using CourseApp.Domain.Entities;
 using Final.Application.Abstractions.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace CourseApp.Application.Features.Payments.Commands.CreatePayment;
 
@@ -14,7 +15,8 @@ internal class CreatePaymentCommandHandler
     IPaymentService paymentService,
     IPaymentRepository paymentRepository,
     IOrderRepository orderRepository,
-    IUnitOfWork unitOfWork
+    IUnitOfWork unitOfWork,
+    ILogger<CreatePaymentCommandHandler> logger
 
     ) : IRequestHandler<CreatePaymentCommand, Result<CreatePaymentResponse>>
 {
@@ -22,11 +24,15 @@ internal class CreatePaymentCommandHandler
     {
         var course = await courseRepository.GetByIdWithCategoryNameAsync(request.CourseId, cancellationToken);
         if (course == null)
+        {
+            logger.LogWarning("Course with Id {Id} not found", request.CourseId);
             Result.NotFound("Selected course not found");
+        }
 
         var user = await userManager.FindByIdAsync(request.UserID.ToString());
         if (user == null)
         {
+            logger.LogWarning("User with Id {Id} not found", request.UserID);
             return Result<CreatePaymentResponse>.NotFound($"User with id {request.UserID} not found");
         }
 
@@ -43,6 +49,7 @@ internal class CreatePaymentCommandHandler
         }
         else if (existsPayment.ThreeDSStatus == true)
         {
+            logger.LogWarning("Course with Id {Id} already paid", request.CourseId);
             return Result<CreatePaymentResponse>.Conflict($"This course has already paid");
         }
         else 
@@ -53,6 +60,7 @@ internal class CreatePaymentCommandHandler
 
         if (string.IsNullOrEmpty(htmlContent))
         {
+            logger.LogWarning("User tried to pay but process failed with {Id}", request.UserID);
             return Result<CreatePaymentResponse>.BadRequest($"There happened a problem during payment, please check your informations"); //TODO: burada daha sonra refactor çek
         }
 
