@@ -7,16 +7,38 @@ import alertify from 'alertifyjs';
 
 export default function TeacherPanel() {
   const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
+
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const fetchCourses = async (page, size) => {
+    setLoading(true);
+    try {
+      const data = await courseService.getPaginatedTeacherCourses(page, size);
+      console.log(data);
+      setCourses(data.courses.items);
+      setTotalCount(data.courses.totalCount);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses(pageNumber, pageSize);
+  }, [pageNumber, pageSize]);
 
   const handleShowModal = (id) => {
     setSelectedCourseId(id);
     setShowModal(true);
   };
-
+    
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedCourseId(null);
@@ -34,20 +56,8 @@ export default function TeacherPanel() {
     }
   };
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const data = await courseService.getPaginatedTeacherCourses(1, 6);
-        setCourses(data.courses.items);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCourses();
-  }, []);
+  const totalPages = Math.ceil(totalCount / pageSize);
+  const pageNumbers = [...Array(totalPages).keys()].map((n) => n + 1);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="alert alert-danger">{error}</div>;
@@ -83,6 +93,26 @@ export default function TeacherPanel() {
           </div>
         ))}
       </div>
+
+      {totalPages > 1 && (
+        <nav>
+          <ul className="pagination justify-content-center mt-4">
+            {pageNumbers.map((number) => (
+              <li
+                key={number}
+                className={`page-item ${pageNumber === number ? 'active' : ''}`}
+              >
+                <button
+                  onClick={() => setPageNumber(number)}
+                  className="page-link"
+                >
+                  {number}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

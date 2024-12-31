@@ -24,7 +24,7 @@ export default function CourseDetail() {
         setCourse(res.data);
         setIsLoading(false);
       });
-    }, 2000);
+    }, 200);
   }, [id]);
 
   if (isLoading) {

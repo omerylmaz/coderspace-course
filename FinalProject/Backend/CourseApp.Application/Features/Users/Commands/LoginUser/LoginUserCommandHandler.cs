@@ -14,7 +14,7 @@ namespace Final.Application.Features.Users.Commands.LoginUser
         ITokenService tokenService,
         IGenericRepository<UserRefreshToken> refreshTokenRepository,
         IUnitOfWork unitOfWork,
-        ILogger logger
+        ILogger<LoginUserCommandHandler> logger
             ) : IRequestHandler<LoginUserCommand, Result<LoginUserResponse>>
     {
         public async Task<Result<LoginUserResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)

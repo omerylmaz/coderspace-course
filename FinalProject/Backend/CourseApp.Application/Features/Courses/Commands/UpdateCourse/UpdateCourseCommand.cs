@@ -10,5 +10,6 @@ public record UpdateCourseCommand
     string Title,
     string Description,
     decimal Price,
-    Guid CategoryId
+    Guid CategoryId,
+    string ImageUrl
 ) : IRequest<Result>;

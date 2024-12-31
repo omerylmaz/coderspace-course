@@ -24,8 +24,8 @@ export default function UserDetail() {
         setIsLoading(true);
         const userResponse = await authService.getUserDetails();
         setUserDetails(userResponse);
-  
         const coursesResponse = await courseService.getPaidCourses(pageNumber, pageSize);
+        console.log(coursesResponse);
         setCourses(coursesResponse.courses.items);
         setTotalCount(coursesResponse.courses.totalCount);
       } catch (err) {
@@ -34,7 +34,8 @@ export default function UserDetail() {
         setIsLoading(false);
       }
     };
-  
+    console.log(totalCount);
+
     fetchData();
   }, [pageNumber, pageSize]);
 
