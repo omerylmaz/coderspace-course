@@ -10,7 +10,7 @@ export const getUserRole = () => {
 
     return decoded[roleKey] || null;
   } catch (error) {
-    console.error("Failed to decode token:", error);
+    console.error(error);
     return null;
   }
 };

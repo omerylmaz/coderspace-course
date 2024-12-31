@@ -1,7 +1,4 @@
-import axios from 'axios';
 import { api } from '../interceptors/axiosInterceptor';
-
-const API_URL = 'https://localhost:7118/api/courses/';
 
 class CourseService {
   async getPaginatedCourses(pageNumber, pageSize) {
@@ -32,17 +29,22 @@ class CourseService {
     return response.data;
   }
 
-  createCourse(courseData) {
+  async getPaginatedTeacherCourses(pageNumber, pageSize) {
+    const response = await api.get(`courses/teacher?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    return response.data;
+  }
+
+  async createCourse(courseData) {
     console.log(courseData);
-    return api.post("courses/", courseData);
+    return await api.post("courses/", courseData);
   }
 
-  updateCourse(courseId, courseData) {
-    return api.put(`courses/${courseId}`, courseData);
+  async updateCourse(courseData) {
+    return await api.put(`courses/`, courseData);
   }
 
-  deleteCourse(courseId) {
-    return api.delete(`courses/${courseId}`);
+  async deleteCourse(courseId) {
+    return await api.delete(`courses/${courseId}`);
   }
 
 

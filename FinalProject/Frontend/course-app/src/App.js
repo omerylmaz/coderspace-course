@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CartProvider } from "./context/CartContext";
+// import { CartProvider } from "./context/CartContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -13,11 +13,12 @@ import PaymentPage from "./pages/Payment";
 import TeacherPanel from "./pages/TeacherPanel";
 import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
+import 'alertifyjs/build/css/alertify.css';
 
 export default function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
+      {/* <CartProvider> */}
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -76,7 +77,7 @@ export default function App() {
           />
         </Routes>
         <Footer />
-      </CartProvider>
+      {/* </CartProvider> */}
     </BrowserRouter>
   );
 }

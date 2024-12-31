@@ -2,10 +2,10 @@
 using CourseApp.API.Helpers;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByCategory;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByFiltering;
+using CourseApp.Application.Features.Courses.Queries.GetPaginatedTeacherCourses;
 using CourseApp.Application.Features.Courses.Queries.GetPaidCoursesByUserId;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
-using Final.Application;
 using Final.Application.Features.Courses.Commands.CreateCourse;
 using Final.Application.Features.Courses.Commands.DeleteCourseById;
 using Final.Application.Features.Courses.Commands.UpdateCourse;
@@ -13,10 +13,8 @@ using Final.Application.Features.Courses.Queries.GetCourseById;
 using Final.Application.Features.Courses.Queries.GetPaginatedCourses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Threading;
 
 namespace Final.API.Endpoints;
 
@@ -33,9 +31,11 @@ public class CoursesEndpoints : CarterModule
         app.MapPost("", async (
             [FromBody] CreateCourseCommand command,
             [FromServices] IMediator mediator,
+            ClaimsPrincipal user,
             CancellationToken cancellationToken) =>
         {
-            Result<CreateCourseResponse> serviceResponse = await mediator.Send(command, cancellationToken);
+            var userId = ClaimHelper.GetUserId(user);
+            Result<CreateCourseResponse> serviceResponse = await mediator.Send(command with { TeacherId = userId }, cancellationToken);
 
             if (!serviceResponse.IsSuccess)
                 return Results.Problem(serviceResponse.ProblemDetails);
@@ -178,6 +178,34 @@ public class CoursesEndpoints : CarterModule
             return Results.Ok(result.Data);
         })
         .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.User}, {UserRoles.Teacher}" });
+
+        app.MapGet("/teacher", async (
+            [FromQuery] int pageNumber,
+            [FromQuery] int pageSize,
+            [FromServices] IMediator mediator,
+            ClaimsPrincipal user,
+            CancellationToken cancellationToken) =>
+        {
+            pageNumber = pageNumber > 0 ? pageNumber : 1;
+            pageSize = pageSize > 0 ? pageSize : 10;
+
+            var userId = ClaimHelper.GetUserId(user);
+
+            var query = new GetPaginatedTeacherCoursesCommand 
+            {
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                TeacherId = userId
+            };
+
+            var result = await mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+                return Results.Problem(result.ProblemDetails);
+
+            return Results.Ok(result.Data);
+        })
+        .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.Teacher}" });
 
     }
 }

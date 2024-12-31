@@ -77,4 +77,9 @@ internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TE
     {
         return await _dbSet.FirstOrDefaultAsync(predicate, cancellationToken);
     }
+
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+    {
+        return await _dbSet.CountAsync(predicate, cancellationToken);
+    }
 }

@@ -29,8 +29,8 @@ export default function Home() {
     courseService.getPaginatedCoursesByFiltering(page, size, term, cat).then((res) => {
       setCourses(res.courses.items);
       setTotalCount(res.courses.totalCount);
-    }).catch((err) => {
-      console.error("Error fetching courses:", err);
+    }).catch((error) => {
+      console.error(error.message);
     }).finally(() => {
       setIsLoading(false);
     });

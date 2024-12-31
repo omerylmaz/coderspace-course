@@ -2,51 +2,60 @@ import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.css';
 import courseService from '../services/courseService';
 import categoryService from '../services/categoryService';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import Spinner from '../components/LoadingSpinner';
 
-export default function CreateCourse() {
+export default function EditCourse() {
+  const { id } = useParams();
+  const [initialValues, setInitialValues] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCourse = async () => {
       try {
-        const data = await categoryService.getAllCategories();
-        setCategories(data.categories);
+        const categories = await categoryService.getAllCategories();
+        setCategories(categories.categories);
+        const course = await courseService.getCourseById(id);
+        setInitialValues({
+          name: course.data.name,
+          title: course.data.title,
+          description: course.data.description,
+          price: course.data.price,
+          categoryId: categories.categories.find(cat => cat.name === course.data.categoryName).id,
+          imageUrl: course.data.imageUrl,
+        });
+        setIsLoading(false);
       } catch (error) {
         alertify.error(error.message);
       }
     };
 
-    fetchCategories();
-  }, []);
+    fetchCourse();
+  }, [id]);
 
-  const initialValues = {
-    name: '',
-    title: '',
-    categoryId: '',
-    description: '',
-    price: '',
-    imageUrl: '',
-  };
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   const validationSchema = Yup.object({
-    title: Yup.string().required('Required'),
-    name: Yup.string().required('Required'),
-    description: Yup.string().required('Required'),
-    price: Yup.number()
-      .required('Required')
-      .positive('Must be positive')
-      .typeError('Must be a number'),
-    imageUrl: Yup.string().required('Required'),
+    name: Yup.string().required('Course name is required'),
+    title: Yup.string().required('Course title is required'),
+    description: Yup.string().required('Course description is required'),
+    price: Yup.number().required('Price is required').positive('Price must be positive'),
+    categoryId: Yup.string().required('Category is required'),
+    imageUrl: Yup.string().url('Must be a valid URL').required('Image URL is required'),
   });
 
-  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await courseService.createCourse(values);
-      alertify.success('Course created successfully');
+      values.id = id;
+      await courseService.updateCourse(values);
+      alertify.success('Course updated successfully');
       navigate('/teacher');
     } catch (error) {
       alertify.error(error.message);
@@ -59,17 +68,17 @@ export default function CreateCourse() {
     <div className="container mt-5">
       <div className="card shadow-lg">
         <div className="card-header bg-primary text-white">
-          <h2 className="text-center mb-0">Create New Course</h2>
+          <h2 className="text-center mb-0">Edit Course</h2>
         </div>
         <div className="card-body">
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
             {({ isSubmitting }) => (
               <Form>
                 <div className="mb-4 position-relative">
-                  <label className="form-label">Course Title</label>
-                  <Field type="text" name="title" className="form-control" placeholder="Enter course title" />
+                  <label className="form-label">Course Name</label>
+                  <Field type="text" name="name" className="form-control" placeholder="Enter course name" />
                   <ErrorMessage
-                    name="title"
+                    name="name"
                     component="div"
                     className="text-danger position-absolute small"
                     style={{ top: "100%", paddingTop: "5px" }}
@@ -77,10 +86,10 @@ export default function CreateCourse() {
                 </div>
 
                 <div className="mb-4 position-relative">
-                  <label className="form-label">Course Name</label>
-                  <Field type="text" name="name" className="form-control" placeholder="Enter course name" />
+                  <label className="form-label">Course Title</label>
+                  <Field type="text" name="title" className="form-control" placeholder="Enter course title" />
                   <ErrorMessage
-                    name="name"
+                    name="title"
                     component="div"
                     className="text-danger position-absolute small"
                     style={{ top: "100%", paddingTop: "5px" }}
@@ -126,7 +135,7 @@ export default function CreateCourse() {
                     ))}
                   </Field>
                   <ErrorMessage
-                    name="category"
+                    name="categoryId"
                     component="div"
                     className="text-danger position-absolute small"
                     style={{ top: "100%", paddingTop: "5px" }}
@@ -150,7 +159,7 @@ export default function CreateCourse() {
                 </div>
 
                 <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
-                  {isSubmitting ? 'Creating...' : 'Create Course'}
+                  {isSubmitting ? 'Updating...' : 'Update Course'}
                 </button>
               </Form>
             )}

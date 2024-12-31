@@ -1,4 +1,6 @@
-﻿using CourseApp.Domain.Entities;
+﻿using CourseApp.Application.Features.Courses.Queries.GetPaginatedTeacherCourses;
+using CourseApp.Domain.Entities;
+using CourseApp.Domain.Enums;
 using CourseApp.Domain.Pagination;
 using CourseApp.Infrastructure.Data;
 using Final.Application.Abstractions.Repositories;

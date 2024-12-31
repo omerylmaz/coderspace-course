@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CourseApp.Application.DTOs.Category;
 using CourseApp.Application.DTOs.Course;
+using CourseApp.Application.Features.Courses.Queries.GetPaginatedTeacherCourses;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
 using CourseApp.Application.Features.Users.Commands.UpdateUser;
 using CourseApp.Domain.Entities;

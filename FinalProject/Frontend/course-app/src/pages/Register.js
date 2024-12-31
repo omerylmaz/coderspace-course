@@ -8,7 +8,6 @@ import authService from '../services/authService';
 export default function Register() {
   const navigate = useNavigate();
 
-  // Validasyon Şeması
   const validationSchema = Yup.object({
     fullName: Yup.string().required('Full Name is required'),
     username: Yup.string().required('Username is required'),
@@ -19,7 +18,6 @@ export default function Register() {
       .required('Confirm Password is required'),
   });
 
-  // Başlangıç Değerleri
   const initialValues = {
     fullName: '',
     username: '',
@@ -28,13 +26,12 @@ export default function Register() {
     confirmPassword: '',
   };
 
-  // Form Gönderimi
   const onSubmit = async (userData, { setSubmitting }) => {
     try {
     //   const { confirmPassword, ...userData } = values; // confirmPassword'u API'ye göndermiyoruz
-      await authService.register(userData); // Register API çağrısı
+      await authService.register(userData);
       alertify.success('Registration successful!');
-      navigate('/login'); // Başarılı kayıt sonrası login sayfasına yönlendirme
+      navigate('/login');
     } catch (error) {
       alertify.error(error.message || 'Registration failed!');
     } finally {

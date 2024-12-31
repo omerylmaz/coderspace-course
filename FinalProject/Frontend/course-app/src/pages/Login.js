@@ -25,7 +25,6 @@ export default function Login() {
       alertify.success('Login successful!');
       navigate('/');
     } catch (error) {
-      console.log(error);
       alertify.error(error.message || 'Login failed!');
     } finally {
       setSubmitting(false);

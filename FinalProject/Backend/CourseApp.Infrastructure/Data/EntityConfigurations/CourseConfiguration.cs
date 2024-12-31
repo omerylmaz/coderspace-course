@@ -20,6 +20,8 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
                .WithMany(cat => cat.Courses)
                .HasForeignKey(c => c.CategoryId);
 
-
+        builder.HasOne(c => c.Teacher)
+            .WithMany()
+            .HasForeignKey(c => c.TeacherId);
     }
 }

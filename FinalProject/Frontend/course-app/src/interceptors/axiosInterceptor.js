@@ -61,7 +61,7 @@ api.interceptors.response.use(
       }
 
       switch (status) {
-        case 401: // Token yenile
+        case 401:// Token yenileme işlemi için bir case ekledim
           if (!originalRequest._retry) {
             originalRequest._retry = true;
             try {

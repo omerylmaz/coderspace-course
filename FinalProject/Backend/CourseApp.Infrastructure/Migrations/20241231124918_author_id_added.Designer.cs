@@ -4,6 +4,7 @@ using CourseApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241231124918_author_id_added")]
+    partial class author_id_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,43 +145,43 @@ namespace CourseApp.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("4290c1e9-2c24-45d1-8d7b-35482a001044"),
-                            CreatedDate = new DateTime(2024, 12, 31, 15, 51, 18, 505, DateTimeKind.Local).AddTicks(6332),
+                            CreatedDate = new DateTime(2024, 12, 31, 15, 49, 17, 212, DateTimeKind.Local).AddTicks(5115),
                             Name = "Yazılım"
                         },
                         new
                         {
                             Id = new Guid("a82c256f-6027-4c22-87ca-22fb85c2daf6"),
-                            CreatedDate = new DateTime(2024, 12, 31, 15, 51, 18, 505, DateTimeKind.Local).AddTicks(6347),
+                            CreatedDate = new DateTime(2024, 12, 31, 15, 49, 17, 212, DateTimeKind.Local).AddTicks(5127),
                             Name = "Dizayn"
                         },
                         new
                         {
                             Id = new Guid("a2308a61-470a-46e9-ba82-87c3090046fb"),
-                            CreatedDate = new DateTime(2024, 12, 31, 15, 51, 18, 505, DateTimeKind.Local).AddTicks(6350),
+                            CreatedDate = new DateTime(2024, 12, 31, 15, 49, 17, 212, DateTimeKind.Local).AddTicks(5129),
                             Name = "Marketing"
                         },
                         new
                         {
                             Id = new Guid("80853207-5355-434f-8cab-80e3269d54c4"),
-                            CreatedDate = new DateTime(2024, 12, 31, 15, 51, 18, 505, DateTimeKind.Local).AddTicks(6353),
+                            CreatedDate = new DateTime(2024, 12, 31, 15, 49, 17, 212, DateTimeKind.Local).AddTicks(5130),
                             Name = "Proje Yönetimi"
                         },
                         new
                         {
                             Id = new Guid("551963a2-879e-45a6-99a6-5eb512b775c0"),
-                            CreatedDate = new DateTime(2024, 12, 31, 15, 51, 18, 505, DateTimeKind.Local).AddTicks(6355),
+                            CreatedDate = new DateTime(2024, 12, 31, 15, 49, 17, 212, DateTimeKind.Local).AddTicks(5131),
                             Name = "Finans"
                         },
                         new
                         {
                             Id = new Guid("8b48bba4-8acd-4ff2-b669-f4095c885e90"),
-                            CreatedDate = new DateTime(2024, 12, 31, 15, 51, 18, 505, DateTimeKind.Local).AddTicks(6359),
+                            CreatedDate = new DateTime(2024, 12, 31, 15, 49, 17, 212, DateTimeKind.Local).AddTicks(5133),
                             Name = "Hayat Tarzı"
                         },
                         new
                         {
                             Id = new Guid("a93961af-166d-461c-a6db-263c4d48a55d"),
-                            CreatedDate = new DateTime(2024, 12, 31, 15, 51, 18, 505, DateTimeKind.Local).AddTicks(6361),
+                            CreatedDate = new DateTime(2024, 12, 31, 15, 49, 17, 212, DateTimeKind.Local).AddTicks(5134),
                             Name = "Fotoğrafçılık"
                         });
                 });
@@ -187,6 +190,9 @@ namespace CourseApp.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CategoryId")
@@ -210,17 +216,14 @@ namespace CourseApp.Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("AuthorId");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Courses");
                 });
@@ -410,19 +413,19 @@ namespace CourseApp.Infrastructure.Migrations
 
             modelBuilder.Entity("CourseApp.Domain.Entities.Course", b =>
                 {
+                    b.HasOne("CourseApp.Domain.Entities.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
                     b.HasOne("CourseApp.Domain.Entities.Category", "Category")
                         .WithMany("Courses")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CourseApp.Domain.Entities.AppUser", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId");
+                    b.Navigation("Author");
 
                     b.Navigation("Category");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("CourseApp.Domain.Entities.Order", b =>

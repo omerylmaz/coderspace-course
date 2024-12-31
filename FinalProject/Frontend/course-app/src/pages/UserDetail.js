@@ -71,8 +71,8 @@ export default function UserDetail() {
       await authService.changePassword(values);
       alertify.success("Password updated successfully!");
       setEditingPassword(false);
-    } catch (err) {
-      alertify.error(err.message || "Failed to change password.");
+    } catch (error) {
+      alertify.error(error.message);
     } finally {
       setSubmitting(false);
     }

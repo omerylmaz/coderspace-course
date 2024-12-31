@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+// import { useCart } from '../context/CartContext';
 import courseService from '../services/courseService';
 import Spinner from '../components/LoadingSpinner';
 import orderService from "../services/orderService";
@@ -8,7 +8,7 @@ import orderService from "../services/orderService";
 export default function CourseDetail() {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
