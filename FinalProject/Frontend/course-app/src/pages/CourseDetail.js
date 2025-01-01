@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import { useCart } from '../context/CartContext';
 import courseService from '../services/courseService';
 import Spinner from '../components/LoadingSpinner';
 import orderService from "../services/orderService";
+import { useAuth } from '../context/AuthContext';
 
 export default function CourseDetail() {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
-  // const { addToCart } = useCart();
+    const { isAuthenticated } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleBuyCourse = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
     await orderService.createOrder(course.id);
     navigate("/payment", { state: { course } });
   };
