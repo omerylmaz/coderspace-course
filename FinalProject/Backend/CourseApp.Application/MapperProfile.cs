@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CourseApp.Application.DTOs.Category;
 using CourseApp.Application.DTOs.Course;
-using CourseApp.Application.Features.Courses.Queries.GetPaginatedTeacherCourses;
+using CourseApp.Application.Features.Notifications.Queries.GetPaginatedNotifications;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
 using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
 using CourseApp.Application.Features.Users.Commands.UpdateUser;
@@ -52,5 +52,10 @@ internal class MapperProfile : Profile
             .ForMember(d => d.Id, o => o.MapFrom(s => s.Id));
 
         CreateMap<UpdateUserCommand, AppUser>();
+
+        CreateMap<Notification, GetNotificationResponse>();
+
+        CreateMap<PagedResult<Notification>, PagedResult<GetNotificationResponse>>()
+            .ForMember(d => d.Items, o => o.MapFrom(s => s.Items));
     }
 }

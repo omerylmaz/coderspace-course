@@ -1,23 +1,26 @@
-﻿using Final.Application.Abstractions.Repositories;
-using Final.Infrustructure.Data.Repositories;
-using Final.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Final.Application.Abstractions.Services;
+﻿using CourseApp.Application.Abstractions.Events;
 using CourseApp.Application.Abstractions.Repositories;
-using CourseApp.Infrastructure.Data.Repositories;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using CourseApp.Infrastructure.Data.SeedData;
+using CourseApp.Application.Abstractions.Services;
 using CourseApp.Application.Options;
 using CourseApp.Domain.Entities;
 using CourseApp.Infrastructure.Data;
+using CourseApp.Infrastructure.Data.Repositories;
+using CourseApp.Infrastructure.Messaging.Consumers;
+using CourseApp.Infrastructure.Messaging.Publishers;
 using CourseApp.Infrastructure.Services.Auth;
-using CourseApp.Application.Abstractions.Services;
 using CourseApp.Infrastructure.Services.Payment;
+using Final.Application.Abstractions.Repositories;
+using Final.Application.Abstractions.Services;
+using Final.Infrastructure.Repositories;
+using Final.Infrustructure.Data.Repositories;
+using MassTransit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CourseApp.Infrastructure;
 
@@ -32,8 +35,10 @@ public static class ServiceRegistration
         services.AddScoped<ICourseRepository, CourseRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IPaymentRepository, PaymentRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPaymentService, IyzicoPaymentService>();
+        services.AddScoped<IEventPublisher, EventPublisher>();
 
         services.AddAuthentication(options =>
         {
@@ -72,6 +77,18 @@ public static class ServiceRegistration
         })
         .AddRoles<AppRole>()
         .AddEntityFrameworkStores<AppDbContext>();
+
+        services.AddMassTransit(x =>
+        {
+            x.AddConsumer<PaymentCompletedEventConsumer>();
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host(configuration["RabbitMQ"]);
+
+                cfg.ConfigureEndpoints(context);
+            });
+        });
+
         return services;
     }
 

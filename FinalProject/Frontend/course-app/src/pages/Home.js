@@ -57,22 +57,23 @@ export default function Home() {
   const pageNumbers = [...Array(totalPages).keys()].map((n) => n + 1);
 
   return (
-    <div className="container mt-4">
-      <h1 className="text-center mb-4">Top Products</h1>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4 text-primary">All Courses</h1>
 
-      <div className="row mb-3">
-        <div className="col-md-6">
+      <div className="row g-3 mb-4">
+        <div className="col-md-8">
           <input
             type="text"
-            className="form-control"
-            placeholder="Search product.."
+            className="form-control form-control-lg"
+            placeholder="Search course..."
             value={searchTerm}
             onChange={handleSearch}
-          ></input>
+          />
         </div>
-        <div className="col-md-6">
+
+        <div className="col-md-4">
           <select
-            className="form-select"
+            className="form-select form-select-lg"
             value={category}
             onChange={handleCategoryChange}
           >
@@ -87,20 +88,22 @@ export default function Home() {
       </div>
 
       {isLoading ? (
-        <div className="d-flex justify-content-center my-4">
+        <div className="d-flex justify-content-center my-5">
           <Spinner />
         </div>
       ) : (
         <>
-          <div className="row">
-            {courses.map((course) => (
-              <ProductCart key={course.id} course={course}></ProductCart>
-            ))}
-          </div>
+<div className="row">
+  {courses.map((course) => (
+      <ProductCart course={course} />
+
+  ))}
+</div>
+
 
           {totalPages > 1 && (
             <nav>
-              <ul className="pagination justify-content-center mt-4">
+              <ul className="pagination justify-content-center mt-5">
                 {pageNumbers.map((number) => (
                   <li
                     key={number}

@@ -4,6 +4,7 @@ using CourseApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250101195613_nullable_added")]
+    partial class nullable_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,14 +141,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("9beb751f-f3b8-4e45-a938-622ebc1dd038"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a3cf09b9-1c05-401e-a10b-30ad5bc79c0f",
+                            ConcurrencyStamp = "c9257ec4-40d1-4c6d-b8fa-83ea867e52ef",
                             Email = "user1@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Ömer Yılmaz",
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@GMAIL.COM",
                             NormalizedUserName = "OMERYILMAZ",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHaEFbWp/fj+aZIKvrGN1KEZ2NkB87dtfBIz9ZVCf4b57TClhKNozSx5QrlSeHFqgw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHZbQCJnRgWPfl/IWEh3QmDFmiR1s0UJFS7lbeJMB6ElrEwcjUi3dSDl6HoXRrveCw==",
                             PhoneNumber = "5551112233",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -155,14 +158,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("54039b1c-f914-4171-97a8-f78a9c107935"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7fcafbd3-8af1-49f7-a773-a5f9e85f8008",
+                            ConcurrencyStamp = "efb8ff48-a5b3-429b-afac-0c129e7cd68b",
                             Email = "user2@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Okan Buruk",
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "OKANBURUK",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFFHuufdA595T+UyrWn6utzReuwEQEOx6HoN5nhnyT2Gd6QK3BwOfImkBrv+EQ7r0Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIjNAZiZj9Dvpxy8AruVcP9tz90peYA7wStXT8cy+DFDupQRgyvoPf94n4+PQIz/kA==",
                             PhoneNumber = "5552223344",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -172,14 +175,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("4f1d809c-9ccf-4479-b1ab-273f6193679b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b5922572-adf9-49d0-9424-bc3e3ce090f1",
+                            ConcurrencyStamp = "f8ba131f-16ea-44e2-a8b3-f3b525c948c2",
                             Email = "user3@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Kıvanç Tatlıtuğ",
                             LockoutEnabled = false,
                             NormalizedEmail = "USER3@GMAIL.COM",
                             NormalizedUserName = "KIVANCTATLI",
-                            PasswordHash = "AQAAAAIAAYagAAAAECCFhEjq4fTSiS7XkxYdGryfIz9nAXJhekuES0Wn9KBfwQJL9BFDSBbp3o6r/sVAnA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA6fy8pOHPidGebrbtckqa/ohKCL/b16L1IVgOKBPDuvWyPxGpHPoP5200ysyd7Cbw==",
                             PhoneNumber = "5553334455",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -189,14 +192,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("2d8651fd-3800-48da-a85c-f294282b5180"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c60f1536-d24f-48db-b425-ac7eea51f454",
+                            ConcurrencyStamp = "dc83da17-aed8-4c81-9372-409ee57dda65",
                             Email = "user4@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Kerem Aktürkoğlu",
                             LockoutEnabled = false,
                             NormalizedEmail = "USER4@GMAIL.COM",
                             NormalizedUserName = "KEREMTURK",
-                            PasswordHash = "AQAAAAIAAYagAAAAENvSkKFl1cnx9s8L69O2J+3HOYoaxlM0YiGTdbmniqD6gZCb4t7XuCfxJJbnn731/A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGh2Etr23la3m+fFzZx8ctSXZ4h0EBvRDLP0ksQ+gp6hHK/sjZ86eM9vQ4heC8PFVw==",
                             PhoneNumber = "5554445566",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -206,14 +209,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("32b60a7d-1f1d-4e78-a968-9aa5a3b074d8"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e6d2cd2a-a176-4772-8f6b-729face7948b",
+                            ConcurrencyStamp = "da76736a-e494-462b-8e19-72a5b51d7df1",
                             Email = "user5@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Victor Osimhen",
                             LockoutEnabled = false,
                             NormalizedEmail = "USER5@GMAIL.COM",
                             NormalizedUserName = "OSIMHEN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDtxSN/gzR9di9JUUd6a66fD0rACbGoTWJUCiNdguXxW8r0tM1BMLOklF6yR9na1BA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBI/RU1uuEh+7zmmlALA3DXMNDTdNtHiegQPwshN8hI1TWxu//GR0SU0DzsP/eYEBg==",
                             PhoneNumber = "5555556677",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -223,14 +226,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("3e28d8c3-d490-4aaa-ad29-fb93c8e99c27"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "29676186-dd4b-4eb6-8e33-960bd121bdd0",
+                            ConcurrencyStamp = "9aa6bd7f-2f84-41de-9036-b88fdae59aac",
                             Email = "teacher1@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Ahmet Kaya",
                             LockoutEnabled = false,
                             NormalizedEmail = "TEACHER1@GMAIL.COM",
                             NormalizedUserName = "AHMETKAYA",
-                            PasswordHash = "AQAAAAIAAYagAAAAELusLnZs5BKzRTF/38jSHdFfQ6N4b9dx/UvaNVeLcHU2sK+KIGAVJk2Wo4y59OH75Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM2cB3BMQd2JnwsYG19pMfh13UW4nj3yYr1hk+o+B3JFzUqllx6QE/Q9FB1GNVJDSw==",
                             PhoneNumber = "5556667788",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -240,14 +243,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("a87cdd8b-274d-4334-8528-979ac1f420a9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6d6a837a-81ad-496b-91e3-d3978a3d0330",
+                            ConcurrencyStamp = "9cedb839-dc22-4451-a480-a40aa6648665",
                             Email = "teacher2@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Fatih Çakıroğlu",
                             LockoutEnabled = false,
                             NormalizedEmail = "TEACHER2@GMAIL.COM",
                             NormalizedUserName = "FATIHCAMIR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEK2ClMorqRLRseumQGfQ6MeuKVQThTWZ4ZjvO+H6EbjfHfRdjxOLD5BceoJTDgESOQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELgNZOL+LrJKmw1uY4bNfZuPQmohB+AzudgOme3ENcFUqeCVdc5jDSCBe2dcoe3XFQ==",
                             PhoneNumber = "5557778899",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -257,14 +260,14 @@ namespace CourseApp.Infrastructure.Migrations
                         {
                             Id = new Guid("e0a405f8-b689-4263-afd2-a35314b7e8d9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aa822f53-daac-4c7b-8fed-eeae7cdfecb1",
+                            ConcurrencyStamp = "a7a7c6ff-6d5e-480a-b937-398171e35d5d",
                             Email = "teacher3@gmail.com",
                             EmailConfirmed = false,
                             FullName = "Şadi Evren Şeker",
                             LockoutEnabled = false,
                             NormalizedEmail = "TEACHER3@GMAIL.COM",
                             NormalizedUserName = "SADIEVRENSEKER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBR//CkmdGaIaNhqBTN+NFOPycjtjWtylWle+RRnAS48gpUDLuFi0IxPMhDvtRvGyQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM2j/t6GmwnnRiheisL32oz8Atgd5/aod+pPAvU+TKByhQ0k8QiEfc1tD5QEkcRvzw==",
                             PhoneNumber = "5558889900",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
@@ -294,43 +297,43 @@ namespace CourseApp.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("4290c1e9-2c24-45d1-8d7b-35482a001044"),
-                            CreatedDate = new DateTime(2025, 1, 2, 0, 8, 36, 530, DateTimeKind.Local).AddTicks(7056),
+                            CreatedDate = new DateTime(2025, 1, 1, 22, 56, 12, 457, DateTimeKind.Local).AddTicks(1767),
                             Name = "Software"
                         },
                         new
                         {
                             Id = new Guid("a82c256f-6027-4c22-87ca-22fb85c2daf6"),
-                            CreatedDate = new DateTime(2025, 1, 2, 0, 8, 36, 530, DateTimeKind.Local).AddTicks(7072),
+                            CreatedDate = new DateTime(2025, 1, 1, 22, 56, 12, 457, DateTimeKind.Local).AddTicks(1783),
                             Name = "Design"
                         },
                         new
                         {
                             Id = new Guid("a2308a61-470a-46e9-ba82-87c3090046fb"),
-                            CreatedDate = new DateTime(2025, 1, 2, 0, 8, 36, 530, DateTimeKind.Local).AddTicks(7074),
+                            CreatedDate = new DateTime(2025, 1, 1, 22, 56, 12, 457, DateTimeKind.Local).AddTicks(1789),
                             Name = "Marketing"
                         },
                         new
                         {
                             Id = new Guid("80853207-5355-434f-8cab-80e3269d54c4"),
-                            CreatedDate = new DateTime(2025, 1, 2, 0, 8, 36, 530, DateTimeKind.Local).AddTicks(7076),
+                            CreatedDate = new DateTime(2025, 1, 1, 22, 56, 12, 457, DateTimeKind.Local).AddTicks(1790),
                             Name = "Project Management"
                         },
                         new
                         {
                             Id = new Guid("551963a2-879e-45a6-99a6-5eb512b775c0"),
-                            CreatedDate = new DateTime(2025, 1, 2, 0, 8, 36, 530, DateTimeKind.Local).AddTicks(7077),
+                            CreatedDate = new DateTime(2025, 1, 1, 22, 56, 12, 457, DateTimeKind.Local).AddTicks(1792),
                             Name = "Finance"
                         },
                         new
                         {
                             Id = new Guid("8b48bba4-8acd-4ff2-b669-f4095c885e90"),
-                            CreatedDate = new DateTime(2025, 1, 2, 0, 8, 36, 530, DateTimeKind.Local).AddTicks(7079),
+                            CreatedDate = new DateTime(2025, 1, 1, 22, 56, 12, 457, DateTimeKind.Local).AddTicks(1794),
                             Name = "Lifestyle"
                         },
                         new
                         {
                             Id = new Guid("a93961af-166d-461c-a6db-263c4d48a55d"),
-                            CreatedDate = new DateTime(2025, 1, 2, 0, 8, 36, 530, DateTimeKind.Local).AddTicks(7081),
+                            CreatedDate = new DateTime(2025, 1, 1, 22, 56, 12, 457, DateTimeKind.Local).AddTicks(1795),
                             Name = "Photography"
                         });
                 });
@@ -766,7 +769,7 @@ namespace CourseApp.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("CourseApp.Domain.Entities.Order", b =>

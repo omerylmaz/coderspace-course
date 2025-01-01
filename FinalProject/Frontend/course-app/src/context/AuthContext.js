@@ -45,11 +45,10 @@ export const AuthProvider = ({ children }) => {
       setUser(decodedToken);
       setRole(getUserRole(decodedToken));
       setIsAuthenticated(true);
-
-      return true;
+      
     } catch (error) {
       console.error('Login failed:', error);
-      return false;
+      throw error;
     }
   };
 

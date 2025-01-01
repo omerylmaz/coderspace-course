@@ -47,15 +47,12 @@ api.interceptors.response.use(
 
     if (error.response) {
       const { status, data } = error.response;
-
       if (data && data.errors && data.errors.length > 0) {
         const combinedErrors = data.errors.join('\n');
         return Promise.reject(new Error(combinedErrors));
       }
 
-      if (data && data.detail) {
-        return Promise.reject(new Error(data.detail));
-      }
+     
 
       switch (status) {
         case 401:
@@ -74,13 +71,13 @@ api.interceptors.response.use(
         case 403:
           return Promise.reject(new Error('You do not have permission to perform this action'));
 
-        case 404:
-          return Promise.reject(new Error('Method was not found'));
-
         case 500:
-          return Promise.reject(new Error('Internal server error occurred'));
+            return Promise.reject(new Error('Internal server error occurred'));
 
         default:
+          if (data && data.detail) {
+            return Promise.reject(new Error(data.detail));
+          }
           return Promise.reject(new Error(data.message || 'An unknown error occurred'));
       }
     } else {

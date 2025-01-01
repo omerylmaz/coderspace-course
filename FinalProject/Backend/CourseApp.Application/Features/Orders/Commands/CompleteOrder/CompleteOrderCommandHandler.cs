@@ -1,4 +1,5 @@
-﻿using CourseApp.Application.Abstractions.Repositories;
+﻿using CourseApp.Application.Abstractions.Events;
+using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
 using Final.Application.Abstractions.Repositories;
@@ -11,12 +12,11 @@ internal class CompleteOrderCommandHandler(
     IOrderRepository orderRepository,
     IPaymentRepository paymentRepository,
     IUnitOfWork unitOfWork,
+    IEventPublisher eventPublisher,
     ILogger<CompleteOrderCommandHandler> logger) : IRequestHandler<CompleteOrderCommand, Result>
 {
     public async Task<Result> Handle(CompleteOrderCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Handling CompleteOrderCommand for Conversation ID: {ConversationId}", request.ConversationId);
-
         if (request.Status != "success")
         {
             logger.LogWarning("Payment failed. Conversation ID {ConversationId}", request.ConversationId);
@@ -44,6 +44,13 @@ internal class CompleteOrderCommandHandler(
         orderRepository.Update(order);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await eventPublisher.PublishPaymentCompletedEventAsync(
+                order.UserId,
+                order.Course.Id,
+                payment.PaymentDate,
+                cancellationToken
+            );
 
         return Result.Success();
     }

@@ -16,6 +16,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     public DbSet<Order> Orders { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
