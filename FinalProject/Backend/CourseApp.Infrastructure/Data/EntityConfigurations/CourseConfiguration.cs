@@ -1,4 +1,5 @@
 ﻿using CourseApp.Domain.Entities;
+using CourseApp.Infrastructure.Data.SeedData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -23,5 +24,7 @@ internal class CourseConfiguration : IEntityTypeConfiguration<Course>
         builder.HasOne(c => c.Teacher)
             .WithMany()
             .HasForeignKey(c => c.TeacherId);
+
+        builder.HasData(CourseSeeder.SeedCourses());
     }
 }

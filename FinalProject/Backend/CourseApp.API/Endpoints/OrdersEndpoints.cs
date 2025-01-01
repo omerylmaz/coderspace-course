@@ -74,32 +74,32 @@ public class OrdersEndpoints : CarterModule
         })
         .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.Teacher}, {UserRoles.User}" });
 
-        app.MapPut("", async (
-            [FromBody] UpdateOrderCommand command,
-            [FromServices] IMediator mediator,
-            CancellationToken cancellationToken) =>
-        {
-            Result serviceResponse = await mediator.Send(command, cancellationToken);
+        //app.MapPut("", async (
+        //    [FromBody] UpdateOrderCommand command,
+        //    [FromServices] IMediator mediator,
+        //    CancellationToken cancellationToken) =>
+        //{
+        //    Result serviceResponse = await mediator.Send(command, cancellationToken);
 
-            if (!serviceResponse.IsSuccess)
-                return Results.Problem(serviceResponse.ProblemDetails);
+        //    if (!serviceResponse.IsSuccess)
+        //        return Results.Problem(serviceResponse.ProblemDetails);
 
-            return Results.NoContent();
-        })
-        .RequireAuthorization(new AuthorizeAttribute { Roles = UserRoles.Admin.ToString() });
+        //    return Results.NoContent();
+        //})
+        //.RequireAuthorization(new AuthorizeAttribute { Roles = UserRoles.Admin.ToString() });
 
-        app.MapDelete("/{id}", async (
-            [FromRoute] Guid id,
-            [FromServices] IMediator mediator,
-            CancellationToken cancellationToken) =>
-        {
-            Result serviceResponse = await mediator.Send(new DeleteOrderByIdCommand(id), cancellationToken);
+        //app.MapDelete("/{id}", async (
+        //    [FromRoute] Guid id,
+        //    [FromServices] IMediator mediator,
+        //    CancellationToken cancellationToken) =>
+        //{
+        //    Result serviceResponse = await mediator.Send(new DeleteOrderByIdCommand(id), cancellationToken);
 
-            if (!serviceResponse.IsSuccess)
-                return Results.Problem(serviceResponse.ProblemDetails);
+        //    if (!serviceResponse.IsSuccess)
+        //        return Results.Problem(serviceResponse.ProblemDetails);
 
-            return Results.NoContent();
-        })
-        .RequireAuthorization(new AuthorizeAttribute { Roles = UserRoles.Admin.ToString() });
+        //    return Results.NoContent();
+        //})
+        //.RequireAuthorization(new AuthorizeAttribute { Roles = UserRoles.Admin.ToString() });
     }
 }

@@ -81,8 +81,8 @@ public static class ServiceRegistration
         {
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-            await RoleSeeder.SeedRoles(roleManager);
-            await UserSeeder.SeedUsers(userManager);
+            //await RoleSeeder.SeedRoles(roleManager);
+            //await UserSeeder.SeedUsers(userManager);
         }
         return app;
     }
