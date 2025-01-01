@@ -2,6 +2,7 @@
 using Final.Application.Abstractions.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 namespace Final.Application;
 
@@ -21,6 +22,8 @@ public static class ServiceRegistration
         services.AddMediatR(conf =>
         {
             conf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+
+            conf.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
         //services.AddScoped<IUserService, UserService>();
         //services.AddScoped<IRoleService, RoleService>();

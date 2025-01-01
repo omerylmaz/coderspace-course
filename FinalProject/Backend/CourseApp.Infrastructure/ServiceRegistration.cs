@@ -80,7 +80,9 @@ public static class ServiceRegistration
         using (var scope = app.Services.CreateScope())
         {
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
             await RoleSeeder.SeedRoles(roleManager);
+            await UserSeeder.SeedUsers(userManager);
         }
         return app;
     }

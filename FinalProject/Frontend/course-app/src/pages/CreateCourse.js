@@ -33,15 +33,23 @@ export default function CreateCourse() {
   };
 
   const validationSchema = Yup.object({
-    title: Yup.string().required('Required'),
-    name: Yup.string().required('Required'),
-    description: Yup.string().required('Required'),
+    title: Yup.string()
+      .required('Title is required')
+      .max(150, 'Title must not exceed 150 characters'),
+    name: Yup.string()
+      .required('Name is required')
+      .max(100, 'Name must not exceed 100 characters'),
+    description: Yup.string()
+      .required('Description is required')
+      .max(1000, 'Description must not exceed 1000 characters'),
     price: Yup.number()
-      .required('Required')
-      .positive('Must be positive')
-      .typeError('Must be a number'),
-    imageUrl: Yup.string().required('Required'),
+      .required('Price is required')
+      .positive('Price must be positive')
+      .typeError('Price must be a number'),
+    imageUrl: Yup.string().required('ImageUrl is required'),
   });
+  
+  
 
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     try {

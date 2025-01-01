@@ -2,12 +2,13 @@
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
 using Final.Application.Abstractions.Repositories;
+using Final.Application.Features.Courses.Queries.GetCourseById;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace Final.Application.Features.Courses.Queries.GetCourseById;
+namespace CourseApp.Application.Features.Orders.Queries.GetOrderById;
 
-internal class GetOrderByIdQueryHandler(IGenericRepository<Order> orderRepository, IMapper mapper, ILogger<GetOrderByIdQueryHandler> logger) 
+internal class GetOrderByIdQueryHandler(IGenericRepository<Order> orderRepository, IMapper mapper, ILogger<GetOrderByIdQueryHandler> logger)
     : IRequestHandler<GetOrderByIdQuery, Result<GetOrderByIdResponse>>
 {
     public async Task<Result<GetOrderByIdResponse>> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
@@ -19,7 +20,7 @@ internal class GetOrderByIdQueryHandler(IGenericRepository<Order> orderRepositor
             return Result<GetOrderByIdResponse>.NotFound($"Order with id {request.Id} not found");
         }
 
-        var response = mapper.Map<GetOrderByIdResponse>(order);//new GetOrderByIdResponse(order.Id, order.UserId, order.CourseId, order.OrderDate);
+        var response = mapper.Map<GetOrderByIdResponse>(order);
         return Result<GetOrderByIdResponse>.Success(response);
     }
 }
