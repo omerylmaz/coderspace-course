@@ -16,4 +16,4 @@ public record GetPaginatedNotificationsQuery : IRequest<Result<GetPaginatedNotif
 
 public record GetPaginatedNotificationsResponse(PagedResult<GetNotificationResponse> Notifications);
 
-public record GetNotificationResponse(string Title, string Message, bool IsRead);
+public record GetNotificationResponse(Guid Id, string Title, string Message, bool IsRead);

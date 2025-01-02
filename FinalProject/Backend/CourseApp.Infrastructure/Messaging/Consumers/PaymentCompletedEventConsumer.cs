@@ -22,7 +22,7 @@ public class PaymentCompletedEventConsumer(ICourseRepository courseRepository,
         {
             UserId = eventMessage.UserId,
             Title = "Payment Completed",
-            Message = $"Your payment has been successfully completed with course name {course.Name} and price {course.Price}. Payment Date: {eventMessage.PaymentDate}",
+            Message = $"Your payment has been successfully completed with course name <b>{course.Name}</b> and price <b>{course.Price:C}</b>. Payment Date: <b>{eventMessage.PaymentDate:dd.MM.yyyy HH:mm:ss}</b>",
             IsRead = false
         };
 

@@ -1,17 +1,36 @@
 import { Link } from "react-router-dom";
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getUserRole } from "../utils/jwtDecoder";
+import NotificationIcon from "./NotificationIcon";
+import { useState, useEffect } from "react";
+import notificationService from "../services/notificationService";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const userRole = getUserRole();
-  const { user, logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
+
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      if (!isAuthenticated) return;
+
+      try {
+        const response = await notificationService.getAllNotifications(1, 20);
+        console.log(response.notifications.items);
+        setNotifications(response.notifications.items);
+      } catch (error) {
+      }
+    };
+
+    fetchNotifications();
+  }, [isAuthenticated]);
 
   function handleLogout() {
     logout();
     navigate("/");
-    console.log("Logout");
   }
 
   return (
@@ -32,7 +51,7 @@ export default function Navbar() {
               <Link className="nav-link" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/cart">Cart</Link>
+              <Link className="nav-link" to="/notifications">Notifications</Link>
             </li>
             {isAuthenticated ? (
               <>
@@ -45,7 +64,10 @@ export default function Navbar() {
                   <Link className="nav-link" to="/profile">My Profile</Link>
                 </li>
                 <li className="nav-item">
-                  <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                  <NotificationIcon notifications={notifications} />
+                </li>
+                <li className="nav-item">
+                  <button className="btn btn-danger ms-3" onClick={handleLogout}>Logout</button>
                 </li>
               </>
             ) : (

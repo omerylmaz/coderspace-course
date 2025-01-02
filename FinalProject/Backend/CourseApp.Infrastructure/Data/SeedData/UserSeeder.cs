@@ -22,6 +22,7 @@ internal static class UserSeeder
                 NormalizedEmail = "USER1@GMAIL.COM",
                 FullName = "Ömer Yılmaz",
                 PhoneNumber = "5551112233",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "user123")
             },
             new AppUser
@@ -33,6 +34,7 @@ internal static class UserSeeder
                 NormalizedEmail = "USER2@GMAIL.COM",
                 FullName = "Okan Buruk",
                 PhoneNumber = "5552223344",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "user123")
             },
             new AppUser
@@ -44,6 +46,7 @@ internal static class UserSeeder
                 NormalizedEmail = "USER3@GMAIL.COM",
                 FullName = "Kıvanç Tatlıtuğ",
                 PhoneNumber = "5553334455",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "user123")
             },
             new AppUser
@@ -55,6 +58,7 @@ internal static class UserSeeder
                 NormalizedEmail = "USER4@GMAIL.COM",
                 FullName = "Kerem Aktürkoğlu",
                 PhoneNumber = "5554445566",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "user123")
             },
             new AppUser
@@ -66,6 +70,7 @@ internal static class UserSeeder
                 NormalizedEmail = "USER5@GMAIL.COM",
                 FullName = "Victor Osimhen",
                 PhoneNumber = "5555556677",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "user123")
             },
         };
@@ -81,6 +86,7 @@ internal static class UserSeeder
                 NormalizedEmail = "TEACHER1@GMAIL.COM",
                 FullName = "Ahmet Kaya",
                 PhoneNumber = "5556667788",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "teacher123")
             },
             new AppUser
@@ -92,6 +98,7 @@ internal static class UserSeeder
                 NormalizedEmail = "TEACHER2@GMAIL.COM",
                 FullName = "Fatih Çakıroğlu",
                 PhoneNumber = "5557778899",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "teacher123")
             },
             new AppUser
@@ -103,6 +110,7 @@ internal static class UserSeeder
                 NormalizedEmail = "TEACHER3@GMAIL.COM",
                 FullName = "Şadi Evren Şeker",
                 PhoneNumber = "5558889900",
+                SecurityStamp = Guid.NewGuid().ToString(),
                 PasswordHash = passwordHasher.HashPassword(null, "teacher123")
             }
         };

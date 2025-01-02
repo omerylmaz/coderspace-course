@@ -1,10 +1,8 @@
 import React from 'react'
-// import {useCart} from '../context/CartContext'
 import { Link } from 'react-router-dom';
 
-export default function ProductCart({course}) {
+export default function CourseCart({course}) {
 
-  // const {addToCart} = useCart();
 
   const truncateTitle = (title) => {
     if (title.length > 50) {
@@ -16,7 +14,7 @@ export default function ProductCart({course}) {
   return(
     <div className='col-md-4 mb-4'>
       <div className='card h-100 shadow-sm'>
-        <Link to={`/product/${course.id}`} style={{textDecoration: "none"}}>
+        <Link to={`/course/${course.id}`} style={{textDecoration: "none"}}>
           <img
           src={course.imageUrl}
           alt={course.name}
@@ -29,7 +27,7 @@ export default function ProductCart({course}) {
             <p className='card-text'>{course.price}₺</p>
           </div>
         </Link>
-        <Link to={`/product/${course.id}`}>
+        <Link to={`/course/${course.id}`}>
     <button className='btn btn-warning w-100 h-100'>
       Go to details
     </button>

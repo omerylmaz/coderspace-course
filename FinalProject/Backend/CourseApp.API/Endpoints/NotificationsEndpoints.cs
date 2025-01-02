@@ -1,5 +1,6 @@
 ﻿using Carter;
 using CourseApp.API.Helpers;
+using CourseApp.Application.Features.Notifications.Commands.MarkAsRead;
 using CourseApp.Application.Features.Notifications.Queries.GetPaginatedNotifications;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
@@ -35,6 +36,23 @@ public class NotificationsEndpoints : CarterModule
                 return Results.Problem(serviceResponse.ProblemDetails);
 
             return Results.Ok(serviceResponse);
+        })
+        .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.User}, {UserRoles.Teacher}" });
+
+        app.MapPatch("/mark-as-read/{id}", async (
+            [FromRoute] Guid id,
+            [FromServices] IMediator mediator,
+            ClaimsPrincipal user,
+            CancellationToken cancellationToken) =>
+        {
+            var userId = ClaimHelper.GetUserId(user);
+
+            Result serviceResponse = await mediator.Send(new MarkAsReadCommand { NotificationId = id, UserId = userId }, cancellationToken);
+
+            if (!serviceResponse.IsSuccess)
+                return Results.Problem(serviceResponse.ProblemDetails);
+
+            return Results.NoContent();
         })
         .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.User}, {UserRoles.Teacher}" });
     }

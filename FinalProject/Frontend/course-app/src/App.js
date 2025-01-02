@@ -14,24 +14,35 @@ import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
 import OrderHistory from "./pages/OrderHistory";
 import 'alertifyjs/build/css/alertify.css';
+import './App.css';
 import { AuthProvider } from "./context/AuthContext";
+import Notifications from './pages/Notifications';
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Navbar />
+        <main>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/product/:id" element={<CourseDetail />} />
+          <Route path="/course/:id" element={<CourseDetail />} />
 
           <Route
             path="/cart"
             element={
               <ProtectedRoute requiredRoles={["User", "Teacher"]}>
                 <Cart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute requiredRoles={["User", "Teacher"]}>
+                <Notifications />
               </ProtectedRoute>
             }
           />
@@ -85,6 +96,7 @@ export default function App() {
             }
           />
         </Routes>
+        </main>
         <Footer />
       </AuthProvider>
     </BrowserRouter>

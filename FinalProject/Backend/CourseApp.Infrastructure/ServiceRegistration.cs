@@ -7,6 +7,7 @@ using CourseApp.Infrastructure.Data;
 using CourseApp.Infrastructure.Data.Repositories;
 using CourseApp.Infrastructure.Messaging.Consumers;
 using CourseApp.Infrastructure.Messaging.Publishers;
+using CourseApp.Infrastructure.Options;
 using CourseApp.Infrastructure.Services.Auth;
 using CourseApp.Infrastructure.Services.Payment;
 using Final.Application.Abstractions.Repositories;
@@ -39,6 +40,7 @@ public static class ServiceRegistration
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPaymentService, IyzicoPaymentService>();
         services.AddScoped<IEventPublisher, EventPublisher>();
+        services.Configure<IyzicoOptions>(configuration.GetSection("Iyzico"));
 
         services.AddAuthentication(options =>
         {

@@ -341,6 +341,11 @@ internal static class CourseSeeder
                 CategoryId = Guid.Parse("4290c1e9-2c24-45d1-8d7b-35482a001044")
             }
                     ];
+
+        foreach (var course in courses)
+        {
+            course.CreatedDate = DateTime.Now;
+        }
         return courses;
     }
 }

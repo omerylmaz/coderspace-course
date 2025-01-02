@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductCart from "../components/ProductCart";
+import CourseCart from "../components/CourseCart";
 import courseService from "../services/courseService";
 import categoryService from "../services/categoryService";
 import Spinner from '../components/LoadingSpinner';
@@ -95,7 +95,7 @@ export default function Home() {
         <>
 <div className="row">
   {courses.map((course) => (
-      <ProductCart course={course} />
+      <CourseCart course={course} />
 
   ))}
 </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import ProductCart from "../components/ProductCart";
+import CourseCart from "../components/CourseCart";
 import Spinner from "../components/LoadingSpinner";
 import authService from "../services/authService";
 import courseService from "../services/courseService";
@@ -269,7 +269,7 @@ export default function UserDetail() {
         <>
           <div className="row">
             {courses.map((course) => (
-              <ProductCart key={course.id} course={course} />
+              <CourseCart key={course.id} course={course} />
             ))}
           </div>
 

@@ -12,4 +12,5 @@ public class Course : BaseEntity
     public AppUser? Teacher { get; set; }
     public Category Category { get; set; }
     public ICollection<Order> Orders { get; set; }
+    public ICollection<Content> Contents { get; set; }
 }

@@ -1,24 +1,34 @@
 ﻿using CourseApp.Application.Abstractions.Services;
+using CourseApp.Infrastructure.Options;
 using Iyzipay;
 using Iyzipay.Model;
 using Iyzipay.Request;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System.Globalization;
 
 namespace CourseApp.Infrastructure.Services.Payment;
 
-internal class IyzicoPaymentService(IHttpContextAccessor httpContextAccessor) : IPaymentService
+internal class IyzicoPaymentService : IPaymentService
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IyzicoOptions _iyzicoOptions;
+
+    public IyzicoPaymentService(IHttpContextAccessor httpContextAccessor, IOptions<IyzicoOptions> iyzicoOptions)
+    {
+        _httpContextAccessor = httpContextAccessor;
+        _iyzicoOptions = iyzicoOptions.Value;
+    }
     public async Task<string> Pay(CreatePaymentDto paymentDto, CancellationToken cancellationToken)
     {
-        Options options = new()
+        Iyzipay.Options options = new()
         {
-            ApiKey = "sandbox-aPK7OfgfsDXbiUT4uOVVfS87hrfaYnyX",
-            SecretKey = "sandbox-iQLWUStSDtwRoQh4iJx2mYPBphi1Cmcy",
-            BaseUrl = "https://sandbox-api.iyzipay.com"
+            ApiKey = _iyzicoOptions.ApiKey,
+            SecretKey = _iyzicoOptions.SecretKey,
+            BaseUrl = _iyzicoOptions.BaseUrl,
         };
 
-        var httpRequest = httpContextAccessor.HttpContext?.Request;
+        var httpRequest = _httpContextAccessor.HttpContext?.Request;
         var baseUrl = $"{httpRequest?.Scheme}://{httpRequest?.Host}";
 
         CreatePaymentRequest request = new CreatePaymentRequest();
