@@ -1,5 +1,4 @@
-﻿using Final.Application.Features.Courses.Commands.UpdateCourse;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace CourseApp.Application.Features.Courses.Commands.UpdateCourse;
 

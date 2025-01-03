@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Final.Application.Abstractions.Repositories;
-using Final.Application.Abstractions.Repositories;
-using MediatR;
-using CourseApp.Domain.Entities;
 using CourseApp.Application.ResultDto;
+using CourseApp.Domain.Entities;
+using Final.Application.Abstractions.Repositories;
+using Final.Application.Features.Courses.Commands.CreateCourse;
+using MediatR;
 
-namespace Final.Application.Features.Courses.Commands.CreateCourse;
+namespace CourseApp.Application.Features.Courses.Commands.CreateCourse;
 
 internal class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, Result<CreateCourseResponse>>
 {
@@ -23,6 +23,17 @@ internal class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand,
     public async Task<Result<CreateCourseResponse>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
         var course = _mapper.Map<Course>(request);
+
+        if (request.Contents != null && request.Contents.Count > 0)
+        {
+            course.Contents = request.Contents.Select(contentDto => new Content
+            {
+                Title = contentDto.Title,
+                Description = contentDto.Description,
+                Duration = TimeSpan.Parse(contentDto.Duration)
+            }).ToList();
+        }
+
         await _courseRepository.AddAsync(course, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

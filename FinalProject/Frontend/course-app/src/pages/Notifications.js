@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import notificationService from "../services/notificationService";
-import "../css/NotificationIcon.css";
 import "../css/Notifications.css";
 
 export default function Notifications() {

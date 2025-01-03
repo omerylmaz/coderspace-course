@@ -3,6 +3,7 @@ using Final.Application.Abstractions.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using CourseApp.Application;
 
 namespace Final.Application;
 

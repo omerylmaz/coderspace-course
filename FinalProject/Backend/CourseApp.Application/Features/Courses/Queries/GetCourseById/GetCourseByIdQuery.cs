@@ -14,6 +14,14 @@ public record GetCourseByIdResponse
     string Description,
     decimal Price,
     string CategoryName,
-    string ImageUrl
-    // int orderCount
+    string ImageUrl,
+    List<ContentResponse> Contents 
+// int orderCount
+);
+
+public record ContentResponse
+(
+     string Title,
+     string Description,
+     TimeSpan Duration
 );

@@ -1,5 +1,6 @@
 ﻿using Carter;
 using CourseApp.API.Helpers;
+using CourseApp.Application.Features.Courses.Commands.UpdateCourse;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCourses;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByCategory;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByFiltering;
@@ -9,7 +10,6 @@ using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
 using Final.Application.Features.Courses.Commands.CreateCourse;
 using Final.Application.Features.Courses.Commands.DeleteCourseById;
-using Final.Application.Features.Courses.Commands.UpdateCourse;
 using Final.Application.Features.Courses.Queries.GetCourseById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

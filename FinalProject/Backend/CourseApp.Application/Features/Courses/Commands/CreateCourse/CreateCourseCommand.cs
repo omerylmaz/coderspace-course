@@ -14,6 +14,14 @@ public record CreateCourseCommand : IRequest<Result<CreateCourseResponse>>
     public decimal Price { get; init; }
     public Guid CategoryId { get; init; }
     public string ImageUrl { get; init; }
+    public List<CreateCourseContentCommand> Contents { get; init; }
 };
+
+public record CreateCourseContentCommand
+(
+    string Title,
+    string Description,
+    string Duration
+);
 
 public record CreateCourseResponse(Guid Id);

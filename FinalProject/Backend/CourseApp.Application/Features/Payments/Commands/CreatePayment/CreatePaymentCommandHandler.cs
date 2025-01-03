@@ -22,7 +22,7 @@ internal class CreatePaymentCommandHandler
 {
     public async Task<Result<CreatePaymentResponse>> Handle(CreatePaymentCommand request, CancellationToken cancellationToken)
     {
-        var course = await courseRepository.GetByIdWithCategoryNameAsync(request.CourseId, cancellationToken);
+        var course = await courseRepository.GetDetailByIdWithCategoryNameAsync(request.CourseId, cancellationToken);
         if (course == null)
         {
             logger.LogWarning("Course with Id {Id} not found", request.CourseId);

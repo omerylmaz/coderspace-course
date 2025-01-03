@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { getUserRole } from "../utils/jwtDecoder";
-import NotificationIcon from "./NotificationIcon";
 import { useState, useEffect } from "react";
 import notificationService from "../services/notificationService";
 
@@ -62,9 +61,6 @@ export default function Navbar() {
                 )}
                 <li className="nav-item">
                   <Link className="nav-link" to="/profile">My Profile</Link>
-                </li>
-                <li className="nav-item">
-                  <NotificationIcon notifications={notifications} />
                 </li>
                 <li className="nav-item">
                   <button className="btn btn-danger ms-3" onClick={handleLogout}>Logout</button>

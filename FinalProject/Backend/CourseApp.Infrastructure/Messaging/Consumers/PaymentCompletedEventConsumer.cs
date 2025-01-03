@@ -16,7 +16,7 @@ public class PaymentCompletedEventConsumer(ICourseRepository courseRepository,
         var eventMessage = context.Message;
         var cancellationToken = context.CancellationToken;
 
-        var course = await courseRepository.GetByIdWithCategoryNameAsync(eventMessage.CourseId, cancellationToken);
+        var course = await courseRepository.GetDetailByIdWithCategoryNameAsync(eventMessage.CourseId, cancellationToken);
 
         var notification = new Notification
         {

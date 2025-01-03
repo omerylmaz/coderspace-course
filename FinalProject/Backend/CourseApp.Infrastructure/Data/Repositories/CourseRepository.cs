@@ -16,9 +16,12 @@ internal class CourseRepository : GenericRepository<Course>, ICourseRepository
         _dbSet = context.Set<Course>();
     }
 
-    public Task<Course?> GetByIdWithCategoryNameAsync(Guid id, CancellationToken cancellationToken)
+    public Task<Course?> GetDetailByIdWithCategoryNameAsync(Guid id, CancellationToken cancellationToken)
     {
-        return _dbSet.Include(x => x.Category).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return _dbSet
+            .Include(x => x.Contents.OrderByDescending(y => y.CreatedDate))
+            .Include(x => x.Category)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<PagedResult<Course>> GetPagedWithCategoryNameAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)

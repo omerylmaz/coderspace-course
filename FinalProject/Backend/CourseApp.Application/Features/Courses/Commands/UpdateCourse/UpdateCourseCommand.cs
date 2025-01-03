@@ -1,7 +1,7 @@
 ﻿using CourseApp.Application.ResultDto;
 using MediatR;
 
-namespace Final.Application.Features.Courses.Commands.UpdateCourse;
+namespace CourseApp.Application.Features.Courses.Commands.UpdateCourse;
 
 public record UpdateCourseCommand
 (
@@ -11,5 +11,14 @@ public record UpdateCourseCommand
     string Description,
     decimal Price,
     Guid CategoryId,
-    string ImageUrl
+    string ImageUrl,
+    List<UpdateCourseContentCommand> Contents
 ) : IRequest<Result>;
+
+public record UpdateCourseContentCommand
+(
+    Guid Id,
+    string Title,
+    string Description,
+    TimeSpan Duration
+);
