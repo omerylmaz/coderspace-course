@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using CourseApp.Application.DTOs.Category;
 using CourseApp.Application.DTOs.Course;
+using CourseApp.Application.DTOs.Payment;
 using CourseApp.Application.Features.Courses.Commands.UpdateCourse;
 using CourseApp.Application.Features.Courses.Queries.GetCourseById;
 using CourseApp.Application.Features.Notifications.Queries.GetPaginatedNotifications;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
 using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
+using CourseApp.Application.Features.Payments.Commands.CreatePayment;
 using CourseApp.Application.Features.Users.Commands.SignupUser;
 using CourseApp.Application.Features.Users.Commands.UpdateUser;
 using CourseApp.Domain.Entities;
@@ -64,5 +66,7 @@ internal class MapperProfile : Profile
 
         CreateMap<PagedResult<Notification>, PagedResult<GetNotificationResponse>>()
             .ForMember(d => d.Items, o => o.MapFrom(s => s.Items));
+
+        CreateMap<GetExternalPaymentResponseDto, CreatePaymentResponse>();
     }
 }

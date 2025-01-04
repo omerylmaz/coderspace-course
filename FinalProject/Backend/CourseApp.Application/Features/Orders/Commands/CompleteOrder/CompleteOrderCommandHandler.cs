@@ -1,5 +1,6 @@
 ﻿using CourseApp.Application.Abstractions.Events;
 using CourseApp.Application.Abstractions.Repositories;
+using CourseApp.Application.Abstractions.Services;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
 using MediatR;
@@ -12,6 +13,7 @@ internal class CompleteOrderCommandHandler(
     IPaymentRepository paymentRepository,
     IUnitOfWork unitOfWork,
     IEventPublisher eventPublisher,
+    IPaymentHubService paymentHubService,
     ILogger<CompleteOrderCommandHandler> logger) : IRequestHandler<CompleteOrderCommand, Result>
 {
     public async Task<Result> Handle(CompleteOrderCommand request, CancellationToken cancellationToken)
@@ -19,6 +21,8 @@ internal class CompleteOrderCommandHandler(
         if (request.Status != "success")
         {
             logger.LogWarning("Payment failed. Conversation ID {ConversationId}", request.ConversationId);
+            await paymentHubService.NotifyUserForPayment(new DTOs.Payment.NotifyUserForPaymentRequestDto { ConversationId = request.ConversationId, Message = "failed", 
+                ErrorMessage = $"Payment Failed, security code you entered may be wrong" }, cancellationToken);
             return Result.BadRequest("Payment Failed, security code you entered may be wrong");
         }
 
@@ -26,6 +30,8 @@ internal class CompleteOrderCommandHandler(
         if (payment == null)
         {
             logger.LogWarning("Payment not found. Conversation ID {ConversationId}", request.ConversationId);
+            await paymentHubService.NotifyUserForPayment(new DTOs.Payment.NotifyUserForPaymentRequestDto { ConversationId = request.ConversationId, Message = "failed", 
+                ErrorMessage = $"Payment with id {request.ConversationId} not found" }, cancellationToken);
             return Result.NotFound($"Payment with id {request.ConversationId} not found");
         }
 
@@ -36,6 +42,7 @@ internal class CompleteOrderCommandHandler(
         if (order == null)
         {
             logger.LogWarning("Order not found for Payment ID {PaymentId}", request.ConversationId);
+            await paymentHubService.NotifyUserForPayment(new DTOs.Payment.NotifyUserForPaymentRequestDto { ConversationId = request.ConversationId, Message = "failed", ErrorMessage = $"Order associated with Payment ID {request.ConversationId} not found" }, cancellationToken);
             return Result.NotFound($"Order associated with Payment ID {request.ConversationId} not found");
         }
 
@@ -43,6 +50,8 @@ internal class CompleteOrderCommandHandler(
         orderRepository.Update(order);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await paymentHubService.NotifyUserForPayment(new DTOs.Payment.NotifyUserForPaymentRequestDto { ConversationId = request.ConversationId, Message = "success" }, cancellationToken);
 
         await eventPublisher.PublishPaymentCompletedEventAsync(
                 order.UserId,

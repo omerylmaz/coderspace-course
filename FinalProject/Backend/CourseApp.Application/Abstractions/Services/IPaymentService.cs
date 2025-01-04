@@ -1,6 +1,8 @@
-﻿namespace CourseApp.Application.Abstractions.Services;
+﻿using CourseApp.Application.DTOs.Payment;
+
+namespace CourseApp.Application.Abstractions.Services;
 
 public interface IPaymentService
 {
-    Task<string> Pay(CreatePaymentDto paymentDto, CancellationToken cancellationToken);
+    Task<GetExternalPaymentResponseDto> Pay(CreatePaymentDto paymentDto, CancellationToken cancellationToken);
 }

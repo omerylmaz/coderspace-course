@@ -1,4 +1,5 @@
 ﻿using CourseApp.Application.Abstractions.Services;
+using CourseApp.Application.DTOs.Payment;
 using CourseApp.Infrastructure.Options;
 using Iyzipay;
 using Iyzipay.Model;
@@ -19,7 +20,7 @@ internal class IyzicoPaymentService : IPaymentService
         _httpContextAccessor = httpContextAccessor;
         _iyzicoOptions = iyzicoOptions.Value;
     }
-    public async Task<string> Pay(CreatePaymentDto paymentDto, CancellationToken cancellationToken)
+    public async Task<GetExternalPaymentResponseDto> Pay(CreatePaymentDto paymentDto, CancellationToken cancellationToken)
     {
         Iyzipay.Options options = new()
         {
@@ -87,6 +88,6 @@ internal class IyzicoPaymentService : IPaymentService
 
         ThreedsInitialize threedsInitialize = await ThreedsInitialize.Create(request, options);
 
-        return threedsInitialize.HtmlContent;
+        return new GetExternalPaymentResponseDto { ConversationId = threedsInitialize.ConversationId, HtmlContent = threedsInitialize.HtmlContent };
     }
 }

@@ -17,4 +17,4 @@ public record CreatePaymentCommand : IRequest<Result<CreatePaymentResponse>>
 };
 
 
-public record CreatePaymentResponse(string htmlContent);
+public record CreatePaymentResponse(string HtmlContent, string ConversationId);

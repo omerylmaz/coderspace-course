@@ -1,5 +1,7 @@
-﻿using CourseApp.Application.Abstractions.Repositories;
+﻿using AutoMapper;
+using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.Abstractions.Services;
+using CourseApp.Application.DTOs.Payment;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
 using MediatR;
@@ -15,7 +17,8 @@ internal class CreatePaymentCommandHandler
     IPaymentRepository paymentRepository,
     IOrderRepository orderRepository,
     IUnitOfWork unitOfWork,
-    ILogger<CreatePaymentCommandHandler> logger
+    ILogger<CreatePaymentCommandHandler> logger,
+    IMapper mapper
 
     ) : IRequestHandler<CreatePaymentCommand, Result<CreatePaymentResponse>>
 {
@@ -35,7 +38,7 @@ internal class CreatePaymentCommandHandler
             return Result<CreatePaymentResponse>.NotFound($"User with id {request.UserID} not found");
         }
 
-        var htmlContent = string.Empty;  //TODO: burada daha sonra refactor çek
+        var externalPaymentResponse = new GetExternalPaymentResponseDto();
 
         var order = await orderRepository.GetWhereAsync(x => x.UserId == request.UserID && x.CourseId == request.CourseId, cancellationToken);
 
@@ -44,7 +47,7 @@ internal class CreatePaymentCommandHandler
         {
             var paymentId = Guid.NewGuid();  // Normalde entityler içeride savechanges denildiği zaman otomatik generate ediliyor fakat burada payment callback olduğu zaman takibi olsun diye dışarıdan guid generate ediyorum
             await paymentRepository.AddAsync(new Payment() { Id = paymentId, OrderId = order.Id, Price = course.Price, PaymentDate = DateTime.Now, ThreeDSStatus = false }, cancellationToken);
-            htmlContent = await GetThreeDSFromExternalPayment(paymentId, request, user, course, cancellationToken);
+            externalPaymentResponse = await GetThreeDSFromExternalPayment(paymentId, request, user, course, cancellationToken);
         }
         else if (existsPayment.ThreeDSStatus == true)
         {
@@ -53,11 +56,11 @@ internal class CreatePaymentCommandHandler
         }
         else 
         {
-            htmlContent = await GetThreeDSFromExternalPayment(existsPayment.Id, request, user, course, cancellationToken);
+            externalPaymentResponse = await GetThreeDSFromExternalPayment(existsPayment.Id, request, user, course, cancellationToken);
         }
 
 
-        if (string.IsNullOrEmpty(htmlContent))
+        if (string.IsNullOrEmpty(externalPaymentResponse.HtmlContent))
         {
             logger.LogWarning("User tried to pay but process failed with {Id}", request.UserID);
             return Result<CreatePaymentResponse>.BadRequest($"There happened a problem during payment, please check your informations"); //TODO: burada daha sonra refactor çek
@@ -65,18 +68,20 @@ internal class CreatePaymentCommandHandler
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<CreatePaymentResponse>.Success(new CreatePaymentResponse(htmlContent));
+        var createPaymentResponse = mapper.Map<CreatePaymentResponse>(externalPaymentResponse);
+
+        return Result<CreatePaymentResponse>.Success(createPaymentResponse);
     }
 
-    private async Task<string> GetThreeDSFromExternalPayment(Guid paymentId, CreatePaymentCommand command, AppUser user, Course course, CancellationToken cancellationToken)
+    private async Task<GetExternalPaymentResponseDto> GetThreeDSFromExternalPayment(Guid paymentId, CreatePaymentCommand command, AppUser user, Course course, CancellationToken cancellationToken)
     {
         CreatePaymentDto paymentDto = new CreatePaymentDto(paymentId, command.CardHolderName, command.CardNumber, command.ExpireMonth,
         command.ExpireYear, command.Cvc, command.UserID.ToString(),
         user.FullName, user.FullName, user.PhoneNumber, user.Email,
         course.Id.ToString(), course.Name, course.Category.Name, course.Price);
 
-        var htmlContent = await paymentService.Pay(paymentDto, cancellationToken);  //TODO: burada daha sonra refactor çek
+        var paymentResponse = await paymentService.Pay(paymentDto, cancellationToken);
 
-        return htmlContent;
+        return paymentResponse;
     }
 }

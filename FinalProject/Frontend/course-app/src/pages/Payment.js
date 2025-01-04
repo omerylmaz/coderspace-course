@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useLocation } from "react-router-dom";
-import paymentService from '../services/paymentService';
+import { useLocation, useNavigate } from "react-router-dom";
+import paymentService from "../services/paymentService";
+import { initializeSignalRConnection, registerTransaction, onReceivePayment } from "../services/signalRService";
+import alertify from "alertifyjs";
 
 export default function PaymentPage() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const course = state?.course;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -36,28 +39,42 @@ export default function PaymentPage() {
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log(state);
-    values.courseId = state?.course.id;
     setLoading(true);
     setError(null);
-  
+    let popup = null;
+
     try {
       const response = await paymentService.payCourse(values);
-  
+      const { conversationId, htmlContent } = response;
+
+      await initializeSignalRConnection();
+      await registerTransaction(conversationId);
+
+      onReceivePayment((paymentNotification) => {
+        const { message } = paymentNotification;
+
+        if (message === "success") {
+          alertify.success("Payment completed successfully.");
+          popup?.close();
+          navigate("/payment-success");
+        } else {
+          console.log("Payment failed");
+          alertify.error("Payment failed.");
+          popup?.close();
+        }
+      });
+
       const popup = window.open("", "3D Secure Verification", "width=600,height=400");
-      console.log(response);
-      popup.document.write(response);
+      popup.document.write(htmlContent);
     } catch (err) {
+      console.error(err);
       setError(err.message);
     } finally {
       setLoading(false);
       setSubmitting(false);
+      popup?.close();
     }
   };
-
-  if (!course) {
-    return <p>No course selected!</p>;
-  }
 
   return (
     <div className="container mt-4 d-flex justify-content-center">

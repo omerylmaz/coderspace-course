@@ -6,11 +6,13 @@ using CourseApp.Domain.Entities;
 using CourseApp.Infrastructure.Caching;
 using CourseApp.Infrastructure.Data;
 using CourseApp.Infrastructure.Data.Repositories;
+using CourseApp.Infrastructure.Hubs;
 using CourseApp.Infrastructure.Messaging.Consumers;
 using CourseApp.Infrastructure.Messaging.Publishers;
 using CourseApp.Infrastructure.Options;
 using CourseApp.Infrastructure.Repositories;
 using CourseApp.Infrastructure.Services.Auth;
+using CourseApp.Infrastructure.Services.Hubs;
 using CourseApp.Infrastructure.Services.Payment;
 using Final.Infrustructure.Data.Repositories;
 using MassTransit;
@@ -40,6 +42,7 @@ public static class ServiceRegistration
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPaymentService, IyzicoPaymentService>();
         services.AddScoped<IEventPublisher, EventPublisher>();
+        services.AddScoped<IPaymentHubService, PaymentHubService>();
         services.Configure<IyzicoOptions>(configuration.GetSection("Iyzico"));
 
         services.AddSingleton<ICacheService, CacheService>();
@@ -96,11 +99,15 @@ public static class ServiceRegistration
             });
         });
 
+        services.AddSignalR();
+
         return services;
     }
 
     public static async Task<WebApplication> UseInfrastructureServices(this WebApplication app)
     {
+        app.MapHub<PayHub>("/pay-hub");
+
         using (var scope = app.Services.CreateScope())
         {
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();

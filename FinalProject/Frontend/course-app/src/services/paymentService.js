@@ -4,7 +4,7 @@ class PaymentService {
   async payCourse(paymentData) {
       const response = await api.post('payments', paymentData);
       console.log(response);
-      return response.data;
+      return response.data.data;
   }
 }
 

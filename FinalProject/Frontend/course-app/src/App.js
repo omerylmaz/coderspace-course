@@ -17,6 +17,8 @@ import 'alertifyjs/build/css/alertify.css';
 import './App.css';
 import { AuthProvider } from "./context/AuthContext";
 import Notifications from './pages/Notifications';
+import PaymentSuccess from "./pages/PaymentSuccess";
+
 
 export default function App() {
   return (
@@ -95,6 +97,8 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+                  <Route path="/payment-success" element={<PaymentSuccess />} />
+
         </Routes>
         </main>
         <Footer />

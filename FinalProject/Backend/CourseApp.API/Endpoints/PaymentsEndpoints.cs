@@ -30,12 +30,12 @@ public class PaymentsEndpoints : CarterModule
 
             var request = command with { UserID = userId };
 
-            var result = await mediator.Send(request, cancellationToken);
+            var serviceResponse = await mediator.Send(request, cancellationToken);
 
-            if (!result.IsSuccess)
-                return Results.Problem(result.ProblemDetails);
+            if (!serviceResponse.IsSuccess)
+                return Results.Problem(serviceResponse.ProblemDetails);
 
-            return Results.Ok(result.Data.htmlContent);
+            return Results.Ok(serviceResponse);
         })
         .RequireAuthorization(new AuthorizeAttribute { Roles = $"{UserRoles.User}, {UserRoles.Teacher}" });
 
