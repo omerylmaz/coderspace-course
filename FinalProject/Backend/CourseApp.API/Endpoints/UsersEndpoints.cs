@@ -1,20 +1,19 @@
 ﻿using Carter;
 using CourseApp.API.Helpers;
-using CourseApp.Application.Features.Courses.Queries.GetPaidCoursesByUserId;
 using CourseApp.Application.Features.Users.Commands.ChangePassword;
 using CourseApp.Application.Features.Users.Commands.CreateTokenByRefreshToken;
+using CourseApp.Application.Features.Users.Commands.LoginUser;
+using CourseApp.Application.Features.Users.Commands.SignupUser;
 using CourseApp.Application.Features.Users.Commands.UpdateUser;
 using CourseApp.Application.Features.Users.Queries.GetUserDetail;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
-using Final.Application.Features.Users.Commands.LoginUser;
-using Final.Application.Features.Users.Commands.SignupUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Final.API.Endpoints;
+namespace CourseApp.API.Endpoints;
 
 // Burada minimal apiyi tercih ettim. Kütüphane olarak çok maliyete sebep vermediği için minimal api yapısı için Carter kütüphanesini kullandım.
 // Hata yönetimi için Result pattern kullandım. Bilinmeyen hataları yakalamak için ise IExceptionHandler kullandım

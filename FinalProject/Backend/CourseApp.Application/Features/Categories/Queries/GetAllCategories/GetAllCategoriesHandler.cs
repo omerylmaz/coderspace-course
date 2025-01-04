@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
+using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.DTOs.Category;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
-using Final.Application.Abstractions.Repositories;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CourseApp.Application.Features.Categories.Queries.GetAllCategories;
 

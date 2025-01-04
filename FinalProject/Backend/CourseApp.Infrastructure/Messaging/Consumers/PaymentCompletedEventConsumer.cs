@@ -1,9 +1,7 @@
 ﻿using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Events;
-using Final.Application.Abstractions.Repositories;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 
 namespace CourseApp.Infrastructure.Messaging.Consumers;
 

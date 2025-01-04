@@ -3,16 +3,15 @@ using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.Abstractions.Services;
 using CourseApp.Application.Options;
 using CourseApp.Domain.Entities;
+using CourseApp.Infrastructure.Caching;
 using CourseApp.Infrastructure.Data;
 using CourseApp.Infrastructure.Data.Repositories;
 using CourseApp.Infrastructure.Messaging.Consumers;
 using CourseApp.Infrastructure.Messaging.Publishers;
 using CourseApp.Infrastructure.Options;
+using CourseApp.Infrastructure.Repositories;
 using CourseApp.Infrastructure.Services.Auth;
 using CourseApp.Infrastructure.Services.Payment;
-using Final.Application.Abstractions.Repositories;
-using Final.Application.Abstractions.Services;
-using Final.Infrastructure.Repositories;
 using Final.Infrustructure.Data.Repositories;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 
 namespace CourseApp.Infrastructure;
 
@@ -41,6 +41,11 @@ public static class ServiceRegistration
         services.AddScoped<IPaymentService, IyzicoPaymentService>();
         services.AddScoped<IEventPublisher, EventPublisher>();
         services.Configure<IyzicoOptions>(configuration.GetSection("Iyzico"));
+
+        services.AddSingleton<ICacheService, CacheService>();
+
+        services.AddSingleton<IConnectionMultiplexer>(sp =>
+            ConnectionMultiplexer.Connect(configuration.GetSection("Redis:ConnectionString").Value));
 
         services.AddAuthentication(options =>
         {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import CourseCard from '../components/CourseCart';
 import courseService from '../services/courseService';
-import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import 'alertifyjs/build/css/alertify.css';
 import alertify from 'alertifyjs';
+import { useNavigate } from 'react-router-dom';
 
 export default function TeacherPanel() {
   const [courses, setCourses] = useState([]);
@@ -11,6 +12,7 @@ export default function TeacherPanel() {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState(null);
+  const navigate = useNavigate();
 
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(6);
@@ -20,7 +22,6 @@ export default function TeacherPanel() {
     setLoading(true);
     try {
       const data = await courseService.getPaginatedTeacherCourses(page, size);
-      console.log(data);
       setCourses(data.courses.items);
       setTotalCount(data.courses.totalCount);
     } catch (err) {
@@ -38,7 +39,7 @@ export default function TeacherPanel() {
     setSelectedCourseId(id);
     setShowModal(true);
   };
-    
+
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedCourseId(null);
@@ -63,56 +64,49 @@ export default function TeacherPanel() {
   if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
-    <div className="container mt-4">
-      <h1>My Courses</h1>
-      <Link to="/teacher/courses/create" className="btn btn-primary mb-3">
-        Create New Course
-      </Link>
-      <div className="row">
-        {courses.map((course) => (
-          <div key={course.id} className="col-md-4">
-            <div className="card mb-4 shadow-sm">
-              <img src={course.imageUrl} className="card-img-top" alt={course.name} />
-              <div className="card-body">
-                <h5 className="card-title">{course.name}</h5>
-                <p className="card-text">{course.description}</p>
-                <p className="card-text"><strong>Price:</strong> {course.price}₺</p>
-                <div className="d-flex justify-content-between">
-                  <Link to={`/teacher/courses/edit/${course.id}`} className="btn btn-warning">
-                    Edit Course
-                  </Link>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleShowModal(course.id)}
-                  >
-                    Delete Course
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+<div className="container mt-4 mb-4">
+  <h1 className="d-inline-block">My Courses</h1>
+  <button
+    className="btn btn-success mb-3 float-end"
+    onClick={() => navigate("/teacher/courses/create")}
+  >
+    Create New Course
+  </button>
+  <div className="clearfix"></div>
+  <div className="row mt-4">
+    {courses.map((course) => (
+      <CourseCard
+  key={course.id}
+  course={course}
+  showUpdateAndDelete={true}
+  showGoToDetails={false}
+  onDelete={handleShowModal}
+/>
+    ))}
+  </div>
 
-      {totalPages > 1 && (
-        <nav>
-          <ul className="pagination justify-content-center mt-4">
-            {pageNumbers.map((number) => (
-              <li
-                key={number}
-                className={`page-item ${pageNumber === number ? 'active' : ''}`}
-              >
-                <button
-                  onClick={() => setPageNumber(number)}
-                  className="page-link"
-                >
-                  {number}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )}
+  {totalPages > 1 && (
+    <nav>
+      <ul className="pagination justify-content-center mt-4">
+        {pageNumbers.map((number) => (
+          <li
+            key={number}
+            className={`page-item ${
+              pageNumber === number ? "active" : ""
+            }`}
+          >
+            <button
+              onClick={() => setPageNumber(number)}
+              className="page-link"
+            >
+              {number}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )}
+
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>

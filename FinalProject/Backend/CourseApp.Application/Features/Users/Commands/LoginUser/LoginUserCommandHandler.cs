@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Final.Application.Abstractions.Services;
-using Final.Application.Features.Users.Commands.LoginUser;
-using Final.Application.Abstractions.Repositories;
+using CourseApp.Application.Abstractions.Services;
+using CourseApp.Application.Features.Users.Commands.LoginUser;
+using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Domain.Entities;
 using CourseApp.Application.ResultDto;
 using Microsoft.Extensions.Logging;
 
-namespace Final.Application.Features.Users.Commands.LoginUser
+namespace CourseApp.Application.Features.Users.Commands.LoginUser
 {
     public class LoginUserCommandHandler(
         UserManager<AppUser> userManager,
@@ -21,7 +21,7 @@ namespace Final.Application.Features.Users.Commands.LoginUser
         {
             var user = await userManager.FindByEmailAsync(request.Email);
 
-            if (user == null || !await userManager.CheckPasswordAsync(user, request.Password))
+            if (user == null || !await userManager.CheckPasswordAsync(user, request.Password))  //TODO burayı düzelt
             {
                 logger.LogWarning("User entered email or password wrong");
                 return Result<LoginUserResponse>.Conflict("Email or password wrong");

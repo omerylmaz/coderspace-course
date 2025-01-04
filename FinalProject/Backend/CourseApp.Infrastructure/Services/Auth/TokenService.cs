@@ -2,7 +2,7 @@
 using CourseApp.Application.Options;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Enums;
-using Final.Application.Abstractions.Services;
+using CourseApp.Application.Abstractions.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

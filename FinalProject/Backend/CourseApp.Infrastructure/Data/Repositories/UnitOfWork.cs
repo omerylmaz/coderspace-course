@@ -1,6 +1,6 @@
-﻿using CourseApp.Domain.Entities;
+﻿using CourseApp.Application.Abstractions.Repositories;
+using CourseApp.Domain.Entities;
 using CourseApp.Infrastructure.Data;
-using Final.Application.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Final.Infrustructure.Data.Repositories;

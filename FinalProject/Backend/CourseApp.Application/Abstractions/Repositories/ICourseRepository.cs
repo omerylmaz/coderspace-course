@@ -2,7 +2,7 @@
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
 
-namespace Final.Application.Abstractions.Repositories;
+namespace CourseApp.Application.Abstractions.Repositories;
 
 public interface ICourseRepository : IGenericRepository<Course>
 {

@@ -148,21 +148,23 @@ export default function UserDetail() {
                   className="text-danger"
                 />
               </div>
+              <div className="d-flex mt-4">
 
               <button
                 type="submit"
-                className="btn btn-success"
+                className="btn btn-success btn me-2"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Saving..." : "Save Changes"}
               </button>
               <button
                 type="button"
-                className="btn btn-secondary ms-2"
+                className="btn btn-secondary btn-sm"
                 onClick={() => setEditingUser(false)}
               >
                 Cancel
               </button>
+              </div>
             </Form>
           )}
         </Formik>
@@ -178,8 +180,8 @@ export default function UserDetail() {
           <p>
             <strong>Phone Number:</strong> {userDetails?.phoneNumber}
           </p>
-          <div className="d-flex justify-content-center mt-4">
-    <button
+          <div className="d-flex mt-4">
+          <button
       className="btn btn-primary me-2"
       onClick={() => setEditingUser(true)}
     >
@@ -234,6 +236,7 @@ export default function UserDetail() {
                 />
               </div>
 
+              <div className="d-flex mt-4">
               <button
                 type="submit"
                 className="btn btn-success"
@@ -248,6 +251,7 @@ export default function UserDetail() {
               >
                 Cancel
               </button>
+              </div>
             </Form>
           )}
         </Formik>

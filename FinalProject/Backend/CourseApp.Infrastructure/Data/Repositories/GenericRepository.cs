@@ -1,11 +1,11 @@
-﻿using CourseApp.Domain.Entities;
+﻿using CourseApp.Application.Abstractions.Repositories;
+using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
 using CourseApp.Infrastructure.Data;
-using Final.Application.Abstractions.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Final.Infrastructure.Repositories;
+namespace CourseApp.Infrastructure.Repositories;
 
 internal class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 {

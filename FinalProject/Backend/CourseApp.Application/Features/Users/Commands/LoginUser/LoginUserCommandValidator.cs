@@ -1,6 +1,4 @@
-﻿using CourseApp.Domain.Entities;
-using Final.Application.Features.Users.Commands.LoginUser;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace CourseApp.Application.Features.Users.Commands.LoginUser;
 

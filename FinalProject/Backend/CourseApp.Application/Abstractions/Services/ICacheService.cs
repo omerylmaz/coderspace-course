@@ -1,4 +1,4 @@
-﻿namespace Final.Application.Abstractions.Services;
+﻿namespace CourseApp.Application.Abstractions.Services;
 
 public interface ICacheService
 {

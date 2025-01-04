@@ -2,7 +2,7 @@
 using CourseApp.Domain.Pagination;
 using System.Linq.Expressions;
 
-namespace Final.Application.Abstractions.Repositories;
+namespace CourseApp.Application.Abstractions.Repositories;
 
 public interface IGenericRepository<TEntity> where TEntity : BaseEntity
 {

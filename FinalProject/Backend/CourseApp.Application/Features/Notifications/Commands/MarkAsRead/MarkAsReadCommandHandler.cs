@@ -1,7 +1,5 @@
 ﻿using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.ResultDto;
-using Final.Application.Abstractions.Repositories;
-using Final.Application.Features.Courses.Queries.GetCourseById;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

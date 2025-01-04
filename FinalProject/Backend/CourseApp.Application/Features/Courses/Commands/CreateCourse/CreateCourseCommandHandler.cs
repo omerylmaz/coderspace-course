@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
-using Final.Application.Abstractions.Repositories;
 using Final.Application.Features.Courses.Commands.CreateCourse;
 using MediatR;
 

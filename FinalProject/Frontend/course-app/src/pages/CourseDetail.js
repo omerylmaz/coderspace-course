@@ -5,7 +5,7 @@ import Spinner from "../components/LoadingSpinner";
 import CourseContent from "../components/CourseContent";
 import orderService from "../services/orderService";
 import { useAuth } from "../context/AuthContext";
-import alertify from 'alertifyjs';
+import alertify from "alertifyjs";
 
 export default function CourseDetail() {
   const { id } = useParams();
@@ -48,27 +48,30 @@ export default function CourseDetail() {
 
   return (
     <div className="container mt-4">
-      <div className="card">
+      <div className="card mb-5 shadow">
         <div className="row g-0">
-          <div className="col-md-4">
+          <div className="col-md-5">
             <img
               src={course.imageUrl}
               className="img-fluid rounded-start"
               alt={course.title}
+              style={{ objectFit: "cover", height: "100%", maxHeight: "400px" }}
             />
           </div>
-          <div className="col-md-8">
-            <div className="card-body">
-              <h5 className="card-title">{course.title}</h5>
-              <p className="card-text">{course.description}</p>
-              <p className="card-text">
-                <strong>Category:</strong> {course.categoryName}
-              </p>
-              <p className="card-text">
-                <small className="text-muted">{course.price}₺</small>
-              </p>
+          <div className="col-md-7">
+            <div className="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h3 className="card-title text-primary">{course.title}</h3>
+                <p className="card-text text-muted">{course.description}</p>
+                <p className="card-text">
+                  <strong>Category:</strong> {course.categoryName}
+                </p>
+                <p className="card-text fw-bold text-success">
+                  {`${course.price}₺`}
+                </p>
+              </div>
               <button
-                className="btn btn-success btn-lg mt-3"
+                className="btn btn-success btn-lg mt-3 align-self-end"
                 onClick={handleBuyCourse}
               >
                 Buy Course
@@ -79,7 +82,7 @@ export default function CourseDetail() {
       </div>
 
       <div className="mt-5">
-        <h3>Course Content</h3>
+        <h4>Course Content</h4>
         <p>
           {course.contents.length} lectures • {Math.floor(totalDuration / 60)}h{" "}
           {totalDuration % 60}m total length

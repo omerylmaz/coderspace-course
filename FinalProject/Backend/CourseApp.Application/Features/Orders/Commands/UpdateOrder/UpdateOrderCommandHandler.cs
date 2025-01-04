@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.ResultDto;
-using Final.Application.Abstractions.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

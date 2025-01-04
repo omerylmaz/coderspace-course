@@ -2,7 +2,7 @@
 using CourseApp.Application.ResultDto;
 using MediatR;
 
-namespace Final.Application.Features.Users.Commands.LoginUser;
+namespace CourseApp.Application.Features.Users.Commands.LoginUser;
 
 public class LoginUserCommand : IRequest<Result<LoginUserResponse>>
 {

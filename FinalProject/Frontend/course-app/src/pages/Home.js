@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CourseCart from "../components/CourseCart";
+import CourseCard from "../components/CourseCart";
 import courseService from "../services/courseService";
 import categoryService from "../services/categoryService";
 import Spinner from '../components/LoadingSpinner';
@@ -93,13 +93,14 @@ export default function Home() {
         </div>
       ) : (
         <>
-<div className="row">
-  {courses.map((course) => (
-      <CourseCart course={course} />
-
-  ))}
-</div>
-
+          <div className="row">
+            {courses.map((course) => (
+              <CourseCard
+                course={course}
+                showGoToDetails={true}
+              />
+            ))}
+          </div>
 
           {totalPages > 1 && (
             <nav>

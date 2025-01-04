@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.DTOs.Course;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
-using Final.Application.Abstractions.Repositories;
 using MediatR;
 
 namespace CourseApp.Application.Features.Courses.Queries.GetPaidCoursesByUserId;

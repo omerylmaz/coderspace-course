@@ -1,8 +1,8 @@
-﻿using CourseApp.Application.DTOs.Auth;
+﻿using CourseApp.Application.Abstractions.Repositories;
+using CourseApp.Application.Abstractions.Services;
+using CourseApp.Application.DTOs.Auth;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
-using Final.Application.Abstractions.Repositories;
-using Final.Application.Abstractions.Services;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

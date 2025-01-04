@@ -1,8 +1,7 @@
 ﻿using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Enums;
-using Final.Application.Abstractions.Repositories;
-using Final.Infrastructure.Repositories;
+using CourseApp.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

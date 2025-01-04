@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
+using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.DTOs.Course;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCourses;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
-using Final.Application.Abstractions.Repositories;
 using MediatR;
-using System.Linq.Expressions;
 
 namespace Final.Application.Features.Courses.Queries.GetPaginatedCourses;
 

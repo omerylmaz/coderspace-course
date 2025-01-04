@@ -1,6 +1,5 @@
 ﻿using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
-using Final.Application.Abstractions.Repositories;
 using System.Linq.Expressions;
 
 namespace CourseApp.Application.Abstractions.Repositories;

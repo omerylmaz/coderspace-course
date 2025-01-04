@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Final.Application.Features.Users.Commands.SignupUser;
+namespace CourseApp.Application.Features.Users.Commands.SignupUser;
 
 public class SignupUserCommandValidator : AbstractValidator<SignupUserCommand>
 {

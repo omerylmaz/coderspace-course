@@ -1,20 +1,17 @@
 ﻿using Carter;
 using CourseApp.API.Helpers;
+using CourseApp.Application.Features.Courses.Queries.GetCourseById;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
-using CourseApp.Application.Features.Orders.Commands.DeleteOrderById;
-using CourseApp.Application.Features.Orders.Commands.UpdateOrder;
 using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
 
-//using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Enums;
-using Final.Application.Features.Courses.Queries.GetCourseById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Final.API.Endpoints;
+namespace CourseApp.API.Endpoints;
 
 public class OrdersEndpoints : CarterModule
 {

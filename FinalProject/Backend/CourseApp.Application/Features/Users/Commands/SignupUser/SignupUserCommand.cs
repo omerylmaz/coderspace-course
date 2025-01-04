@@ -1,9 +1,7 @@
 ﻿using CourseApp.Application.ResultDto;
-using CourseApp.Domain.Enums;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
-namespace Final.Application.Features.Users.Commands.SignupUser;
+namespace CourseApp.Application.Features.Users.Commands.SignupUser;
 
 public record SignupUserCommand : IRequest<Result<SignupUserResponse>>
 {

@@ -3,8 +3,6 @@ using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Application.Features.Orders.Queries.GetAllOrdersByUserId;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
-using CourseApp.Domain.Pagination;
-using Final.Application.Abstractions.Repositories;
 using MediatR;
 
 namespace Final.Application.Features.Courses.Queries.GetPaginatedCourses;

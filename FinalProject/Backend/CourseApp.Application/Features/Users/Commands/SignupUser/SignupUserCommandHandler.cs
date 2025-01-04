@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
-namespace Final.Application.Features.Users.Commands.SignupUser;
+namespace CourseApp.Application.Features.Users.Commands.SignupUser;
 
 internal class SignupUserCommandHandler(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, ILogger<SignupUserCommandHandler> logger) 
     : IRequestHandler<SignupUserCommand, Result<SignupUserResponse>>
