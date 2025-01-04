@@ -17,6 +17,9 @@ internal class CacheService : ICacheService
 
     public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken)
     {
+        if (!_connectionMultiplexer.IsConnected)
+            return default;
+
         RedisValue data = await _database.StringGetAsync(key);
         if (data.IsNullOrEmpty)
             return default;
@@ -24,21 +27,29 @@ internal class CacheService : ICacheService
         return JsonSerializer.Deserialize<T>(data!);
     }
 
-    public async Task RemoveAsync(string key, CancellationToken cancellationToken)
-    {
-        await _database.KeyDeleteAsync(key);
-    }
-
     public async Task SetAsync<T>(string key, T value, CancellationToken cancellationToken, TimeSpan? expiry = default)
     {
+        if (!_connectionMultiplexer.IsConnected)
+            return;
+
         var data = JsonSerializer.Serialize(value);
         await _database.StringSetAsync(key, data, expiry);
     }
 
+    public async Task RemoveAsync(string key, CancellationToken cancellationToken)
+    {
+        if (!_connectionMultiplexer.IsConnected)
+            return;
+
+        await _database.KeyDeleteAsync(key);
+    }
+
     public async Task RemoveByPatternAsync(string pattern, CancellationToken cancellationToken)
     {
-        var server = _connectionMultiplexer.GetServer(_connectionMultiplexer.GetEndPoints()[0]);
+        if (!_connectionMultiplexer.IsConnected)
+            return;
 
+        var server = _connectionMultiplexer.GetServer(_connectionMultiplexer.GetEndPoints()[0]);
         var keys = server.Keys(pattern: $"{pattern}*").ToArray();
 
         foreach (var key in keys)

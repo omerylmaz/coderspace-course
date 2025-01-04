@@ -4,39 +4,29 @@ using CourseApp.Domain.Entities;
 using CourseApp.Application.Abstractions.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using CourseApp.Application.Abstractions.Services;
 
 namespace CourseApp.Application.Features.Courses.Commands.UpdateCourse;
 
-internal class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand, Result>
+internal class UpdateCourseCommandHandler(
+    ICourseRepository courseRepository,
+    IUnitOfWork unitOfWork,
+    ILogger<UpdateCourseCommandHandler> logger,
+    IMapper mapper,
+    ICacheService cacheService
+        ) : IRequestHandler<UpdateCourseCommand, Result>
 {
-    private readonly ICourseRepository _courseRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<UpdateCourseCommandHandler> _logger;
-    private readonly IMapper _mapper;
-
-    public UpdateCourseCommandHandler(
-        ICourseRepository courseRepository,
-        IUnitOfWork unitOfWork,
-        ILogger<UpdateCourseCommandHandler> logger,
-        IMapper mapper)
-    {
-        _courseRepository = courseRepository;
-        _unitOfWork = unitOfWork;
-        _logger = logger;
-        _mapper = mapper;
-    }
-
     public async Task<Result> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
     {
-        var courseDomain = await _courseRepository.GetDetailByIdWithCategoryNameAsync(request.Id, cancellationToken);
+        var courseDomain = await courseRepository.GetDetailByIdWithCategoryNameAsync(request.Id, cancellationToken);
 
         if (courseDomain == null)
         {
-            _logger.LogWarning("Course with Id {Id} not found", request.Id);
+            logger.LogWarning("Course with Id {Id} not found", request.Id);
             return Result.NotFound($"{request.Id} id not found");
         }
 
-        _mapper.Map(request, courseDomain);
+        mapper.Map(request, courseDomain);
 
         courseDomain.Contents.Clear();
         foreach (var contentDto in request.Contents)
@@ -51,8 +41,10 @@ internal class UpdateCourseCommandHandler : IRequestHandler<UpdateCourseCommand,
             courseDomain.Contents.Add(content);
         }
 
-        _courseRepository.Update(courseDomain);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        courseRepository.Update(courseDomain);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await cacheService.RemoveByPatternAsync(Constants.CacheKeys.COURSES_PAGED, cancellationToken);
 
         return Result.Success();
     }

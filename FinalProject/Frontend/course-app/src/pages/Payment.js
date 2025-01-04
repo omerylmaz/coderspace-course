@@ -51,7 +51,7 @@ export default function PaymentPage() {
       await registerTransaction(conversationId);
 
       onReceivePayment((paymentNotification) => {
-        const { message } = paymentNotification;
+        const { message, errorMessage } = paymentNotification;
 
         if (message === "success") {
           alertify.success("Payment completed successfully.");
@@ -59,7 +59,7 @@ export default function PaymentPage() {
           navigate("/payment-success");
         } else {
           console.log("Payment failed");
-          alertify.error("Payment failed.");
+          alertify.error(errorMessage);
           popup?.close();
         }
       });

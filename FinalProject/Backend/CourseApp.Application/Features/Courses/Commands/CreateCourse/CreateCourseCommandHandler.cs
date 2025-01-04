@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CourseApp.Application.Abstractions.Repositories;
+using CourseApp.Application.Abstractions.Services;
 using CourseApp.Application.ResultDto;
 using CourseApp.Domain.Entities;
 using Final.Application.Features.Courses.Commands.CreateCourse;
@@ -7,22 +8,12 @@ using MediatR;
 
 namespace CourseApp.Application.Features.Courses.Commands.CreateCourse;
 
-internal class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, Result<CreateCourseResponse>>
+internal class CreateCourseCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, ICourseRepository courseRepository, ICacheService cacheService) 
+    : IRequestHandler<CreateCourseCommand, Result<CreateCourseResponse>>
 {
-    private readonly IMapper _mapper;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ICourseRepository _courseRepository;
-
-    public CreateCourseCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, ICourseRepository courseRepository)
-    {
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _courseRepository = courseRepository;
-    }
-
     public async Task<Result<CreateCourseResponse>> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
-        var course = _mapper.Map<Course>(request);
+        var course = mapper.Map<Course>(request);
 
         if (request.Contents != null && request.Contents.Count > 0)
         {
@@ -34,8 +25,10 @@ internal class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand,
             }).ToList();
         }
 
-        await _courseRepository.AddAsync(course, cancellationToken);
-        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        await courseRepository.AddAsync(course, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await cacheService.RemoveByPatternAsync(Constants.CacheKeys.COURSES_PAGED, cancellationToken);
 
         var response = new CreateCourseResponse(course.Id);
         return Result<CreateCourseResponse>.Success(response);
