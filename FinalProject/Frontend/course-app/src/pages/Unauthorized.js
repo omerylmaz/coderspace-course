@@ -4,7 +4,7 @@ import unauthorizedImage from "../assets/images/unauthorized.png";
 
 export default function Unauthorized() {
   return (
-    <div className="container mt-5 d-flex justify-content-center align-items-center" style={{ height: "70vh" }}>
+    <div className="container mt-5 d-flex justify-content-center align-items-center" style={{ height: "75vh" }}>
       <div className="card text-center shadow-lg" style={{ maxWidth: "500px", width: "100%" }}>
         <div className="card-header bg-danger text-white">
           <h2>Unauthorized Access</h2>
