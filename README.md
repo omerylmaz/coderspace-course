@@ -145,8 +145,12 @@
          "courseId": "B6C8E7D9-2E4B-4C3F-98F7-7E6B9C4A9D8F"
        }'
      ```
+     - **Akış**:
+       ![createorder](https://github.com/user-attachments/assets/d589155d-3696-4c00-844c-82b614b1e93d)
+
      - **Frontend Görünümü**:
-       ![Create Order](https://prod-files-secure.s3.us-west-2.amazonaws.com/a739d642-54d0-47ae-9406-03c1eecb017b/9267d85a-dee4-4c0c-ae14-313ca21e3a69/image.png)
+       ![createorder-front](https://github.com/user-attachments/assets/9af9da09-29d4-4bdf-b7e7-e033719620e8)
+
 
 5. **Ödeme İşlemleri**
    - **Ödeme Başlatma**:
