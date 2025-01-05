@@ -106,7 +106,9 @@
 
 ---
 
-## 🔑 **Özellikler**
+## 🔑 **Özellikler** 
+
+- Faydalı olması açısından bazı endpointlerin akışlarını ekledim.
 
 1. **Kullanıcı Girişi (Login)**
    - **Backend Endpoint**: `https://localhost:7118/api/users/login`
