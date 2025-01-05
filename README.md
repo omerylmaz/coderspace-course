@@ -5,8 +5,7 @@ Bu proje, online eğitim platformu için backend ve frontend entegrasyonunu sağ
 ---
 
 ## 📜 **Projenin Genel Akışı ve Entity Relationship Diagramı (ERD)**
-
-![ERD Diagram](https://prod-files-secure.s3.us-west-2.amazonaws.com/a739d642-54d0-47ae-9406-03c1eecb017b/66587127-9aff-4a19-bd7b-ac6283534f17/image.png)
+![image](https://github.com/user-attachments/assets/55203ca8-875c-4aec-bf60-33676a3d0f75)
 
 ---
 
