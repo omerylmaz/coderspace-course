@@ -13,6 +13,7 @@
    ```bash
    docker run -d --name redis-server -p 6379:6379 redis
    ```
+2. **appsettings.json konfigürasyonu**:
    ```json
      {"ConnectionStrings": {
     "Database": "Server=(localdb)\\omer;Database=CourseApp;Trusted_Connection=True;"
@@ -21,9 +22,13 @@
 
      ```
 
-2. **Frontend**:
+### **Frontend Kurulumu**
    - Projeyi indirip `npm install` komutunu çalıştırın.
    - Uygulamayı başlatmak için: `npm start`.
+     
+### **Deploy adresi**
+   - Frontend: https://patika-react.onrender.com/
+   - Backend: https://course-app-cyekgfbfgmepfbbj.canadacentral-01.azurewebsites.net (without swagger)
 
 ---
 
