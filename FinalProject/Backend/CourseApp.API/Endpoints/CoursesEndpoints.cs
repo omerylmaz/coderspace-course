@@ -1,6 +1,7 @@
 ﻿using Carter;
 using CourseApp.API.Helpers;
 using CourseApp.Application.Features.Courses.Commands.UpdateCourse;
+using CourseApp.Application.Features.Courses.Queries.BestSellingCourses;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCourses;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByCategory;
 using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByFiltering;
@@ -73,6 +74,21 @@ public class CoursesEndpoints : CarterModule
                 return Results.Problem(serviceResponse.ProblemDetails);
 
             return Results.Ok(serviceResponse);
+        })
+        .AllowAnonymous();
+
+        app.MapGet("/best-selling", async (
+            [FromQuery] int count,
+            [FromServices] IMediator mediator,
+            CancellationToken cancellationToken) =>
+        {
+            var query = new BestSellingCoursesQuery(count);
+            var result = await mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+                return Results.Problem(result.ProblemDetails);
+
+            return Results.Ok(result.Data);
         })
         .AllowAnonymous();
 

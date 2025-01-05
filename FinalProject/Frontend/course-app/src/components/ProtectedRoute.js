@@ -1,33 +1,20 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getUserRole } from '../utils/jwtDecoder';
-import { useAuth } from '../context/AuthContext';
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { get } from "react-hook-form";
 
-const ProtectedRoute = ({ children, requiredRole }) => {
-  const userRoles = getUserRole() || [];
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+const ProtectedRoute = ({ children, requiredRoles }) => {
+  const { isAuthenticated, role } = useAuth();
 
-  if (!isAuthenticated) {
-    console.log(isAuthenticated);
-    navigate('/login');
-    return null;
+  console.log("isAuthenticated", isAuthenticated);
+  console.log("requiredRole", role);
+  console.log("role", requiredRoles);
+  if (!isAuthenticated && isAuthenticated !== null) {
+    return <Navigate to="/login" replace />;
   }
 
-  if (userRoles.length === 0) {
-    return (
-      <div className="container mt-4 text-center">
-        <h3>Unauthorized: Please log in to access.</h3>
-      </div>
-    );
-  }
-
-  if (requiredRole && !userRoles.includes(requiredRole)) {
-    return (
-      <div className="container mt-4 text-center">
-        <h3>Unauthorized: You do not have permission to access.</h3>
-      </div>
-    );
+  if (requiredRoles && !requiredRoles.includes(role)) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return children;

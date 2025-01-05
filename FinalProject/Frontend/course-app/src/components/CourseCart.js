@@ -15,7 +15,7 @@ export default function CourseCard({ course, showUpdateAndDelete, showGoToDetail
 
   return (
     <div className="col-md-4 mb-4">
-      <div className="card h-100 shadow rounded">
+      <div className="card card-hovered h-100 shadow rounded">
         <Link to={`/course/${course.id}`} style={{ textDecoration: 'none' }}>
           <img
             src={course.imageUrl || ''}  //TODO default image daha sonra koyacam

@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCart";
 import courseService from "../services/courseService";
 import categoryService from "../services/categoryService";
-import Spinner from '../components/LoadingSpinner';
+import Spinner from "../components/LoadingSpinner";
+import SliderComponent from "../components/SliderComponent";
+import "../css/Home.css";
 
 export default function Home() {
   const [courses, setCourses] = useState([]);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [bestSellingCourses, setBestSellingCourses] = useState([]);
 
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(6);
@@ -16,8 +19,11 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log("fetching courses");
     fetchCategories();
     fetchCourses(pageNumber, pageSize, searchTerm, category);
+    console.log("fetching best selling courses");
+    fetchBestSellingCourses();
   }, [pageNumber, pageSize, searchTerm, category]);
 
   const fetchCourses = (page, size, term, cat) => {
@@ -26,14 +32,28 @@ export default function Home() {
       cat = "";
     }
 
-    courseService.getPaginatedCoursesByFiltering(page, size, term, cat).then((res) => {
-      setCourses(res.courses.items);
-      setTotalCount(res.courses.totalCount);
-    }).catch((error) => {
-      console.error(error.message);
-    }).finally(() => {
-      setIsLoading(false);
-    });
+    courseService
+      .getPaginatedCoursesByFiltering(page, size, term, cat)
+      .then((res) => {
+        setCourses(res.courses.items);
+        setTotalCount(res.courses.totalCount);
+      })
+      .catch((error) => {
+        console.error(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const fetchBestSellingCourses = async () => {
+    try {
+      const response = await courseService.getBestSellingCourses(6);
+      console.log(response);
+      setBestSellingCourses(response);
+    } catch (error) {
+      console.error("Failed to fetch best selling courses:", error);
+    }
   };
 
   const fetchCategories = () => {
@@ -58,6 +78,11 @@ export default function Home() {
 
   return (
     <div className="container mt-5">
+      <div className="mb-5">
+        <h2 className="text-center text-primary mb-4">Best Selling Courses</h2>
+        <SliderComponent bestSellingCourses={bestSellingCourses} />
+      </div>
+
       <h1 className="text-center mb-4 text-primary">All Courses</h1>
 
       <div className="row g-3 mb-4">
@@ -95,10 +120,7 @@ export default function Home() {
         <>
           <div className="row">
             {courses.map((course) => (
-              <CourseCard
-                course={course}
-                showGoToDetails={true}
-              />
+              <CourseCard course={course} showGoToDetails={true} />
             ))}
           </div>
 

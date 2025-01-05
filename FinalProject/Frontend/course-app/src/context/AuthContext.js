@@ -7,7 +7,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
       const decodedToken = decodeToken(token);
       setUser(decodedToken);
       setRole(getUserRole(decodedToken));
+      console.log('decodedToken:', decodedToken);
       setIsAuthenticated(true);
     }
   }, []);
