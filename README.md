@@ -119,14 +119,22 @@ Bu proje, online eğitim platformu için backend ve frontend entegrasyonunu sağ
    - **Örnek Akış**:
      ![register](https://github.com/user-attachments/assets/ecd55572-4337-462d-9ce9-b40477c87f44)
 
+     - **Frontend**:
+     ![register-front](https://github.com/user-attachments/assets/5e5cc898-d41c-4fef-9bd0-5b611c537598)
+
+
 )
 
 
 3. **Kurs Yönetimi**
    - **Kurs Oluşturma**:
      - **Backend Endpoint**: `https://localhost:7118/api/courses`
-     - **Frontend Akışı**:
-       ![Kurs Oluşturma](https://prod-files-secure.s3.us-west-2.amazonaws.com/a739d642-54d0-47ae-9406-03c1eecb017b/4e2c0371-f597-4636-aa3b-53dd46deb1f3/image.png)
+     - **Akış**:
+       ![Uploading NP51pjCm48NtFiNetv1S8LbGH96AAXQmG49YCwcTOkACgx5TAHo6dY4RLjqrlHVZDeNqVml7YkRDUr-o2X4vfjwfsqMfQfkSGvh6tJH2XyCqHj26ZBQrghwYinh3uCaXW_RJYPCCQndjf_5jhMmBnNhnkeJumn0Kcxo8ImMYwhsdrjbTX27dH37honyPUhd-jYqRPnZIaAwdFWs.jpg…]()
+       - **Frontend Akışı**:
+       ![createcourse-front](https://github.com/user-attachments/assets/916d54c6-4847-4bb8-bf3b-1783eeecea45)
+
+
 
 4. **Sipariş Yönetimi**
    - **Sipariş Oluşturma**:
