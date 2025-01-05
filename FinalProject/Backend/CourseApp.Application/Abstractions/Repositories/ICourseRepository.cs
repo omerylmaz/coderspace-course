@@ -1,6 +1,6 @@
-﻿using CourseApp.Application.Features.Courses.Queries.GetPaginatedCoursesByFiltering;
-using CourseApp.Domain.Entities;
+﻿using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
+using CourseApp.Domain.ValueObjects;
 
 namespace CourseApp.Application.Abstractions.Repositories;
 
@@ -19,5 +19,5 @@ public interface ICourseRepository : IGenericRepository<Course>
         int pageSize,
         CancellationToken cancellationToken);
 
-    //void ClearAllContents(Guid courseId);
+    Task<List<CourseSalesInfo>> GetBestSellingCoursesAsync(int count, CancellationToken cancellationToken);
 }

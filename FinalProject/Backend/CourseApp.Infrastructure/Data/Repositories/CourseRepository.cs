@@ -1,6 +1,7 @@
 ﻿using CourseApp.Application.Abstractions.Repositories;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
+using CourseApp.Domain.ValueObjects;
 using CourseApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -107,4 +108,26 @@ internal class CourseRepository : GenericRepository<Course>, ICourseRepository
 
         return new PagedResult<Course>(items, pageNumber, pageSize, totalCount);
     }
+
+    public async Task<List<CourseSalesInfo>> GetBestSellingCoursesAsync(int count, CancellationToken cancellationToken)
+    {
+        var bestSellingCourses = await _dbSet
+            .AsNoTracking()
+            .Include(x => x.Orders)
+            .Where(x => x.Orders.Any())
+            .OrderByDescending(x => x.Orders.Count)
+            .Take(count)
+            .Select(c => new CourseSalesInfo(
+                c.Id,
+                c.Name,
+                c.Title,
+                c.Price,
+                c.ImageUrl,
+                c.Orders.Count
+            ))
+            .ToListAsync(cancellationToken);
+
+        return bestSellingCourses;
+    }
+
 }

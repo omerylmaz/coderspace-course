@@ -47,7 +47,10 @@ class CourseService {
     return await api.delete(`courses/${courseId}`);
   }
 
-
+  async getBestSellingCourses(count) {
+    const response = await api.get(`courses/best-selling?count=${count}`);
+    return response.data;
+  }
 }
 
 export default new CourseService();

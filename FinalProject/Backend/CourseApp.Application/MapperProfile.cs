@@ -3,6 +3,7 @@ using CourseApp.Application.DTOs.Category;
 using CourseApp.Application.DTOs.Course;
 using CourseApp.Application.DTOs.Payment;
 using CourseApp.Application.Features.Courses.Commands.UpdateCourse;
+using CourseApp.Application.Features.Courses.Queries.BestSellingCourses;
 using CourseApp.Application.Features.Courses.Queries.GetCourseById;
 using CourseApp.Application.Features.Notifications.Queries.GetPaginatedNotifications;
 using CourseApp.Application.Features.Orders.Commands.CreateOrder;
@@ -12,6 +13,7 @@ using CourseApp.Application.Features.Users.Commands.SignupUser;
 using CourseApp.Application.Features.Users.Commands.UpdateUser;
 using CourseApp.Domain.Entities;
 using CourseApp.Domain.Pagination;
+using CourseApp.Domain.ValueObjects;
 using Final.Application.Features.Courses.Commands.CreateCourse;
 using Final.Application.Features.Courses.Queries.GetCourseById;
 
@@ -28,6 +30,8 @@ internal class MapperProfile : Profile
         CreateMap<UpdateCourseCommand, Course>();
 
         CreateMap<Course, GetCourseByIdResponse>();
+
+        CreateMap<CourseSalesInfo, BestSellingCourseResponse>();
 
         CreateMap<Content, ContentResponse>();
 

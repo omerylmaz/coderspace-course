@@ -4,7 +4,6 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Cart from "./pages/Cart";
 import CourseDetail from "./pages/CourseDetail";
 import UserDetail from "./pages/UserDetail";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -14,6 +13,8 @@ import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
 import OrderHistory from "./pages/OrderHistory";
 import 'alertifyjs/build/css/alertify.css';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import './App.css';
 import { AuthProvider } from "./context/AuthContext";
 import Notifications from './pages/Notifications';
@@ -32,14 +33,6 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/course/:id" element={<CourseDetail />} />
 
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute requiredRoles={["User", "Teacher"]}>
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
           <Route
             path="/notifications"
             element={
@@ -97,7 +90,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-                  <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
 
         </Routes>
         </main>
