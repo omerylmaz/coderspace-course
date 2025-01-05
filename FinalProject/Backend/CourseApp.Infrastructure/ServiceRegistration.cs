@@ -77,6 +77,8 @@ public static class ServiceRegistration
             };
         });
 
+        services.Configure<EmailOptions>(configuration.GetSection("Email"));
+
         services.AddIdentityCore<AppUser>(opt =>
         {
             opt.Password.RequireDigit = false;
@@ -90,6 +92,7 @@ public static class ServiceRegistration
 
         services.AddMassTransit(x =>
         {
+            x.AddConsumer<EmailRegisteredEventConsumer>();
             x.AddConsumer<PaymentCompletedEventConsumer>();
             x.UsingRabbitMq((context, cfg) =>
             {

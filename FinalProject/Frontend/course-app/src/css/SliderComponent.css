@@ -9,6 +9,18 @@
     overflow: hidden;
     transition: transform 0.3s ease;
   }
+
+  .card-slider {
+    height: auto;
+    max-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
   
   .card-hovered:hover {
     transform: scale(1.05);
