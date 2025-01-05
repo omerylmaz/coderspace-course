@@ -46,7 +46,7 @@ internal class IyzicoPaymentService : IPaymentService
 
         PaymentCard paymentCard = new PaymentCard();
         paymentCard.CardHolderName = paymentDto.CardHolderName;
-        paymentCard.CardNumber = paymentDto.CardNumber;
+        paymentCard.CardNumber = "5890040000000016";  //paymentDto.CardNumber
         paymentCard.ExpireMonth = paymentDto.ExpireMonth;
         paymentCard.ExpireYear = paymentDto.ExpireYear;
         paymentCard.Cvc = paymentDto.Cvc;

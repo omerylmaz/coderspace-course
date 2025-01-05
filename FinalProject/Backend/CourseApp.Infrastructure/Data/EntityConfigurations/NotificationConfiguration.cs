@@ -1,4 +1,5 @@
 ﻿using CourseApp.Domain.Entities;
+using CourseApp.Infrastructure.Data.SeedData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,5 +13,7 @@ internal class NotificationConfiguration : IEntityTypeConfiguration<Notification
             .HasOne(n => n.User)
             .WithMany(u => u.Notifications)
             .HasForeignKey(n => n.UserId);
+
+        builder.HasData(NotificationSeeder.SeedNotifications());
     }
 }

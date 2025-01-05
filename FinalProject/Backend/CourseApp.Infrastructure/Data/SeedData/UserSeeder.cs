@@ -15,7 +15,7 @@ internal static class UserSeeder
         {
             new AppUser
             {
-                Id = Guid.Parse("9beb751f-f3b8-4e45-a938-622ebc1dd038"),
+                Id = Guid.Parse(input: "9beb751f-f3b8-4e45-a938-622ebc1dd038"),
                 UserName = "omeryilmaz",
                 NormalizedUserName = "OMERYILMAZ",
                 Email = "user1@gmail.com",

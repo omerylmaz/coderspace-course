@@ -1,4 +1,5 @@
 ﻿using CourseApp.Domain.Entities;
+using CourseApp.Infrastructure.Data.SeedData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,5 +17,7 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.HasOne(o => o.Course)
                .WithMany(c => c.Orders)
                .HasForeignKey(o => o.CourseId);
+
+        builder.HasData(OrderSeeder.SeedOrders());
     }
 }

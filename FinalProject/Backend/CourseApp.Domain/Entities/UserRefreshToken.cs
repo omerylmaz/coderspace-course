@@ -6,4 +6,5 @@ public class UserRefreshToken : BaseEntity
     public string Code { get; set; }
     public string? OldCode { get; set; }
     public DateTime Expiration { get; set; }
+    public AppUser User { get; set; }
 }
