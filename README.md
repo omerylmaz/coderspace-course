@@ -27,7 +27,12 @@
 
 ---
 
-## 📧 **Kullanıcı Giriş Bilgileri**
+## 📧 **Kullanıcı Giriş Bilgileri ve Ödeme Örnek IBAN'lar**
+
+IBAN Örnekleri:
+5890040000000016
+5526080000000006
+4766620000000001
 
 Proje test sürecinde kullanılabilecek örnek kullanıcı bilgileri aşağıda verilmiştir:
 
