@@ -27,6 +27,27 @@
 
 ---
 
+## 📧 **Kullanıcı Giriş Bilgileri**
+
+Proje test sürecinde kullanılabilecek örnek kullanıcı bilgileri aşağıda verilmiştir:
+
+### 🎓 **Öğrenciler**
+| **Kullanıcı Adı**      | **Email**           | **Şifre**   |
+|-------------------------|---------------------|-------------|
+| Ömer Yılmaz            | user1@gmail.com     | user123     |
+| Okan Buruk             | user2@gmail.com     | user123     |
+| Kıvanç Tatlıtuğ        | user3@gmail.com     | user123     |
+| Kerem Aktürkoğlu       | user4@gmail.com     | user123     |
+| Victor Osimhen         | user5@gmail.com     | user123     |
+
+### 👨‍🏫 **Öğretmenler**
+| **Kullanıcı Adı**       | **Email**            | **Şifre**   |
+|--------------------------|----------------------|-------------|
+| Ahmet Kaya              | teacher1@gmail.com   | teacher123  |
+| Fatih Çakıroğlu         | teacher2@gmail.com   | teacher123  |
+| Şadi Evren Şeker        | teacher3@gmail.com   | teacher123  |
+
+
 ## 📂 **Entity Tanımları**
 
 ### 1. **AppUser**
