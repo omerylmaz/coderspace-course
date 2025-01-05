@@ -13,8 +13,6 @@ import CreateCourse from "./pages/CreateCourse";
 import EditCourse from "./pages/EditCourse";
 import OrderHistory from "./pages/OrderHistory";
 import 'alertifyjs/build/css/alertify.css';
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
 import './App.css';
 import { AuthProvider } from "./context/AuthContext";
 import Notifications from './pages/Notifications';
