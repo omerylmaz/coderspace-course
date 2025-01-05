@@ -167,6 +167,20 @@
          "courseId": "B6C8E7D9-2E4B-4C3F-98F7-7E6B9C4A9D8F"
        }'
      ```
+     - **Akış**:
+       ![createpayment](https://github.com/user-attachments/assets/ac5a7ece-ec01-4227-bc18-cb86108e8574)
+
+       - **Frontend ekranı (butona tıklamadan önce)**:
+       ![createpaymentprev](https://github.com/user-attachments/assets/d866ea30-a3cb-4094-a9c8-b0fc2033d12e)
+
+- **Frontend ekranı (butona tıkladıktan sonra)**:
+- Burada sms code doğru olan (283126) bu kod ile girilirse işlem başarılı olur
+  ![createpaymentafter](https://github.com/user-attachments/assets/21b18df7-64d8-4ecc-beb7-a1c5d60686ac)
+
+     - **İyzico ekranı (3D ödeme başlatıldı ama daha onaylanmadı)**:
+       ![iyzicobefore](https://github.com/user-attachments/assets/a08b195f-8762-4ac6-8de5-3e46a6311165)
+
+
    - **3DS İşlemi**:
      - SMS doğrulama ile ödeme tamamlanır.
 
