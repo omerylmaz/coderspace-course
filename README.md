@@ -7,6 +7,27 @@
 
 ---
 
+## 📥 **Kurulum ve Çalıştırma**
+### **Backend Kurulumu**
+1. **Redis Kurulumu**:
+   ```bash
+   docker run -d --name redis-server -p 6379:6379 redis
+   ```
+   ```json
+     {
+  "ConnectionStrings": {
+    "Database": "Server=(localdb)\\omer;Database=CourseApp;Trusted_Connection=True;"
+  }
+}
+
+     ```
+
+2. **Frontend**:
+   - Projeyi indirip `npm install` komutunu çalıştırın.
+   - Uygulamayı başlatmak için: `npm start`.
+
+---
+
 ## 📂 **Entity Tanımları**
 
 ### 1. **AppUser**
@@ -183,29 +204,19 @@
 
    - **3DS İşlemi**:
      - SMS doğrulama ile ödeme tamamlanır.
+       - **Akış**:
+       ![3ds](https://github.com/user-attachments/assets/144d6b31-b612-4764-b161-97d43d1a167f)
+
+       - **Frontend ekranı**:
+       ![3ds1](https://github.com/user-attachments/assets/fa8ce734-e633-4eeb-991f-0d72b0e071a1)
+![3ds2](https://github.com/user-attachments/assets/f91136db-f6fa-4024-a753-c9b286fccfa7)
+
+- **3D ödeme iyzico ekranı**:
+![3ds-iyzico](https://github.com/user-attachments/assets/f45773db-1ea9-4e27-b5b5-7d94a8b0e514)
+
 
 ---
 
-## 📥 **Kurulum ve Çalıştırma**
-### **Backend Kurulumu**
-1. **Redis Kurulumu**:
-   ```bash
-   docker run -d --name redis-server -p 6379:6379 redis
-   ```
-   ```json
-     {
-  "ConnectionStrings": {
-    "Database": "Server=(localdb)\\omer;Database=CourseApp;Trusted_Connection=True;"
-  }
-}
-
-     ```
-
-2. **Frontend**:
-   - Projeyi indirip `npm install` komutunu çalıştırın.
-   - Uygulamayı başlatmak için: `npm start`.
-
----
 
 ## 🛠 **Katkıda Bulunma**
 1. Projeyi fork edin.
