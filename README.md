@@ -14,11 +14,10 @@
    docker run -d --name redis-server -p 6379:6379 redis
    ```
    ```json
-     {
-  "ConnectionStrings": {
+     {"ConnectionStrings": {
     "Database": "Server=(localdb)\\omer;Database=CourseApp;Trusted_Connection=True;"
-  }
-}
+   }
+   }
 
      ```
 
