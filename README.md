@@ -245,6 +245,7 @@ Proje test sürecinde kullanılabilecek örnek kullanıcı bilgileri aşağıda 
        '
      ```
      - **Akış**:
+       
        ![image](https://github.com/user-attachments/assets/d0e03f26-2813-4ebd-98f6-0394ef63dd8b)
 
 
