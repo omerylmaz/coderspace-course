@@ -1,6 +1,4 @@
-# Online Eğitim Platformu - Backend ve Frontend Entegrasyonu
-
-Bu proje, online eğitim platformu için backend ve frontend entegrasyonunu sağlayan bir uygulamadır. Projede kullanıcı yönetimi, kurs yönetimi, ödeme işlemleri ve bildirim sistemleri gibi çeşitli özellikler bulunmaktadır.
+# Final Projesi - Backend ve Frontend Entegrasyonu
 
 ---
 
@@ -130,7 +128,8 @@ Bu proje, online eğitim platformu için backend ve frontend entegrasyonunu sağ
    - **Kurs Oluşturma**:
      - **Backend Endpoint**: `https://localhost:7118/api/courses`
      - **Akış**:
-       ![Uploading NP51pjCm48NtFiNetv1S8LbGH96AAXQmG49YCwcTOkACgx5TAHo6dY4RLjqrlHVZDeNqVml7YkRDUr-o2X4vfjwfsqMfQfkSGvh6tJH2XyCqHj26ZBQrghwYinh3uCaXW_RJYPCCQndjf_5jhMmBnNhnkeJumn0Kcxo8ImMYwhsdrjbTX27dH37honyPUhd-jYqRPnZIaAwdFWs.jpg…]()
+       ![NP51pjCm48NtFiNetv1S8LbGH96AAXQmG49YCwcTOkACgx5TAHo6dY4RLjqrlHVZDeNqVml7YkRDUr-o2X4vfjwfsqMfQfkSGvh6tJH2XyCqHj26ZBQrghwYinh3uCaXW_RJYPCCQndjf_5jhMmBnNhnkeJumn0Kcxo8ImMYwhsdrjbTX27dH37honyPUhd-jYqRPnZIaAwdFWs](https://github.com/user-attachments/assets/2639c4fe-038c-46b0-8de5-04eb28d8bd12)
+
        - **Frontend Akışı**:
        ![createcourse-front](https://github.com/user-attachments/assets/916d54c6-4847-4bb8-bf3b-1783eeecea45)
 
