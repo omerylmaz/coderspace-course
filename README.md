@@ -100,7 +100,8 @@ Bu proje, online eğitim platformu için backend ve frontend entegrasyonunu sağ
      }
      ```
    - **Örnek Akış**:
-     ![Login Akışı](https://prod-files-secure.s3.us-west-2.amazonaws.com/a739d642-54d0-47ae-9406-03c1eecb017b/279da673-c254-46c8-ad4b-82a835e63788/image.png)
+     ![login](https://github.com/user-attachments/assets/c6078c6d-d680-44f3-9295-66e2809af085)
+
 
 2. **Kayıt Olma (Register)**
    - **Backend Endpoint**: `https://localhost:7118/api/users/register`
@@ -116,7 +117,10 @@ Bu proje, online eğitim platformu için backend ve frontend entegrasyonunu sağ
      }
      ```
    - **Örnek Akış**:
-     ![Register Akışı](https://prod-files-secure.s3.us-west-2.amazonaws.com/a739d642-54d0-47ae-9406-03c1eecb017b/5991ed2f-016b-4419-befb-d699806d1c79/NP51pjCm48NtFiNetv1S8LbGH96AAXQmG49YCwcTOkACgx5TAHo6dY4RLjqrlHVZDeNqVml7YkRDUr-o2X4vfjwfsqMfQfkSGvh6tJH2XyCqHj26ZBQrghwYinh3uCaXW_RJYPCCQndjf_5jhMmBnNhnkeJumn0Kcxo8ImMYwhsdrjbTX27dH37honyPUhd-jYqRPnZIaAwdFWs.svg)
+     ![register](https://github.com/user-attachments/assets/ecd55572-4337-462d-9ce9-b40477c87f44)
+
+)
+
 
 3. **Kurs Yönetimi**
    - **Kurs Oluşturma**:
