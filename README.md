@@ -27,6 +27,27 @@
 
 ---
 
+## 📧 **Kullanıcı Giriş Bilgileri**
+
+Proje test sürecinde kullanılabilecek örnek kullanıcı bilgileri aşağıda verilmiştir:
+
+### 🎓 **Öğrenciler**
+| **Kullanıcı Adı**      | **Email**           | **Şifre**   |
+|-------------------------|---------------------|-------------|
+| Ömer Yılmaz            | user1@gmail.com     | user123     |
+| Okan Buruk             | user2@gmail.com     | user123     |
+| Kıvanç Tatlıtuğ        | user3@gmail.com     | user123     |
+| Kerem Aktürkoğlu       | user4@gmail.com     | user123     |
+| Victor Osimhen         | user5@gmail.com     | user123     |
+
+### 👨‍🏫 **Öğretmenler**
+| **Kullanıcı Adı**       | **Email**            | **Şifre**   |
+|--------------------------|----------------------|-------------|
+| Ahmet Kaya              | teacher1@gmail.com   | teacher123  |
+| Fatih Çakıroğlu         | teacher2@gmail.com   | teacher123  |
+| Şadi Evren Şeker        | teacher3@gmail.com   | teacher123  |
+
+
 ## 📂 **Entity Tanımları**
 
 ### 1. **AppUser**
@@ -106,7 +127,9 @@
 
 ---
 
-## 🔑 **Özellikler**
+## 🔑 **Özellikler** 
+
+- Faydalı olması açısından bazı endpointlerin akışlarını ekledim.
 
 1. **Kullanıcı Girişi (Login)**
    - **Backend Endpoint**: `https://localhost:7118/api/users/login`
@@ -214,12 +237,20 @@
 ![3ds-iyzico](https://github.com/user-attachments/assets/f45773db-1ea9-4e27-b5b5-7d94a8b0e514)
 
 
+5. **Kursları getir sayfalı**
+   - **Ödeme Başlatma**:
+     ```bash
+     curl -X 'POST' \
+       'https://localhost:7118/api/courses?pageNumber=1&pageSize=6' \
+       '
+     ```
+     - **Akış**:
+       
+       ![image](https://github.com/user-attachments/assets/d0e03f26-2813-4ebd-98f6-0394ef63dd8b)
+
+
+       - **Frontend ekranı**:
+       ![image](https://github.com/user-attachments/assets/431e73d8-42f6-4c81-a3bb-1f32fb3de7b8)
+
+
 ---
-
-
-## 🛠 **Katkıda Bulunma**
-1. Projeyi fork edin.
-2. Yeni bir dal oluşturun: `git checkout -b feature/yenilik`.
-3. Değişikliklerinizi yapın ve commitleyin: `git commit -m 'Yeni özellik'`.
-4. Dalınızı gönderin: `git push origin feature/yenilik`.
-5. Bir **Pull Request** oluşturun.
