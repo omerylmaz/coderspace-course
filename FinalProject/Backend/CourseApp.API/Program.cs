@@ -3,8 +3,14 @@ using CourseApp.API.ExceptionHandlers;
 using CourseApp.Application.Options;
 using CourseApp.Infrastructure;
 using Final.Application;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext());
 
 builder.Services
     .AddApplicationServices()
